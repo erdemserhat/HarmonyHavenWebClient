@@ -1,0 +1,346 @@
+.articles-page {
+  min-height: calc(100vh - 64px);
+  padding: 2rem;
+  background: white;
+}
+
+
+
+.articles-page h1 {
+    text-align: center; /* Başlığı yatayda ortalar */
+    color: #2d3748; /* Daha yumuşak bir koyu renk */
+    font-size: 2rem; /* Biraz daha büyük, ama hala uyumlu */
+    font-weight: 600; /* Çok kalın yerine daha zarif bir ağırlık */
+    margin-top: 20px; /* Üstten mesafe ekler */
+    margin-bottom: 15px; /* Alttan mesafe ekler */
+    line-height: 1.2; /* Daha iyi okunabilirlik için satır yüksekliği */
+    font-family: 'Roboto', Arial, sans-serif; /* Modern ve okunabilir bir yazı tipi */
+    text-transform: capitalize; /* İlk harfleri büyük yapar */
+  }
+  
+
+.articles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.article-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  border: 1px solid #f0f0f0;
+  cursor: pointer;
+  animation: fadeInUp 0.5s ease forwards;
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.article-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+  border-color: #e2e8f0;
+}
+
+/* Her kart için kademeli animasyon */
+.article-card:nth-child(1) { animation-delay: 0.1s; }
+.article-card:nth-child(2) { animation-delay: 0.2s; }
+.article-card:nth-child(3) { animation-delay: 0.3s; }
+.article-card:nth-child(4) { animation-delay: 0.4s; }
+.article-card:nth-child(5) { animation-delay: 0.5s; }
+.article-card:nth-child(6) { animation-delay: 0.6s; }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Çıkış animasyonu için */
+.article-card.fade-out {
+  animation: fadeOut 0.3s ease forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+}
+
+/* "Sonuç bulunamadı" mesajı için animasyon */
+.no-articles {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.article-image {
+  width: 100%;
+  height: 160px;
+  overflow: hidden;
+  position: relative;
+}
+
+.article-image::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30%;
+  background: linear-gradient(to top, rgba(0,0,0,0.02), transparent);
+}
+
+.article-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.article-card:hover .article-image img {
+  transform: scale(1.1);
+}
+
+.article-content {
+  padding: 1rem 1.25rem;
+}
+
+.article-header {
+  color: #2d3748;
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
+.article-content p {
+  color: #718096;
+  font-size: 0.813rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.read-more {
+  padding: 0.375rem 0.75rem;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  transition: all 0.2s;
+  letter-spacing: 0.01em;
+}
+
+.read-more:hover {
+  background: #5a67d8;
+  transform: translateY(-1px);
+}
+
+.articles-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+}
+
+.articles-error {
+  text-align: center;
+  color: #e53e3e;
+  padding: 2rem;
+  font-size: 1.1rem;
+}
+
+.article-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.75rem;
+  border-top: 1px solid #f7fafc;
+}
+
+.publish-date {
+  color: #a0aec0;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.categories-bar {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  padding: 0 1rem;
+}
+
+.category-button {
+  padding: 0.75rem 1.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 9999px;
+  background: white;
+  color: #4a5568;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.category-button:hover {
+  background: #f7fafc;
+  transform: translateY(-1px);
+}
+
+.category-button.active {
+  background: #667eea;
+  color: white;
+  border-color: #667eea;
+}
+
+.search-bar {
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  position: relative;
+  padding: 0 1rem;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 0.875rem 1rem;
+  padding-left: 2.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  transition: all 0.2s;
+  background: white;
+}
+
+.search-bar input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.search-icon {
+  position: absolute;
+  left: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #a0aec0;
+  pointer-events: none;
+}
+
+.categories-container {
+  margin-bottom: 3rem;
+  padding-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+  padding: 0 2rem;
+}
+
+.categories-bar {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  padding: 0 1rem;
+}
+
+@media (max-width: 1200px) {
+  .articles-grid {
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    padding: 0 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .articles-page {
+    padding: 1rem;
+  }
+
+  .articles-page h1 {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .articles-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0 0.5rem;
+  }
+
+  .article-image {
+    height: 140px;
+  }
+
+  .article-content {
+    padding: 0.75rem 1rem;
+  }
+
+  .article-header {
+    font-size: 0.9rem;
+  }
+
+  .article-content p {
+    font-size: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .article-footer {
+    padding-top: 0.5rem;
+  }
+
+  .read-more {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.7rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .articles-page {
+    padding: 0.5rem;
+  }
+
+  .article-card {
+    margin-bottom: 1rem;
+  }
+
+  .article-image {
+    height: 120px;
+  }
+} 
+

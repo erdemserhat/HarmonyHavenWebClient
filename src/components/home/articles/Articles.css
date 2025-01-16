@@ -1,0 +1,16 @@
+/* Article styles */
+.articles {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  padding: 2rem !important;
+}
+
+.articles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 320px);
+  gap: 1.5rem;
+  padding: 1rem 0;
+  justify-content: center;
+}
+
+/* ... diğer article stilleri */ 

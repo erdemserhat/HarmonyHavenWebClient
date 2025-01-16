@@ -1,0 +1,2 @@
+mkdir -p src/{assets,components/{common,layout},config,features/auth,hooks,lib,services/{api,storage},store,styles,types,utils} 
+npm install axios prop-types react-router-dom react-markdown 
