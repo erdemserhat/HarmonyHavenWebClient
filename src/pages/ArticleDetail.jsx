@@ -1,57 +1,186 @@
-import { useParams, useNavigate, useLocation } from 'react-router-dom'
-import ReactMarkdown from 'react-markdown'
-import './ArticleDetail.css'
+import { useParams, useNavigate } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
+import { Helmet } from 'react-helmet';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import './ArticleDetail.css';
+import { useState, useEffect } from 'react';
+import axios from '../services/api/axios.js';
+import { LinkPreview } from '../components/common/LinkPreview';
 
 export function ArticleDetail() {
-  const { id } = useParams()
-  const navigate = useNavigate()
-  const location = useLocation()
-  const article = location.state?.article
+    const { id, slug } = useParams();
+    const navigate = useNavigate();
 
-  if (!article) {
-    navigate('/articles')
-    return null
-  }
+    const [article, setArticle] = useState(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [showPreview, setShowPreview] = useState(false);
 
-  return (
-    <div className="article-detail-page">
-      <div className="article-detail-container">
-        <button 
-          className="back-button"
-          onClick={() => navigate('/articles')}
-        >
-          <span className="back-arrow">←</span>
-          <span className="back-text">Geri</span>
-        </button>
+    useEffect(() => {
+        const fetchArticle = async () => {
+            try {
+                setLoading(true);
+                setError(null);
+                
+                const response = await axios.get(`/articles/${id}`);
+                
+                if (!response.data) {
+                    throw new Error('Makale bulunamadı');
+                }
 
-        <div className="article-header">
-          <h1 className="article-title">{article.title}</h1>
-          <div className="article-meta">
-            <span className="article-date">
-              <i className="far fa-calendar"></i> {article.publishDate}
-            </span>
-            <span className="article-category">
-              <i className="far fa-folder"></i> Kategori {article.categoryId}
-            </span>
-          </div>
+                // Eğer URL'deki slug, makalenin slug'ından farklıysa yönlendir
+                if (slug !== response.data.slug) {
+                    navigate(`/articles/${id}/${response.data.slug}`, { replace: true });
+                    return;
+                }
+                
+                setArticle(response.data);
+            } catch (error) {
+                console.error('Article fetch error:', error);
+                setError(
+                    error.response?.data?.message || 
+                    error.message || 
+                    'Makale yüklenirken bir hata oluştu'
+                );
+                if (error.response?.status === 404) {
+                    navigate('/articles');
+                }
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        if (id) {
+            fetchArticle();
+        }
+    }, [id, slug, navigate]);
+
+    const shareUrl = () => {
+        if (article) {
+            setShowPreview(true);
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: article.title,
+                    text: article.contentPreview || article.content.substring(0, 160) + '...',
+                    url: window.location.href
+                });
+            } else {
+                navigator.clipboard.writeText(window.location.href);
+            }
+        }
+    };
+
+    if (loading) return <div>Loading...</div>;
+    if (error) {
+        return (
+            <div className="error-container">
+                <h2>Hata</h2>
+                <p>{error}</p>
+                <button onClick={() => navigate('/articles')}>Makalelere Dön</button>
+            </div>
+        );
+    }
+    if (!article) return null;
+
+    const description = article.contentPreview || article.content.substring(0, 160) + '...';
+    const imageUrl = article.imagePath || 'https://harmonyhaven.erdemserhat.com/ico.png';
+    const canonicalUrl = `https://harmonyhaven.erdemserhat.com/articles/${id}/${article.slug}`;
+
+    return (
+        <div className="article-detail-page">
+            <Helmet>
+                {/* Temel meta etiketleri */}
+                <title>{`${article.title} - Harmony Haven`}</title>
+                <meta name="description" content={description} />
+                <link rel="canonical" href={canonicalUrl} />
+
+                {/* OpenGraph meta etiketleri */}
+                <meta property="og:title" content={article.title} />
+                <meta property="og:description" content={description} />
+                <meta property="og:image" content={imageUrl} />
+                <meta property="og:url" content={canonicalUrl} />
+                <meta property="og:type" content="article" />
+                <meta property="og:site_name" content="Harmony Haven" />
+                <meta property="article:published_time" content={article.publishDate} />
+                <meta property="article:author" content="Harmony Haven" />
+
+                {/* Twitter Card meta etiketleri */}
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content={article.title} />
+                <meta name="twitter:description" content={description} />
+                <meta name="twitter:image" content={imageUrl} />
+                <meta name="twitter:site" content="@harmonyhaven" />
+
+                {/* Ek meta etiketleri */}
+                <meta name="author" content="Harmony Haven" />
+                <meta name="robots" content="index, follow" />
+                <meta name="keywords" content={`${article.title}, harmony haven, blog, teknoloji`} />
+            </Helmet>
+
+            <div className="article-detail-container">
+                <button className="back-button" onClick={() => navigate(-1)}>
+                    <span className="back-arrow">←</span> Geri
+                </button>
+
+                {article && (
+                    <>
+                        <div className="article-header">
+                            <h1 className="article-title">{article.title}</h1>
+                            <div className="article-meta">
+                                <span className="article-date">
+                                    {article.publishDate}
+                                </span>
+                            </div>
+                        </div>
+
+                        {article.imagePath && (
+                            <div className="article-cover">
+                                <img 
+                                    src={article.imagePath} 
+                                    alt={article.title}
+                                    onError={(e) => {
+                                        e.target.src = 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80'
+                                    }}
+                                />
+                            </div>
+                        )}
+
+                        <div className="article-content">
+                            <ReactMarkdown
+                                className="markdown-content"
+                                components={{
+                                    code({node, inline, className, children, ...props}) {
+                                        const match = /language-(\w+)/.exec(className || '')
+                                        return !inline && match ? (
+                                            <SyntaxHighlighter
+                                                style={vscDarkPlus}
+                                                language={match[1]}
+                                                PreTag="div"
+                                                {...props}
+                                            >
+                                                {String(children).replace(/\n$/, '')}
+                                            </SyntaxHighlighter>
+                                        ) : (
+                                            <code className={className} {...props}>
+                                                {children}
+                                            </code>
+                                        )
+                                    }
+                                }}
+                            >
+                                {article.content}
+                            </ReactMarkdown>
+                        </div>
+                    </>
+                )}
+            </div>
+            {showPreview && (
+                <div className="preview-container">
+                    <LinkPreview articleId={id} />
+                </div>
+            )}
         </div>
-
-        <div className="article-cover">
-          <img 
-            src={article.imagePath} 
-            alt={article.title}
-            onError={(e) => {
-              e.target.src = 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80'
-            }}
-          />
-        </div>
-
-        <div className="article-body">
-          <div className="article-content">
-            <ReactMarkdown className="markdown-content">{article.content}</ReactMarkdown>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-} 
+    );
+}

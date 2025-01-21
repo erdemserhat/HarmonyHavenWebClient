@@ -3,42 +3,64 @@ import axios from './axios'
 export const authService = {
   login: async (credentials) => {
     try {
-      const response = await axios.post('/api/v1/user/authenticate', credentials)
-      
+      console.log("Gönderilen body:", credentials); // İstekten önce body'yi yazdır
+      const response = await axios.post('/api/v1/user/authenticate', credentials);
+      console.log("Sunucudan gelen yanıt:", response);
+
       // Check both validation results and authentication status
-      if (response.data.isAuthenticated && response.data.jwt) {
-        localStorage.setItem('auth_token', response.data.jwt)
+      if (response.status === 200) {
+        console.log("Giriş başarılı.");
         return {
           isAuthenticated: true,
-          jwt: response.data.jwt
-        }
+          jwt: response.data.jwt,
+        };
       } else {
         // Handle validation errors
-        const errorMessage = response.data.formValidationResult?.errorMessage || 
-                           response.data.credentialsValidationResult?.errorMessage ||
-                           'Authentication failed'
-        throw new Error(errorMessage)
+        const errorMessage =
+            response.data.formValidationResult?.errorMessage ||
+            response.data.credentialsValidationResult?.errorMessage ||
+            "Authentication failed";
+        throw new Error(errorMessage);
       }
     } catch (error) {
-      console.error('Login error:', error)
-      throw error.response?.data?.message || error.message || 'Login failed'
+      console.error("Giriş hatası:", error);
+      throw error.response?.data?.message || error.message || "Giriş başarısız oldu.";
     }
   },
 
+
   logout: () => {
-    localStorage.removeItem('auth_token')
+    // Set the JWT cookie with an expiration date in the past
+    document.cookie = "auth_token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 UTC; Secure; SameSite=Lax";
+    console.log("User logged out, JWT cookie cleared.");
   },
 
-  isAuthenticated: () => {
-    return !!localStorage.getItem('auth_token')
+
+  isAuthenticated:async () => {
+    // Verify authentication status by making a request
+    try {
+      const response = await axios.post('/api/v1/user/authenticate')
+
+      if (response.status === 200) {
+        // If the server responds with 200, the user is authenticated
+        return true;
+      } else {
+        // If the server responds with an error, the user is not authenticated
+        return false;
+      }
+    } catch (error) {
+      console.error('Error while verifying authentication:', error);
+      return false; // Treat errors as unauthenticated
+    }
   },
+
+
 
   register: async (userData) => {
     const response = await fetch('https://harmonyhavenappserver.erdemserhat.com/api/v1/user/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'harmonyhavenapikey': 'harmonyhavenapikeyK12yW8CBSoBfy41Cu6b3UDbMfEjijD0cKp4K166z29CADrYT4nRtOolZlOxGaOL5X7wmXY9fqyiFRvLeCB2OYS6J9x5zYbtSuiqsieelAD2lo9'
       },
       body: JSON.stringify({
         name: userData.name,
@@ -57,4 +79,4 @@ export const authService = {
 
     return response.json()
   }
-} 
+}

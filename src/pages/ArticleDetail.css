@@ -1,8 +1,7 @@
 .article-detail-page {
+  min-height: calc(100vh - 64px);
+  background: #f7fafc;
   padding: 2rem 1rem;
-  max-width: 1200px;
-  margin: 0 auto;
-  background-color: #fff;
 }
 
 .article-detail-container {
@@ -48,16 +47,16 @@
 .article-meta {
   display: flex;
   justify-content: flex-start;
-  gap: 2rem;
   color: #666;
   font-size: 0.9rem;
 }
 
-.article-date,
-.article-category {
+.article-date {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  color: #718096;
+  font-weight: 500;
 }
 
 .article-cover {
@@ -75,34 +74,182 @@
 }
 
 .article-content {
-  font-size: 1.1rem;
-  line-height: 1.8;
-  color: #444;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
   text-align: left;
 }
 
-/* Markdown content styling */
+.markdown-content {
+  color: #2d3748;
+  line-height: 1.8;
+  font-size: 1.1rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+  overflow: visible;
+  text-overflow: unset;
+  text-align: left;
+}
+
+.markdown-content h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 2rem 0 1.5rem;
+  color: #1a202c;
+  letter-spacing: -0.5px;
+}
+
 .markdown-content h2 {
-  font-size: 1.8rem;
-  margin: 2rem 0 1rem;
-  color: #333;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 2rem 0 1.25rem;
+  color: #2d3748;
+}
+
+.markdown-content h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 1.75rem 0 1rem;
+  color: #2d3748;
 }
 
 .markdown-content p {
   margin-bottom: 1.5rem;
+  color: #4a5568;
+  overflow: visible;
+  text-overflow: unset;
+  white-space: pre-wrap;
+  word-break: break-word;
+  display: block;
+  text-align: left;
+}
+
+.markdown-content img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 2rem 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .markdown-content a {
-  color: #0066cc;
+  color: #4299e1;
   text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
 }
 
 .markdown-content a:hover {
-  text-decoration: underline;
+  color: #2b6cb0;
+  border-bottom-color: #4299e1;
 }
 
-.markdown-content {
+.markdown-content ul,
+.markdown-content ol {
+  margin: 1rem 0;
+  padding-left: 1.5rem;
+}
+
+.markdown-content li {
+  margin-bottom: 0.25rem;
+  line-height: 1.5;
+  color: #4a5568;
+}
+
+.markdown-content li p {
+  margin: 0;
+  display: inline;
+}
+
+.markdown-content blockquote {
+  margin: 1rem 0;
+  padding: 0.75rem 1rem;
+  background-color: #f8fafc;
+  border-left: 3px solid #4299e1;
+  color: #4a5568;
+}
+
+.markdown-content blockquote p {
+  margin: 0;
+}
+
+.markdown-content blockquote blockquote {
+  margin: 0.5rem 0 0 0.5rem;
+  border-left: 2px solid #90cdf4;
+}
+
+.markdown-content ul {
+  list-style: disc;
+}
+
+.markdown-content ul ul {
+  list-style: circle;
+  margin: 0.25rem 0 0.25rem 1rem;
+}
+
+.markdown-content ul ul ul {
+  list-style: square;
+}
+
+.markdown-content ol {
+  list-style: decimal;
+}
+
+.markdown-content ol ol {
+  list-style: lower-alpha;
+  margin: 0.25rem 0 0.25rem 1rem;
+}
+
+.markdown-content ol ol ol {
+  list-style: lower-roman;
+}
+
+.markdown-content pre {
+  margin: 1.5rem 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.markdown-content pre > div {
+  margin: 0 !important;
+  padding: 1rem !important;
+  background: #1E1E1E !important; /* VSCode dark tema rengi */
+  border-radius: 8px !important;
+}
+
+/* Satır içi kod için stiller */
+.markdown-content code:not([class*="language-"]) {
+  background: #f1f5f9;
+  color: #2d3748;
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.9em;
+}
+
+.markdown-content hr {
+  border: none;
+  border-top: 2px solid #e2e8f0;
+  margin: 3rem 0;
+}
+
+.markdown-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 2rem 0;
   text-align: left;
+}
+
+.markdown-content th,
+.markdown-content td {
+  padding: 0.75rem;
+  border: 1px solid #e2e8f0;
+  text-align: left;
+}
+
+.markdown-content th {
+  background: #f7fafc;
+  font-weight: 600;
 }
 
 /* Responsive adjustments */
@@ -121,4 +268,121 @@
     align-items: center;
     justify-content: flex-start;
   }
+
+  .article-content {
+    padding: 1rem;
+  }
+
+  .markdown-content {
+    font-size: 1rem;
+  }
+
+  .markdown-content h1 {
+    font-size: 2rem;
+  }
+
+  .markdown-content h2 {
+    font-size: 1.75rem;
+  }
+
+  .markdown-content h3 {
+    font-size: 1.5rem;
+  }
+
+  .markdown-content pre {
+    padding: 1rem;
+    font-size: 0.875rem;
+  }
+
+  .markdown-content blockquote {
+    padding: 1rem;
+    margin: 1.5rem 0;
+  }
+
+  .markdown-content ul,
+  .markdown-content ol {
+    padding-left: 1.5rem;
+  }
+
+  .markdown-content p {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+}
+
+/* Çok küçük ekranlar için ek düzenlemeler */
+@media (max-width: 480px) {
+  .article-content {
+    padding: 1rem;
+  }
+
+  .markdown-content {
+    font-size: 0.95rem;
+  }
+
+  .markdown-content h1 {
+    font-size: 1.75rem;
+  }
+
+  .markdown-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .markdown-content h3 {
+    font-size: 1.25rem;
+  }
+}
+
+.article-detail-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  line-height: 1.8;
+}
+
+.article-detail-content p {
+  margin-bottom: 1.5rem;
+  line-height: 1.8;
+  font-size: 1.1rem;
+  color: #2d3748;
+  text-align: left;
+  display: block;
+}
+
+.article-detail-content h1,
+.article-detail-content h2,
+.article-detail-content h3 {
+  margin: 2rem 0 1rem;
+  color: #1a202c;
+  line-height: 1.4;
+}
+
+/* Mobil görünüm için düzenlemeler */
+@media (max-width: 768px) {
+  .article-detail-content {
+    padding: 1rem;
+  }
+
+  .article-detail-content p {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+}
+
+.preview-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+    max-width: 600px;
+    width: 90%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 640px) {
+    .preview-container {
+        bottom: 10px;
+        right: 10px;
+        width: calc(100% - 20px);
+    }
 } 

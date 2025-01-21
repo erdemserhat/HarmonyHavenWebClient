@@ -20,12 +20,8 @@
   
 
 .articles-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 1rem;
+  width: 100%;
+  margin-top: 2rem;
 }
 
 .article-card {
@@ -261,22 +257,93 @@
 }
 
 .categories-container {
-  margin-bottom: 3rem;
-  padding-bottom: 1rem;
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  flex-wrap: wrap;
-  padding: 0 2rem;
+  position: relative;
+  margin: 0 auto 2rem;
+  padding: 0.5rem 0;
 }
 
-.categories-bar {
+.categories-scroll {
   display: flex;
-  justify-content: center;
   gap: 1rem;
-  margin-bottom: 1rem;
-  flex-wrap: wrap;
-  padding: 0 1rem;
+  padding: 0.5rem 1rem;
+  justify-content: center;
+}
+
+.category-button {
+  white-space: nowrap;
+  padding: 0.75rem 1.5rem;
+  border: 1px solid #e2e8f0;
+  background: white;
+  color: #4a5568;
+  border-radius: 100px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.category-button:hover {
+  background: #f7fafc;
+  border-color: #cbd5e0;
+  transform: translateY(-1px);
+}
+
+.category-button.active {
+  background: #4299e1;
+  color: white;
+  border-color: #4299e1;
+}
+
+/* Scroll düğmeleri varsayılan olarak gizli */
+.scroll-button {
+  display: none;
+}
+
+/* Mobil görünüm için düzenlemeler */
+@media (max-width: 768px) {
+  .categories-container {
+    margin: 0 -1rem 2rem -1rem;
+  }
+
+  .categories-scroll {
+    overflow-x: auto;
+    justify-content: flex-start;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  /* Mobilde scrollbar'ı gizle */
+  .categories-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  .category-button {
+    padding: 0.625rem 1.25rem;
+    font-size: 0.875rem;
+  }
+
+  /* Kaydırılabilir alan göstergesi - sadece mobilde */
+  .categories-container::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 30px;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.9));
+    pointer-events: none;
+  }
+}
+
+/* Çok küçük ekranlar için ek düzenlemeler */
+@media (max-width: 480px) {
+  .category-button {
+    padding: 0.5rem 1rem;
+    font-size: 0.813rem;
+  }
 }
 
 @media (max-width: 1200px) {
@@ -342,5 +409,32 @@
   .article-image {
     height: 120px;
   }
+}
+
+/* Yükleme durumu için animasyon */
+.article-card {
+  transition: opacity 0.3s ease;
+}
+
+.article-card.fade-out {
+  opacity: 0.5;
+}
+
+/* Kategori değişimi sırasında yumuşak geçiş */
+.articles-grid {
+  transition: opacity 0.3s ease;
+}
+
+.articles-grid.filtering {
+  opacity: 0.7;
+}
+
+/* Sonuç bulunamadı mesajı için stil */
+.no-articles {
+  text-align: center;
+  padding: 2rem;
+  color: #718096;
+  font-size: 1.1rem;
+  grid-column: 1 / -1;
 } 
 

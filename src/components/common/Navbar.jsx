@@ -1,166 +1,86 @@
-import {useState, useEffect} from 'react'
-import {Link, NavLink, useNavigate} from 'react-router-dom'
-import {authService} from '../../services/api/auth.service'
-import {userService} from '../../services/api/user.service'
+import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import './Navbar.css'
+import icoImage from '../../assets/ico.png'
+import googlePlayIcon from '../../assets/google-play.svg'
 
 export function Navbar() {
-    const [isOpen, setIsOpen] = useState(false)
-    const [scrolled, setScrolled] = useState(false)
-    const [showProfileMenu, setShowProfileMenu] = useState(false)
-    const [userInfo, setUserInfo] = useState(null)
-    const navigate = useNavigate()
-
-    useEffect(() => {
-        fetchUserInfo()
-    }, [])
-
-    useEffect(() => {
-        const handleScroll = () => {
-            const isScrolled = window.scrollY > 20
-            if (isScrolled !== scrolled) {
-                setScrolled(isScrolled)
-            }
-        }
-
-        window.addEventListener('scroll', handleScroll)
-        return () => window.removeEventListener('scroll', handleScroll)
-    }, [scrolled])
-
-    const fetchUserInfo = async () => {
-        try {
-            const data = await userService.getUserInfo()
-            setUserInfo(data)
-        } catch (error) {
-            console.error('Error fetching user info:', error)
-        }
-    }
-
-    const handleLogout = () => {
-        authService.logout()
-        window.dispatchEvent(new Event('storage'))
-        navigate('/login', {replace: true})
-    }
-
-    const getProfileImage = () => {
-        if (!userInfo || userInfo.profilePhotoPath === '-') {
-            return '/src/assets/default-avatar.png'
-        }
-        return userInfo.profilePhotoPath
-    }
+    const [isMenuOpen, setIsMenuOpen] = useState(false)
 
     const toggleMenu = () => {
-        setIsOpen(!isOpen)
+        setIsMenuOpen(!isMenuOpen)
     }
 
-    const closeMenu = () => {
-        setIsOpen(false)
-    }
+    const shareUrl = () => {
+        if (navigator.share) {
+            navigator.share({
+                title: document.title,
+                text: document.querySelector('meta[name="description"]')?.content,
+                url: window.location.href
+            });
+        } else {
+            // Kopyala butonu için fallback
+            navigator.clipboard.writeText(window.location.href);
+            // Kullanıcıya bildirim göster
+        }
+    };
 
     return (
-        <nav className={`navbar ${scrolled ? 'scrolled' : ''}`}>
+        <nav className="navbar">
             <div className="navbar-container">
-                <Link to="/" className="navbar-brand" onClick={closeMenu}>
-                    <img src="/src/assets/ico.png" alt="Harmony Haven Logo"/>
+                <Link to="/" className="navbar-brand">
+                    <img src={icoImage} alt="Harmony Haven Logo" />
                     <span>Harmony Haven</span>
                 </Link>
 
-                <div className={`nav-links ${isOpen ? 'open' : ''}`}>
-                    <NavLink to="/" className="nav-link" onClick={closeMenu}>
+                <button className="menu-button" onClick={toggleMenu}>
+                    <span className={`hamburger ${isMenuOpen ? 'open' : ''}`}></span>
+                </button>
+
+                <div className={`navbar-links ${isMenuOpen ? 'open' : ''}`}>
+                    <Link to="/" className="nav-link" onClick={() => setIsMenuOpen(false)}>
                         Ana Sayfa
-                    </NavLink>
-                    <NavLink to="/articles" className="nav-link" onClick={closeMenu}>
+                    </Link>
+                    <Link to="/articles" className="nav-link" onClick={() => setIsMenuOpen(false)}>
                         Makaleler
-                    </NavLink>
-                    <NavLink to="/quotes" className="nav-link" onClick={closeMenu}>
-                        Alıntılar
-                    </NavLink>
-                    <NavLink to="/notifications" className="nav-link" onClick={closeMenu}>
-                        Bildirimler
-                    </NavLink>
+                    </Link>
 
-                    <div className="profile-menu-container">
-                        <button
-                            className="profile-button"
-                            onClick={() => setShowProfileMenu(!showProfileMenu)}
+                    <div className="store-button-container">
+                        <a 
+                            href="https://play.google.com/store/apps/details?id=com.erdemserhat.harmonyhaven"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="store-button"
                         >
-                            <img
-                                src={getProfileImage()}
-                                alt={userInfo?.name || 'Profile'}
-                                className ="pp-avatar"
+                            <img 
+                                src={googlePlayIcon} 
+                                alt="Google Play" 
+                                className="store-icon"
                             />
-
-                            <span className="profile-name">
-                {userInfo?.name || 'Kullanıcı'}
-              </span>
-                            <svg
-                                className={`profile-arrow ${showProfileMenu ? 'open' : ''}`}
-                                width="12"
-                                height="12"
-                                viewBox="0 0 12 12"
-                            >
-                                <path
-                                    d="M2 4L6 8L10 4"
-                                    stroke="currentColor"
-                                    strokeWidth="2"
-                                    fill="none"
-                                />
-                            </svg>
-                        </button>
-
-                        {showProfileMenu && (
-                            <div className="profile-dropdown">
-                                <div className="profile-info">
-                                    <img
-                                        src={getProfileImage()}
-                                        alt={userInfo?.name || 'Profile'}
-                                        className="profile-dropdown-avatar"
-                                    />
-                                    <div className="profile-details">
-                                        <span className="profile-name">{userInfo?.name}</span>
-                                        <span className="profile-email">{userInfo?.email}</span>
-                                    </div>
-                                </div>
-                                <div className="profile-dropdown-divider"></div>
-                                <Link to="/profile" className="profile-dropdown-item">
-                                    <svg width="16" height="16" viewBox="0 0 24 24">
-                                        <path
-                                            d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"
-                                            fill="currentColor"/>
-                                    </svg>
-                                    Profil
-                                </Link>
-                                <button
-                                    className="profile-dropdown-item logout"
-                                    onClick={handleLogout}
-                                >
-                                    <svg width="16" height="16" viewBox="0 0 24 24">
-                                        <path
-                                            d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"
-                                            fill="currentColor"/>
-                                    </svg>
-                                    Çıkış Yap
-                                </button>
-                            </div>
-                        )}
+                            <span>Google Play'de İndir</span>
+                        </a>
                     </div>
                 </div>
 
-                <button className="navbar-toggle" onClick={toggleMenu}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                         stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        {isOpen ? (
-                            <>
-                                <line x1="18" y1="6" x2="6" y2="18"/>
-                                <line x1="6" y1="6" x2="18" y2="18"/>
-                            </>
-                        ) : (
-                            <>
-                                <line x1="3" y1="12" x2="21" y2="12"/>
-                                <line x1="3" y1="6" x2="21" y2="6"/>
-                                <line x1="3" y1="18" x2="21" y2="18"/>
-                            </>
-                        )}
+                <button 
+                    onClick={shareUrl}
+                    className="share-button"
+                    aria-label="Sayfayı paylaş"
+                >
+                    <svg 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        width="20" 
+                        height="20" 
+                        viewBox="0 0 24 24" 
+                        fill="none" 
+                        stroke="currentColor" 
+                        strokeWidth="2" 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round"
+                    >
+                        <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+                        <polyline points="16 6 12 2 8 6"/>
+                        <line x1="12" y1="2" x2="12" y2="15"/>
                     </svg>
                 </button>
             </div>

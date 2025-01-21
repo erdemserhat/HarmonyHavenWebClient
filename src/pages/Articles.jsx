@@ -1,9 +1,13 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { LoadingSpinner } from '../components/common/LoadingSpinner'
 import { useArticles } from '../context/ArticlesContext'
 import './Articles.css'
 import { useLoading } from '../context/LoadingContext'
+import { motion } from 'framer-motion'
+import axios from '../services/api/axios.js'
+import { ArticleList } from '../components/ArticleList'
+import { Helmet } from 'react-helmet'
 
 // Sabit kategoriler
 const CATEGORIES = [
@@ -23,6 +27,8 @@ export function Articles() {
   const [filteredArticles, setFilteredArticles] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
   const [isFiltering, setIsFiltering] = useState(false)
+  const [activeCategory, setActiveCategory] = useState('all')
+  const scrollContainerRef = useRef(null)
 
   useEffect(() => {
     setIsLoading(true)
@@ -53,13 +59,12 @@ export function Articles() {
       filtered = filtered.filter(article => article.categoryId === selectedCategory)
     }
     
-    // Arama filtresi - case insensitive (büyük/küçük harf duyarsız)
+    // Arama filtresi - başlık ve içerikte arama
     if (searchTerm) {
-      const searchLower = searchTerm.toLowerCase()
+      const searchLower = normalizeText(searchTerm)
       filtered = filtered.filter(article => {
-        const titleLower = article.title.toLowerCase()
-        const contentLower = article.contentPreview.toLowerCase()
-        
+        const titleLower = normalizeText(article.title)
+        const contentLower = normalizeText(article.content) // Tam içerikte arama
         return titleLower.includes(searchLower) || contentLower.includes(searchLower)
       })
     }
@@ -67,11 +72,14 @@ export function Articles() {
     setFilteredArticles(filtered)
   }
 
-  // Metni normalize eden yardımcı fonksiyon
+  // Metni normalize eden fonksiyonu güncelliyoruz
   const normalizeText = (text) => {
+    if (!text) return ''
     return text
       .toLowerCase()
       .trim()
+      .normalize('NFD') // Aksanlı karakterleri ayır
+      .replace(/[\u0300-\u036f]/g, '') // Aksan işaretlerini kaldır
       .replace(/ğ/g, 'g')
       .replace(/ü/g, 'u')
       .replace(/ş/g, 's')
@@ -84,23 +92,13 @@ export function Articles() {
   const fetchArticles = async () => {
     try {
       setIsLoading(true)
-      const token = localStorage.getItem('auth_token')
-      
-      const response = await fetch('https://harmonyhavenappserver.erdemserhat.com/api/v1/articles', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-          'harmonyhavenapikey': 'harmonyhavenapikeyK12yW8CBSoBfy41Cu6b3UDbMfEjijD0cKp4K166z29CADrYT4nRtOolZlOxGaOL5X7wmXY9fqyiFRvLeCB2OYS6J9x5zYbtSuiqsieelAD2lo9'
-        }
-      })
-
-      if (!response.ok) {
-        throw new Error('Makaleler yüklenemedi')
-      }
-
-      const data = await response.json()
-      updateArticles(data)
+      const response = await axios.get('/articles')
+      // Backend'den gelen veride slug olduğundan emin olalım
+      const articlesWithSlugs = response.data.map(article => ({
+        ...article,
+        slug: article.slug || 'no-slug' // Eğer slug yoksa fallback değer
+      }))
+      updateArticles(articlesWithSlugs)
     } catch (err) {
       setError('Makaleler yüklenirken bir hata oluştu')
       console.error('Error fetching articles:', err)
@@ -113,8 +111,19 @@ export function Articles() {
     navigate(`/articles/${article.id}`, { state: { article } })
   }
 
-  const handleCategoryClick = (categoryId) => {
+  const handleCategoryChange = (categoryId) => {
     setSelectedCategory(categoryId)
+    setActiveCategory(categoryId)
+  }
+
+  const scroll = (direction) => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = 300
+      scrollContainerRef.current.scrollBy({
+        left: direction === 'left' ? -scrollAmount : scrollAmount,
+        behavior: 'smooth'
+      })
+    }
   }
 
   if (isLoading) {
@@ -131,66 +140,72 @@ export function Articles() {
 
   return (
     <div className="articles-page">
-      <h1>Makaleler</h1>
-      
-      <div className="search-bar">
-        <input
-          type="text"
-          placeholder="Makalelerde ara..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="search-icon">
-          <circle cx="11" cy="11" r="8"></circle>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-        </svg>
-      </div>
-
-      <div className="categories-container">
-        {CATEGORIES.map(category => (
-          <button
-            key={category.id}
-            className={`category-button ${selectedCategory === category.id ? 'active' : ''}`}
-            onClick={() => handleCategoryClick(category.id)}
-          >
-            {category.name}
-          </button>
-        ))}
-      </div>
-
-      <div className="articles-grid">
-        {!isFiltering && filteredArticles.map(article => (
-          <div 
-            key={article.id} 
-            className={`article-card ${isFiltering ? 'fade-out' : ''}`}
-            onClick={() => handleArticleClick(article)}
-          >
-            <div className="article-image">
-              <img 
-                src={article.imagePath} 
-                alt={article.title}
-                onError={(e) => {
-                  e.target.src = 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80'
-                }}
-              />
-            </div>
-            <div className="article-content">
-            <h1 className="article-header">{article.title}</h1>
-            <p>{article.contentPreview}</p>
-              <div className="article-footer">
-                <span className="publish-date">{article.publishDate}</span>
-                <button className="read-more">Devamını Oku</button>
-              </div>
-            </div>
-          </div>
-        ))}
+      <Helmet>
+        <title>Makaleler - Harmony Haven</title>
+        <meta name="description" content="Teknoloji, programlama ve daha fazlası hakkında makaleler." />
+      </Helmet>
+      <motion.div 
+        className="articles-content"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+      >
+        <h1>Makaleler</h1>
         
-        {!isFiltering && filteredArticles.length === 0 && (
-          <div className="no-articles">
-            Bu kriterlere uygun makale bulunamadı.
+        <div className="search-bar">
+          <input
+            type="text"
+            placeholder="Makalelerde ara..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="search-input"
+          />
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="search-icon">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </div>
+
+        <div className="categories-container">
+          <button 
+            className="scroll-button left" 
+            onClick={() => scroll('left')}
+            aria-label="Sola kaydır"
+          >
+            ←
+          </button>
+          
+          <div className="categories-scroll" ref={scrollContainerRef}>
+            {CATEGORIES.map(category => (
+              <button
+                key={category.id}
+                className={`category-button ${selectedCategory === category.id ? 'active' : ''}`}
+                onClick={() => handleCategoryChange(category.id)}
+              >
+                {category.name}
+              </button>
+            ))}
           </div>
-        )}
-      </div>
+          
+          <button 
+            className="scroll-button right" 
+            onClick={() => scroll('right')}
+            aria-label="Sağa kaydır"
+          >
+            →
+          </button>
+        </div>
+
+        <div className="articles-grid">
+          <ArticleList articles={filteredArticles} />
+          
+          {!isFiltering && filteredArticles.length === 0 && (
+            <div className="no-articles">
+              Bu kriterlere uygun makale bulunamadı.
+            </div>
+          )}
+        </div>
+      </motion.div>
     </div>
   )
 } 

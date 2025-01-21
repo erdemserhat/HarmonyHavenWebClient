@@ -4,6 +4,7 @@ import { authService } from '../services/api/auth.service'
 import { motion, AnimatePresence } from 'framer-motion'
 import logo from '../assets/ico.png'
 import './Login.css'
+import PlayStoreIcon from '../assets/google-play.svg'
 
 export function Login() {
   const navigate = useNavigate()
@@ -31,11 +32,15 @@ export function Login() {
     try {
       const result = await authService.login(loginData)
       console.log('Login result:', result)
-      
+      console.log("hereee")
+
       if (result.isAuthenticated) {
         console.log('Authentication successful, navigating...')
-        navigate('/', { replace: true })
-        window.location.reload()
+
+        document.cookie = "auth_token=" + result.jwt + "; Path=/; Secure; SameSite=Lax";
+
+        //  navigate('/', { replace: true })
+      //  window.location.reload()
       } else {
         setError('Giriş başarısız. Lütfen tekrar deneyin.')
       }
@@ -116,20 +121,48 @@ export function Login() {
               damping: 20 
             }}
           />
-          <motion.h1
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-          >
-            Harmony Haven
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-          >
-            Huzur ve ilhamın buluştuğu yer
+          <motion.h1>Harmony Haven</motion.h1>
+          <motion.p className="brand-subtitle">
+            Motivasyon ve İlham Kaynağınız
           </motion.p>
+
+          <motion.div className="brand-features">
+            <h2>Öne Çıkan Özellikler</h2>
+            <ul>
+              <li>
+                <span className="feature-icon">📚</span>
+                <div className="feature-text">
+                  <strong>Kategorilere Göre Makaleler:</strong>
+                  <p>Çeşitli konularda ilham verici ve bilgilendirici makaleler.</p>
+                </div>
+              </li>
+              <li>
+                <span className="feature-icon">🎯</span>
+                <div className="feature-text">
+                  <strong>Kişiselleştirilmiş Bildirimler:</strong>
+                  <p>Yapay zeka tarafından kullanıcıya özel motivasyon mesajları.</p>
+                </div>
+              </li>
+              <li>
+                <span className="feature-icon">💫</span>
+                <div className="feature-text">
+                  <strong>İlham Verici Alıntılar:</strong>
+                  <p>Günlük ilham ve motivasyon için ilham verici alıntılar.</p>
+                </div>
+              </li>
+            </ul>
+          </motion.div>
+
+          <motion.div className="brand-contact">
+            <h3>İletişim</h3>
+            <p>
+              Bizimle iletişime geçmek veya daha fazla bilgi almak için{' '}
+              <a href="mailto:harmonyhavenapp@gmail.com">
+                harmonyhavenapp@gmail.com
+              </a>
+              {' '}adresine e-posta gönderebilirsiniz.
+            </p>
+          </motion.div>
         </div>
 
         <div className="auth-form-container">
@@ -277,6 +310,27 @@ export function Login() {
               </motion.form>
             )}
           </AnimatePresence>
+        </div>
+
+        <div className="auth-footer">
+          <a 
+            href="https://play.google.com/store/apps/details?id=com.erdemserhat.harmonyhaven"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="store-button"
+          >
+            <img src={PlayStoreIcon} alt="Google Play" className="store-icon" />
+            <span>Google Play'de İndir</span>
+          </a>
+
+          <a 
+            href="https://harmonyhaven.erdemserhat.com/gizlilik_politikasi.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="policy-link"
+          >
+            Gizlilik Politikası
+          </a>
         </div>
       </motion.div>
     </div>
