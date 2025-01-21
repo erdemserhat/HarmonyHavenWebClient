@@ -1,0 +1,12 @@
+# Enable Rewrite Engine
+RewriteEngine On
+
+# Bot ve preview istekleri için yönlendirme
+RewriteCond %{HTTP_USER_AGENT} (bot|whatsapp|telegram|facebook|twitter|linkedin|discord|slack|viber|facebookexternalhit|twitterbot|linkedinbot|telegrambot|discordbot|whatsapp|preview) [NC]
+RewriteCond %{REQUEST_URI} ^/articles/([^/]+)(/[^/]+)?$ [NC]
+RewriteRule ^articles/([^/]+)(/[^/]+)?$ https://harmonyhavenappserver.erdemserhat.com/api/v1/articles/$1/preview [R=301,L]
+
+# Normal istekler için React uygulamasına yönlendirme
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.html [QSA,L] 
