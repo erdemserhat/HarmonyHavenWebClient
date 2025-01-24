@@ -1,0 +1,151 @@
+.account-deletion-page {
+  min-height: calc(100vh - 64px);
+  background: #f7fafc;
+  padding: 2rem 1rem;
+}
+
+.account-deletion-container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 1rem;
+  padding: 0.5rem 0;
+  margin-bottom: 2rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.back-button:hover {
+  color: #000;
+}
+
+.back-arrow {
+  font-size: 1.2rem;
+}
+
+.account-deletion-content {
+  color: #2d3748;
+  line-height: 1.8;
+  font-size: 1.1rem;
+  text-align: left;
+}
+
+/* HTML içeriği için stil düzenlemeleri */
+.account-deletion-content h1,
+.account-deletion-content h2,
+.account-deletion-content h3,
+.account-deletion-content p {
+  text-align: left;
+}
+
+.account-deletion-content h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 2rem 0 1.5rem;
+  color: #1a202c;
+  letter-spacing: -0.5px;
+}
+
+.account-deletion-content h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 2rem 0 1.25rem;
+  color: #2d3748;
+}
+
+.account-deletion-content h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 1.75rem 0 1rem;
+  color: #2d3748;
+}
+
+.account-deletion-content p {
+  margin-bottom: 1.5rem;
+  color: #4a5568;
+}
+
+.account-deletion-content ul,
+.account-deletion-content ol {
+  margin: 1.5rem 0;
+  padding-left: 2rem;
+}
+
+.account-deletion-content li {
+  margin-bottom: 0.75rem;
+  color: #4a5568;
+}
+
+.account-deletion-content a {
+  color: #4299e1;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.account-deletion-content a:hover {
+  color: #2b6cb0;
+  border-bottom-color: #4299e1;
+}
+
+/* Mobil görünüm için düzenlemeler */
+@media (max-width: 768px) {
+  .account-deletion-page {
+    padding: 1rem;
+  }
+
+  .account-deletion-container {
+    padding: 1.5rem;
+  }
+
+  .account-deletion-content {
+    font-size: 1rem;
+  }
+
+  .account-deletion-content h1 {
+    font-size: 2rem;
+  }
+
+  .account-deletion-content h2 {
+    font-size: 1.75rem;
+  }
+
+  .account-deletion-content h3 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Çok küçük ekranlar için ek düzenlemeler */
+@media (max-width: 480px) {
+  .account-deletion-container {
+    padding: 1rem;
+  }
+
+  .account-deletion-content {
+    font-size: 0.95rem;
+  }
+
+  .account-deletion-content h1 {
+    font-size: 1.75rem;
+  }
+
+  .account-deletion-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .account-deletion-content h3 {
+    font-size: 1.25rem;
+  }
+} 

@@ -1,0 +1,151 @@
+.privacy-encrypted-page {
+  min-height: calc(100vh - 64px);
+  background: #f7fafc;
+  padding: 2rem 1rem;
+}
+
+.privacy-encrypted-container {
+  max-width: 900px;
+  margin: 0 auto;
+  background: white;
+  padding: 2.5rem;
+  border-radius: 16px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.back-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  color: #666;
+  font-size: 1rem;
+  padding: 0.5rem 0;
+  margin-bottom: 2rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.back-button:hover {
+  color: #000;
+}
+
+.back-arrow {
+  font-size: 1.2rem;
+}
+
+.privacy-encrypted-content {
+  color: #2d3748;
+  line-height: 1.8;
+  font-size: 1.1rem;
+  text-align: left;
+}
+
+/* HTML içeriği için stil düzenlemeleri */
+.privacy-encrypted-content h1,
+.privacy-encrypted-content h2,
+.privacy-encrypted-content h3,
+.privacy-encrypted-content p {
+  text-align: left;
+}
+
+.privacy-encrypted-content h1 {
+  font-size: 2.5rem;
+  font-weight: 800;
+  margin: 2rem 0 1.5rem;
+  color: #1a202c;
+  letter-spacing: -0.5px;
+}
+
+.privacy-encrypted-content h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 2rem 0 1.25rem;
+  color: #2d3748;
+}
+
+.privacy-encrypted-content h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 1.75rem 0 1rem;
+  color: #2d3748;
+}
+
+.privacy-encrypted-content p {
+  margin-bottom: 1.5rem;
+  color: #4a5568;
+}
+
+.privacy-encrypted-content ul,
+.privacy-encrypted-content ol {
+  margin: 1.5rem 0;
+  padding-left: 2rem;
+}
+
+.privacy-encrypted-content li {
+  margin-bottom: 0.75rem;
+  color: #4a5568;
+}
+
+.privacy-encrypted-content a {
+  color: #4299e1;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.privacy-encrypted-content a:hover {
+  color: #2b6cb0;
+  border-bottom-color: #4299e1;
+}
+
+/* Mobil görünüm için düzenlemeler */
+@media (max-width: 768px) {
+  .privacy-encrypted-page {
+    padding: 1rem;
+  }
+
+  .privacy-encrypted-container {
+    padding: 1.5rem;
+  }
+
+  .privacy-encrypted-content {
+    font-size: 1rem;
+  }
+
+  .privacy-encrypted-content h1 {
+    font-size: 2rem;
+  }
+
+  .privacy-encrypted-content h2 {
+    font-size: 1.75rem;
+  }
+
+  .privacy-encrypted-content h3 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Çok küçük ekranlar için ek düzenlemeler */
+@media (max-width: 480px) {
+  .privacy-encrypted-container {
+    padding: 1rem;
+  }
+
+  .privacy-encrypted-content {
+    font-size: 0.95rem;
+  }
+
+  .privacy-encrypted-content h1 {
+    font-size: 1.75rem;
+  }
+
+  .privacy-encrypted-content h2 {
+    font-size: 1.5rem;
+  }
+
+  .privacy-encrypted-content h3 {
+    font-size: 1.25rem;
+  }
+} 

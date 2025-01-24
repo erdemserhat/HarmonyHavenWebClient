@@ -16,5 +16,17 @@ export default defineConfig({
   },
   preview: {
     port: 4173
+  },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: undefined
+      }
+    },
+    // SPA için gerekli yapılandırma
+    assetsDir: 'assets',
+    outDir: 'dist',
+    emptyOutDir: true,
+    sourcemap: true
   }
 })

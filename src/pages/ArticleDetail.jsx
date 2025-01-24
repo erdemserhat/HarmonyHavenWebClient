@@ -6,7 +6,6 @@ import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import './ArticleDetail.css';
 import { useState, useEffect } from 'react';
 import axios from '../services/api/axios.js';
-import { LinkPreview } from '../components/common/LinkPreview';
 
 export function ArticleDetail() {
     const { id, slug } = useParams();
@@ -15,7 +14,6 @@ export function ArticleDetail() {
     const [article, setArticle] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [showPreview, setShowPreview] = useState(false);
 
     useEffect(() => {
         const fetchArticle = async () => {
@@ -23,54 +21,34 @@ export function ArticleDetail() {
                 setLoading(true);
                 setError(null);
                 
+                if (!id || isNaN(id)) {
+                    navigate('/404', { replace: true });
+                    return;
+                }
+
                 const response = await axios.get(`/articles/${id}`);
                 
                 if (!response.data) {
-                    throw new Error('Makale bulunamadı');
+                    navigate('/404', { replace: true });
+                    return;
                 }
 
-                // Eğer URL'deki slug, makalenin slug'ından farklıysa yönlendir
-                if (slug !== response.data.slug) {
-                    navigate(`/articles/${id}/${response.data.slug}`, { replace: true });
+                if (slug && slug !== response.data.slug) {
+                    navigate('/404', { replace: true });
                     return;
                 }
                 
                 setArticle(response.data);
             } catch (error) {
                 console.error('Article fetch error:', error);
-                setError(
-                    error.response?.data?.message || 
-                    error.message || 
-                    'Makale yüklenirken bir hata oluştu'
-                );
-                if (error.response?.status === 404) {
-                    navigate('/articles');
-                }
+                navigate('/404', { replace: true });
             } finally {
                 setLoading(false);
             }
         };
 
-        if (id) {
-            fetchArticle();
-        }
+        fetchArticle();
     }, [id, slug, navigate]);
-
-    const shareUrl = () => {
-        if (article) {
-            setShowPreview(true);
-            
-            if (navigator.share) {
-                navigator.share({
-                    title: article.title,
-                    text: article.contentPreview || article.content.substring(0, 160) + '...',
-                    url: window.location.href
-                });
-            } else {
-                navigator.clipboard.writeText(window.location.href);
-            }
-        }
-    };
 
     if (loading) return <div>Loading...</div>;
     if (error) {
@@ -176,11 +154,6 @@ export function ArticleDetail() {
                     </>
                 )}
             </div>
-            {showPreview && (
-                <div className="preview-container">
-                    <LinkPreview articleId={id} />
-                </div>
-            )}
         </div>
     );
 }

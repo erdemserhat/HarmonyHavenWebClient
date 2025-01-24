@@ -4,8 +4,8 @@
   margin: 0;
   padding: 0;
   text-align: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   overflow-x: hidden;
+  background: white; /* Arka plan beyaz olsun */
 }
 
 /* Genel stiller */
@@ -17,7 +17,48 @@
 
 .app-container {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-top: 0; /* Padding'i kaldırdık */
+}
+
+.content-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   background: white;
+  min-height: calc(100vh - 64px);
+  position: relative;
+  margin-top: 0; /* Margin'i kaldırdık */
+}
+
+/* Sadece içerik alanında gradyan arka plan olsun */
+.content-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  z-index: -1;
+}
+
+/* İçerik alanı */
+.content-container > * {
+  background: white;
+  border-radius: 20px 20px 0 0;
+  overflow: hidden;
+  margin-top: 1rem;
+  flex: 1;
+}
+
+/* Responsive tasarım için */
+@media (max-width: 768px) {
+  .content-container > * {
+    border-radius: 12px 12px 0 0;
+    margin-top: 0.5rem;
+  }
 }
 
 /* ... diğer genel stiller */
