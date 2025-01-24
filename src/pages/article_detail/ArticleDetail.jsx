@@ -5,7 +5,7 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import './ArticleDetail.css';
 import { useState, useEffect } from 'react';
-import axios from '../services/api/axios.js';
+import axios from '../../services/api/axios.js';
 
 export function ArticleDetail() {
     const { id, slug } = useParams();

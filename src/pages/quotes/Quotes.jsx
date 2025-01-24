@@ -1,9 +1,9 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
-import { quotesService } from '../services/api/quotes.service'
-import { useQuotes } from '../context/QuotesContext'
+import { quotesService } from '../../services/api/quotes.service.js'
+import { useQuotes } from '../../context/QuotesContext.jsx'
 import { motion, AnimatePresence } from 'framer-motion'
 import './Quotes.css'
-import { useLoading } from '../context/LoadingContext'
+import { useLoading } from '../../context/LoadingContext.jsx'
 
 export function Quotes() {
   const { 

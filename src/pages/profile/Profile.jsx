@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
-import { userService } from '../services/api/user.service'
+import { userService } from '../../services/api/user.service.js'
 import './Profile.css'
-import { useLoading } from '../context/LoadingContext'
+import { useLoading } from '../../context/LoadingContext.jsx'
 
 export function Profile() {
   const { setIsLoading } = useLoading()

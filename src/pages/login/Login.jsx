@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { authService } from '../services/api/auth.service'
+import { authService } from '../../services/api/auth.service.js'
 import { motion, AnimatePresence } from 'framer-motion'
-import logo from '../assets/ico.png'
+import logo from '../../assets/ico.png'
 import './Login.css'
-import PlayStoreIcon from '../assets/google-play.svg'
+import PlayStoreIcon from '../../assets/google-play.svg'
 
 export function Login() {
   const navigate = useNavigate()

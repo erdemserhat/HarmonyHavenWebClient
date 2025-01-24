@@ -1,12 +1,13 @@
-import React from 'react';
+import 'react';
 import { Link } from 'react-router-dom';
 import './ArticleList.css';
 
+// eslint-disable-next-line react/prop-types
 export function ArticleList({ articles }) {
     return (
         <div className="article-list">
             {articles.map(article => (
-                <Link 
+                <Link
                     key={article.id}
                     to={`/articles/${article.id}/${article.slug}`}
                     className="article-card"
@@ -31,4 +32,4 @@ export function ArticleList({ articles }) {
             ))}
         </div>
     );
-} 
+}

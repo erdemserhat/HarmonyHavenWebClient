@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import './Home.css'
-import googlePlayIcon from '../assets/google-play.svg'
+import googlePlayIcon from '../../assets/google-play.svg'
 
 export function Home() {
   return (

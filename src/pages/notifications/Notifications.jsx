@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
-import { notificationService } from '../services/api/notification.service'
-import { LoadingSpinner } from '../components/common/LoadingSpinner'
+import { notificationService } from '../../services/api/notification.service.js'
+import { LoadingSpinner } from '../../components/common/LoadingSpinner.jsx'
 import './Notifications.css'
 
 export function Notifications() {

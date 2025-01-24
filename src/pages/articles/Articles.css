@@ -17,7 +17,7 @@
     font-family: 'Roboto', Arial, sans-serif; /* Modern ve okunabilir bir yazı tipi */
     text-transform: capitalize; /* İlk harfleri büyük yapar */
   }
-  
+
 
 .articles-grid {
   width: 100%;
@@ -436,5 +436,5 @@
   color: #718096;
   font-size: 1.1rem;
   grid-column: 1 / -1;
-} 
+}
 

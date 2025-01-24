@@ -1,12 +1,12 @@
 import { useState, useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { LoadingSpinner } from '../components/common/LoadingSpinner'
-import { useArticles } from '../context/ArticlesContext'
+import { LoadingSpinner } from '../../components/common/LoadingSpinner.jsx'
+import { useArticles } from '../../context/ArticlesContext.jsx'
 import './Articles.css'
-import { useLoading } from '../context/LoadingContext'
+import { useLoading } from '../../context/LoadingContext.jsx'
 import { motion } from 'framer-motion'
-import axios from '../services/api/axios.js'
-import { ArticleList } from '../components/ArticleList'
+import axios from '../../services/api/axios.js'
+import { ArticleList } from '../../components/ArticleList.jsx'
 import { Helmet } from 'react-helmet'
 
 // Sabit kategoriler
