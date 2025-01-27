@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SQL Tables</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        pre {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ccc;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>SQL Tables and Queries</h1>
+
+    <pre>
+CREATE TABLE Products (
+    product_id NUMBER PRIMARY KEY,
+    name VARCHAR2(50) NOT NULL,
+    quantity NUMBER NOT NULL,
+    price NUMBER(10, 2) NOT NULL
+);
+
+CREATE TABLE Cashiers (
+    cashier_id NUMBER PRIMARY KEY,
+    surname VARCHAR2(50) NOT NULL,
+    hire_date DATE NOT NULL,
+    birth_date DATE NOT NULL
+);
+
+CREATE TABLE Transactions (
+    transaction_id NUMBER PRIMARY KEY,
+    product_id NUMBER NOT NULL,
+    cashier_id NUMBER NOT NULL,
+    units NUMBER NOT NULL,
+    FOREIGN KEY (product_id) REFERENCES Products(product_id),
+    FOREIGN KEY (cashier_id) REFERENCES Cashiers(cashier_id)
+);
+    </pre>
+</body>
+</html>

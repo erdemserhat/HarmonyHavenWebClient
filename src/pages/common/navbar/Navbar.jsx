@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import './Navbar.css'
-import icoImage from '../../assets/ico.png'
-import googlePlayIcon from '../../assets/google-play.svg'
+import icoImage from '../../../assets/ico.png'
+import googlePlayIcon from '../../../assets/google-play.svg'
 
 export function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -53,7 +53,7 @@ export function Navbar() {
                             className="store-button"
                         >
                             <img 
-                                src={googlePlayIcon} 
+                                src={googlePlayIcon}
                                 alt="Google Play" 
                                 className="store-icon"
                             />

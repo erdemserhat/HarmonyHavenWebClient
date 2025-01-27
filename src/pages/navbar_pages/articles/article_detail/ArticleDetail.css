@@ -115,6 +115,7 @@
 
 .markdown-content p {
   margin-bottom: 1.5rem;
+  font-size: 1.1rem;
   color: #4a5568;
   overflow: visible;
   text-overflow: unset;
@@ -305,7 +306,7 @@
   }
 
   .markdown-content p {
-    font-size: 1rem;
+    font-size: 1.15rem;
     line-height: 1.7;
   }
 }

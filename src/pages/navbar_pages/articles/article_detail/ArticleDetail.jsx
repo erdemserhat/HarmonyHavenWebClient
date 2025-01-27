@@ -5,7 +5,8 @@ import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import './ArticleDetail.css';
 import { useState, useEffect } from 'react';
-import axios from '../../services/api/axios.js';
+import axios from '../../../../services/api/axios.js';
+import {LoadingSpinner} from "@/pages/common/loading_spinner/LoadingSpinner.jsx";
 
 export function ArticleDetail() {
     const { id, slug } = useParams();
@@ -50,7 +51,7 @@ export function ArticleDetail() {
         fetchArticle();
     }, [id, slug, navigate]);
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <LoadingSpinner/>;
     if (error) {
         return (
             <div className="error-container">
