@@ -11,6 +11,7 @@ import { ArticlesProvider } from './context/ArticlesContext'
 import { LoadingProvider } from './context/LoadingContext'
 import { QuotesProvider } from './context/QuotesContext'
 import './App.css'
+import {ArticleWriting} from "@/pages/navbar_pages/article-writing/ArticleWriting.jsx";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
               <div className="content-container">
                 <Routes>
                   <Route path="/" element={<Home />} />
+                  <Route path="/write-article" element={<ArticleWriting />} />
                   <Route path="/articles" element={<Articles />} />
                   <Route path="/articles/:id/:slug?" element={<ArticleDetail />} />
                   <Route path="/quotes" element={<NotFound />} />

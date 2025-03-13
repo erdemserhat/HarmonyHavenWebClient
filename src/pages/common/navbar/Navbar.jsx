@@ -11,19 +11,7 @@ export function Navbar() {
         setIsMenuOpen(!isMenuOpen)
     }
 
-    const shareUrl = () => {
-        if (navigator.share) {
-            navigator.share({
-                title: document.title,
-                text: document.querySelector('meta[name="description"]')?.content,
-                url: window.location.href
-            });
-        } else {
-            // Kopyala butonu için fallback
-            navigator.clipboard.writeText(window.location.href);
-            // Kullanıcıya bildirim göster
-        }
-    };
+
 
     return (
         <nav className="navbar">
@@ -38,6 +26,10 @@ export function Navbar() {
                 </button>
 
                 <div className={`navbar-links ${isMenuOpen ? 'open' : ''}`}>
+                    <Link to="/write-article" className="nav-link" onClick={() => setIsMenuOpen(false)}>
+                        Makale Yaz
+                    </Link>
+
                     <Link to="/" className="nav-link" onClick={() => setIsMenuOpen(false)}>
                         Ana Sayfa
                     </Link>
@@ -60,6 +52,8 @@ export function Navbar() {
                             <span>Google Play'de İndir</span>
                         </a>
                     </div>
+
+
                 </div>
 
             </div>
