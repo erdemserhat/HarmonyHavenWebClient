@@ -5,31 +5,10 @@
 }
 
 .article-detail-container {
-  max-width: 800px;
+  max-width: 750px;
   margin: 0 auto;
 }
 
-.back-button {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  background: none;
-  border: none;
-  color: #666;
-  font-size: 1rem;
-  padding: 0.5rem 0;
-  margin-bottom: 2rem;
-  cursor: pointer;
-  transition: color 0.2s;
-}
-
-.back-button:hover {
-  color: #000;
-}
-
-.back-arrow {
-  font-size: 1.2rem;
-}
 
 .article-header {
   margin-bottom: 2rem;
@@ -39,7 +18,7 @@
 .article-title {
   font-size: 2.5rem;
   color: #333;
-  margin-bottom: 1rem;
+  margin-bottom: 0.1rem;
   line-height: 1.2;
   text-align: left;
 }
@@ -69,54 +48,51 @@
 .article-cover img {
   width: 100%;
   height: auto;
-  object-fit: cover;
+  object-fit: fill;
   aspect-ratio: 16/9;
 }
 
 .article-content {
-  max-width: 800px;
+  font-family: "Charter", "Georgia", serif;
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 2rem;
   text-align: left;
 }
-
 .markdown-content {
-  color: #2d3748;
-  line-height: 1.8;
-  font-size: 1.1rem;
-  white-space: pre-wrap;
-  word-break: break-word;
+  color: #000000;
+  line-height: 1;
   overflow: visible;
   text-overflow: unset;
   text-align: left;
 }
 
 .markdown-content h1 {
-  font-size: 2.5rem;
-  font-weight: 800;
-  margin: 2rem 0 1.5rem;
+  font-size: 2rem;
+  font-weight: 750;
+  margin: 1rem 0 1.5rem;
   color: #1a202c;
   letter-spacing: -0.5px;
 }
 
 .markdown-content h2 {
   font-size: 2rem;
-  font-weight: 700;
+  font-weight: 750;
   margin: 2rem 0 1.25rem;
   color: #2d3748;
 }
 
 .markdown-content h3 {
   font-size: 1.5rem;
-  font-weight: 600;
+  font-weight: 750;
+
   margin: 1.75rem 0 1rem;
   color: #2d3748;
 }
 
 .markdown-content p {
   margin-bottom: 1.5rem;
-  font-size: 1.1rem;
-  color: #4a5568;
+  font-size: 1.2rem;
+  color: #000000;
   overflow: visible;
   text-overflow: unset;
   white-space: pre-wrap;
@@ -126,10 +102,12 @@
 }
 
 .markdown-content img {
-  max-width: 100%;
+  display: block;
+  align-self: center;
+  max-width: 95%;
   height: auto;
   border-radius: 8px;
-  margin: 2rem 0;
+  margin: 1.5rem auto; /* Üst-alt 1.5rem, sağ-sol auto (ortalar) */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -148,13 +126,14 @@
 .markdown-content ul,
 .markdown-content ol {
   margin: 1rem 0;
+  font-size: 1.2rem;
   padding-left: 1.5rem;
 }
 
 .markdown-content li {
   margin-bottom: 0.25rem;
   line-height: 1.5;
-  color: #4a5568;
+  color: #232222;
 }
 
 .markdown-content li p {
@@ -185,15 +164,18 @@
 
 .markdown-content ul ul {
   list-style: circle;
+
   margin: 0.25rem 0 0.25rem 1rem;
 }
 
 .markdown-content ul ul ul {
   list-style: square;
+
 }
 
 .markdown-content ol {
   list-style: decimal;
+
 }
 
 .markdown-content ol ol {
@@ -203,17 +185,20 @@
 
 .markdown-content ol ol ol {
   list-style: lower-roman;
+
 }
 
 .markdown-content pre {
   margin: 1.5rem 0;
   border-radius: 8px;
+
   overflow: hidden;
 }
 
 .markdown-content pre > div {
   margin: 0 !important;
   padding: 1rem !important;
+
   background: #1E1E1E !important; /* VSCode dark tema rengi */
   border-radius: 8px !important;
 }
@@ -222,14 +207,15 @@
 .markdown-content code:not([class*="language-"]) {
   background: #f1f5f9;
   color: #2d3748;
-  padding: 0.2rem 0.4rem;
   border-radius: 4px;
+
   font-family: 'Fira Code', monospace;
   font-size: 0.9em;
 }
 
 .markdown-content hr {
   border: none;
+
   border-top: 2px solid #e2e8f0;
   margin: 3rem 0;
 }
@@ -250,7 +236,13 @@
 
 .markdown-content th {
   background: #f7fafc;
+
   font-weight: 600;
+}
+
+.back-button-container {
+  display: flex;
+  justify-content: flex-start; /* Butonu en sağa iter */
 }
 
 /* Responsive adjustments */
@@ -309,6 +301,9 @@
     font-size: 1.15rem;
     line-height: 1.7;
   }
+
+
+
 }
 
 /* Çok küçük ekranlar için ek düzenlemeler */

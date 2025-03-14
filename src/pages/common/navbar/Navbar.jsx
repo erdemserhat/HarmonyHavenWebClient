@@ -26,9 +26,17 @@ export function Navbar() {
                 </button>
 
                 <div className={`navbar-links ${isMenuOpen ? 'open' : ''}`}>
-                    <Link to="/write-article" className="nav-link" onClick={() => setIsMenuOpen(false)}>
+                    <Link to="/presentation" className="nav-link" onClick={() => setIsMenuOpen(false)}>
+                        Projeyi Keşfet
+                    </Link>
+                    {/*
+                     <Link to="/write-article" className="nav-link" onClick={() => setIsMenuOpen(false)}>
                         Makale Yaz
                     </Link>
+
+                    */
+                    }
+
 
                     <Link to="/" className="nav-link" onClick={() => setIsMenuOpen(false)}>
                         Ana Sayfa
@@ -38,15 +46,15 @@ export function Navbar() {
                     </Link>
 
                     <div className="store-button-container">
-                        <a 
+                        <a
                             href="https://play.google.com/store/apps/details?id=com.erdemserhat.harmonyhaven"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="store-button"
                         >
-                            <img 
+                            <img
                                 src={googlePlayIcon}
-                                alt="Google Play" 
+                                alt="Google Play"
                                 className="store-icon"
                             />
                             <span>Google Play'de İndir</span>

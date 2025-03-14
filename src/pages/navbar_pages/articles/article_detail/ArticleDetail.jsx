@@ -99,9 +99,11 @@ export function ArticleDetail() {
             </Helmet>
 
             <div className="article-detail-container">
-                <button className="back-button" onClick={() => navigate(-1)}>
-                    <span className="back-arrow">←</span> Geri
-                </button>
+                <div className="back-button-container">
+                    <button className="back-button" onClick={() => navigate(-1)}>
+                        <span className="back-arrow">←</span> Geri
+                    </button>
+                </div>
 
                 {article && (
                     <>
@@ -128,7 +130,7 @@ export function ArticleDetail() {
 
                         <div className="article-content">
                             <ReactMarkdown
-                                className="markdown-content"
+                                className="markdown-content "
                                 components={{
                                     code({node, inline, className, children, ...props}) {
                                         const match = /language-(\w+)/.exec(className || '')

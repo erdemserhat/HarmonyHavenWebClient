@@ -12,6 +12,7 @@ import { LoadingProvider } from './context/LoadingContext'
 import { QuotesProvider } from './context/QuotesContext'
 import './App.css'
 import {ArticleWriting} from "@/pages/navbar_pages/article-writing/ArticleWriting.jsx";
+import {PresentationPage} from "@/pages/presentation_page/PresentationPage.jsx";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
                   <Route path="/privacy-policy" element={<PrivacyPolicyHtml />} />
                   <Route path="/privacy-policy-html" element={<PrivacyPolicyHtml />} />
                   <Route path="/account-deletion" element={<AccountDeletion />} />
+                  <Route path="/presentation" element={<PresentationPage />} />
                   <Route path="/privacy-policy-encryptext" element={<PrivacyPolicyEncrypted />} />
                   <Route path="/404" element={<NotFound />} />
                   <Route path="*" element={<Navigate to="/404" replace />} />
