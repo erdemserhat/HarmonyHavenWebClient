@@ -1,55 +1,186 @@
-/* Container for the entire presentation */
+/* Container for the entire presentation page */
+.presentation-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #f6f9fc 0%, #eef2f7 100%);
+    padding: 40px 20px;
+    color: #2d3748;
+}
+
+.page-header {
+    text-align: center;
+    padding: 20px;
+    animation: fadeIn 0.4s ease-in;
+}
+
+.page-title {
+    font-size: 3em;
+    color: #1a202c;
+    margin-bottom: 20px;
+    font-weight: 700;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.page-subtitle {
+    font-size: 1.3em;
+    color: #4a5568;
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* Container for the repository cards */
 .presentation-container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* Creates 3 equal-width columns */
-    gap: 20px; /* Adds space between the cards */
-    justify-items: center; /* Centers the items horizontally */
-    align-items: center; /* Centers the items vertically */
-    flex-wrap: wrap; /* Ensures the items wrap when the container is too small */
-    margin: 0 auto; /* Centers the container itself horizontally */
+    grid-template-columns: repeat(3, 1fr);
+    justify-content: center;
+    align-items: stretch;
+    gap: 30px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 /* Repository card style */
 .repository-card {
     display: flex;
-    flex-direction: column; /* Align items vertically */
-    align-items: center; /* Center all items horizontally */
-    justify-content: center; /* Vertically center the content */
-    background-color: white;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    width: 350px;
-    padding: 20px;
-    margin: 20px;
-    height: 150px; /* Let the height adjust based on the content */
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+    padding: 30px;
+    height: 180px;
+    transition: all 0.4s ease;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-/* Icon and Title (horizontal layout) */
+.repository-card:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+}
+
+.repository-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #3b82f6 0%, #60a5fa 100%);
+    transform: scaleX(0);
+    transition: transform 0.4s ease;
+}
+
+.repository-card:hover::before {
+    transform: scaleX(1);
+}
+
+/* Card header style */
 .card-header {
     display: flex;
     align-items: center;
-    justify-content: center;
-    margin-bottom: 10px; /* Space between header and description */
+    justify-content: flex-start;
+    margin-bottom: 20px;
+    width: 100%;
+    position: relative;
 }
 
 /* Icon style */
 .card-icon {
     width: 50px;
     height: 50px;
-    margin-right: 10px; /* Space between icon and title */
+    margin-right: 15px;
+    object-fit: contain;
+    transition: transform 0.4s ease;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+/* GitHub icon style */
+.github-icon {
+    width: 20px;
+    height: 20px;
+    margin-left: auto;
+    opacity: 0.6;
+    transition: all 0.3s ease;
+    color: #4a5568;
+}
+
+.repository-card:hover .github-icon {
+    opacity: 1;
+    transform: scale(1.1);
+    color: #24292e;
 }
 
 /* Title style */
 .card-title {
-    font-size: 1.2em;
-    font-weight: bold;
-    color: #333;
+    font-size: 1.4em;
+    font-weight: 600;
+    color: #1a202c;
+    margin: 0;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.05);
 }
 
 /* Description style */
 .card-description {
-    font-size: 1em;
-    color: #666;
-    text-align: center; /* Center description text */
-    margin-top: 5px;
+    font-size: 0.95em;
+    color: #4a5568;
+    text-align: center;
+    margin: 0;
+    line-height: 1.6;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+    .presentation-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+        padding: 15px;
+    }
+    
+    .page-title {
+        font-size: 2.5em;
+    }
+}
+
+@media (max-width: 768px) {
+    .presentation-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .repository-card {
+        width: 100%;
+        max-width: 400px;
+        margin: 0 auto;
+        height: auto;
+        min-height: 200px;
+    }
+    
+    .page-title {
+        font-size: 2em;
+    }
+    
+    .page-subtitle {
+        font-size: 1.1em;
+    }
+    
+    .card-title {
+        font-size: 1.3em;
+    }
 }
