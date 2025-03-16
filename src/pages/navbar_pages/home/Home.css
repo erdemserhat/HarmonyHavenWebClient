@@ -362,13 +362,26 @@
     padding: 2rem 1rem;
   }
 
+  .right-content {
+    display: none !important;
+  }
+
+  .phone-frames-container {
+    display: none !important;
+  }
+
   .phone-frame {
-    width: 220px;
-    height: 460px;
+    display: none !important;
   }
 
   .content-grid {
+    grid-template-columns: 1fr !important;
     gap: 1.5rem;
+  }
+
+  .left-content {
+    max-width: 100%;
+    margin: 0 auto;
   }
 
   .home-content h1 {
@@ -422,6 +435,21 @@
 
   .feature-card h3 {
     font-size: 1.3rem;
+  }
+}
+
+/* Ensure phone frames are hidden in mobile */
+@media screen and (max-width: 768px) {
+  .right-content,
+  .phone-frames-container,
+  .phone-frame {
+    display: none !important;
+    visibility: hidden;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+    pointer-events: none;
   }
 }
 

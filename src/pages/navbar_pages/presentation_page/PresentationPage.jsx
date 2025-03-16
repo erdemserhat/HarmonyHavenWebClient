@@ -1,12 +1,12 @@
 import React from "react";
 import "./presentationPage.css";
 import PropTypes from "prop-types";
-import androidIcon from "../../assets/android-icon.webp";
-import appleIcon from "../../assets/apple-icon.png";
-import securityIcon from "../../assets/django-icon.webp";
-import reactIcon from "../../assets/react-logo.png";
-import quarkusIcon from "../../assets/quarkus-logo.png";
-import ktorIcon from "../../assets/ktor-icon.png";
+import androidIcon from "../../../assets/android-icon.webp";
+import appleIcon from "../../../assets/apple-icon.png";
+import securityIcon from "../../../assets/django-icon.webp";
+import reactIcon from "../../../assets/react-logo.png";
+import quarkusIcon from "../../../assets/quarkus-logo.png";
+import ktorIcon from "../../../assets/ktor-icon.png";
 
 // GitHub icon as SVG component for better quality
 const GitHubIcon = () => (
