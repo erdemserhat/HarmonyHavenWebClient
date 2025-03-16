@@ -12,7 +12,7 @@ import { LoadingProvider } from './context/LoadingContext'
 import { QuotesProvider } from './context/QuotesContext'
 import './App.css'
 import {ArticleWriting} from "@/pages/navbar_pages/article-writing/ArticleWriting.jsx";
-import {PresentationPage} from "@/pages/presentation_page/PresentationPage.jsx";
+import {PresentationPage} from "@/pages/navbar_pages/presentation_page/PresentationPage.jsx";
 
 function App() {
   return (
