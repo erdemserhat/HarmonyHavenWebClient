@@ -13,6 +13,7 @@ import { QuotesProvider } from './context/QuotesContext'
 import './App.css'
 import {ArticleWriting} from "@/pages/navbar_pages/article-writing/ArticleWriting.jsx";
 import {PresentationPage} from "@/pages/navbar_pages/presentation_page/PresentationPage.jsx";
+import {LoginRegisterScreen} from "@/pages/login-register/LoginRegisterScreen.jsx";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/write-article" element={<ArticleWriting />} />
+                  <Route path="/login" element={<LoginRegisterScreen />} />
                   <Route path="/articles" element={<Articles />} />
                   <Route path="/articles/:id/:slug?" element={<ArticleDetail />} />
                   <Route path="/quotes" element={<NotFound />} />
