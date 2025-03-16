@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react';
 import axios from '../../../../services/api/axios.js';
 import {LoadingSpinner} from "@/pages/common/loading_spinner/LoadingSpinner.jsx";
 import { CodeBlock } from '../../../../components/CodeBlock';
+import remarkGfm from 'remark-gfm';
 
 export function ArticleDetail() {
     const { id, slug } = useParams();
@@ -132,6 +133,7 @@ export function ArticleDetail() {
                         <div className="article-content">
                             <ReactMarkdown
                                 className="markdown-content"
+                                remarkPlugins={[remarkGfm]}
                                 components={{
                                     code({node, inline, className, children, ...props}) {
                                         const match = /language-(\w+)/.exec(className || '')
@@ -150,6 +152,21 @@ export function ArticleDetail() {
                                             <code className={className} {...props}>
                                                 {children}
                                             </code>
+                                        )
+                                    },
+                                    table({node, ...props}) {
+                                        return (
+                                            <table className="markdown-table" {...props} />
+                                        )
+                                    },
+                                    th({node, ...props}) {
+                                        return (
+                                            <th className="markdown-th" {...props} />
+                                        )
+                                    },
+                                    td({node, ...props}) {
+                                        return (
+                                            <td className="markdown-td" {...props} />
                                         )
                                     }
                                 }}
