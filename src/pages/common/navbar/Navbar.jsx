@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import './Navbar.css'
 import icoImage from '../../../assets/ico.png'
 import googlePlayIcon from '../../../assets/google-play.svg'
+import appleStoreIcon from '../../../assets/app-store.svg'
 
 export function Navbar() {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
@@ -10,8 +11,6 @@ export function Navbar() {
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen)
     }
-
-
 
     return (
         <nav className="navbar">
@@ -45,7 +44,7 @@ export function Navbar() {
                         Makaleler
                     </Link>
 
-                    <div className="store-button-container">
+                    <div className="store-buttons-container">
                         <a
                             href="https://play.google.com/store/apps/details?id=com.erdemserhat.harmonyhaven"
                             target="_blank"
@@ -57,7 +56,19 @@ export function Navbar() {
                                 alt="Google Play"
                                 className="store-icon"
                             />
-                            <span>Google Play'de İndir</span>
+                            <span>Google Play</span>
+                        </a>
+                        <a
+                            href="#"
+                            className="store-button coming-soon"
+                            onClick={(e) => e.preventDefault()}
+                        >
+                            <img
+                                src={appleStoreIcon}
+                                alt="App Store"
+                                className="store-icon"
+                            />
+                            <span>Yakında</span>
                         </a>
                     </div>
 
