@@ -1,91 +1,59 @@
 import '@mdxeditor/editor/style.css'
 import './articleWriting.css'
+import DefaultMD  from "@/pages/navbar_pages/article-writing/DefaultMD.js";
 
 import {
-    MDXEditor,
-    UndoRedo,
-    BoldItalicUnderlineToggles,
-    toolbarPlugin,
-    BlockTypeSelect,
-    ChangeCodeMirrorLanguage,
-    CreateLink,
+    diffSourcePlugin,
+    markdownShortcutPlugin,
+    frontmatterPlugin,
+    headingsPlugin,
+    imagePlugin,
     linkDialogPlugin,
-    InsertCodeBlock,
-    Button,
+    linkPlugin,
+    listsPlugin,
+    quotePlugin,
+    tablePlugin,
+    thematicBreakPlugin,
+    toolbarPlugin,
     codeBlockPlugin,
     codeMirrorPlugin,
-    sandpackPlugin,
-    InsertSandpack,
-    ConditionalContents,
-    ShowSandpackInfo,
-    quotePlugin,
-    Separator,
-    linkPlugin,
-    diffSourcePlugin,
-    DiffSourceToggleWrapper,
-    imagePlugin,
-    InsertImage,
-    tablePlugin,
-    InsertTable,
-    headingsPlugin,
-    ChangeAdmonitionType, markdownShortcutPlugin, CodeToggle, Select, InsertFrontmatter, thematicBreakPlugin
+    KitchenSinkToolbar, MDXEditor
 } from '@mdxeditor/editor'
-import Editor from "react-markdown-editor-lite";
 
 export function ArticleWriting() {
 
 
     return (
-        <MDXEditor className="mdx-editor"
-            onChange={console.log}
-            markdown="hello world"
-            plugins={[
-                // the default code block language to insert when the user clicks the "insert code block" button
-                diffSourcePlugin({diffMarkdown: 'An older version', viewMode: 'rich-text'}),
-                codeBlockPlugin({defaultCodeBlockLanguage: 'js'}),
-                quotePlugin(),
-                headingsPlugin(),
-                linkPlugin(),
-                thematicBreakPlugin(),
-                tablePlugin(),
-                markdownShortcutPlugin(),
-                linkDialogPlugin(),
-                imagePlugin({
-                    imageUploadHandler: () => {
-                        return Promise.resolve('https://picsum.photos/200/300')
-                    },
-                    imageAutocompleteSuggestions: ['https://picsum.photos/200/300', 'https://picsum.photos/200']
-                }),
-
-                codeMirrorPlugin({codeBlockLanguages: {js: 'JavaScript', css: 'CSS', kotlin: 'Kotlin'}, defaultCodeBlockLanguage: 'javascript'}),
-                toolbarPlugin({
-                    toolbarContents: () => (
-                        <>
-                            <DiffSourceToggleWrapper>
-                                <UndoRedo/>
-                                <Separator/>
-                                <BoldItalicUnderlineToggles />
-                                <Separator/>
-                                <CodeToggle/>
-                                <BlockTypeSelect/>
-                                <Separator/>
-                                <InsertImage/>
-                                <Separator/>
-                                <InsertCodeBlock/>
-                                <Separator/>
-                                <InsertTable />
-                                <Separator/>
-                                <CreateLink/>
-                                <BlockTypeSelect/>
-
-                            </DiffSourceToggleWrapper>
-
-                        </>
+        <div className="container">
+            <MDXEditor className="mdx-editor"
+                       onChange={console.log}
+                       markdown= {DefaultMD}
+                       plugins={[
+                           quotePlugin(),
+                           toolbarPlugin({ toolbarContents: () => <KitchenSinkToolbar /> }),
+                           listsPlugin(),
+                           headingsPlugin({ allowedHeadingLevels: [1, 2, 3] }),
+                           linkPlugin(),
+                           linkDialogPlugin(),
+                           imagePlugin({
+                               imageAutocompleteSuggestions: ['https://via.placeholder.com/150', 'https://via.placeholder.com/150'],
+                               imageUploadHandler: async () => Promise.resolve('https://picsum.photos/200/300')
+                           }),
+                           tablePlugin(),
+                           thematicBreakPlugin(),
+                           frontmatterPlugin(),
+                           codeBlockPlugin({ defaultCodeBlockLanguage: '' }),
+                           codeMirrorPlugin({ codeBlockLanguages: { java:'java',js: 'JavaScript', css: 'CSS', txt: 'Plain Text', tsx: 'TypeScript', '': 'Unspecified' }}),
+                           diffSourcePlugin({ viewMode: 'rich-text', diffMarkdown: 'boo' }),
+                           markdownShortcutPlugin()
 
 
-                    )
-                })
-            ]}
-        />
+                       ]}
+            />
+
+        </div>
+
     );
 }
+
+

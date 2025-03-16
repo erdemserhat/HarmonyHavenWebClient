@@ -1,3 +1,122 @@
+/* 🔹 MDX Editor Container */
 .mdx-editor {
+    justify-items: center;
+    justify-self: center;
+    z-index: 2000;
+    width: 100%;
+    max-width: 1200px;
+    min-height: 400px; /* Daha geniş bir düzen sağlamak için */
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
     text-align: left;
+    overflow-y: auto;
+}
+
+.container{
+
+}
+
+/* 🔹 Başlık Stilleri */
+.mdx-editor h1 {
+    font-size: 2.2em;
+    font-weight: bold;
+    color: #2c3e50;
+    margin: 15px 0;
+}
+
+.mdx-editor h2 {
+    font-size: 1.8em;
+    color: #34495e;
+    margin: 12px 0;
+}
+
+.mdx-editor h3 {
+    font-size: 1.5em;
+    color: #555;
+    margin: 10px 0;
+}
+
+/* 🔹 Blockquote (Alıntılar) */
+.mdx-editor blockquote {
+    border-left: 4px solid #007acc; /* Daha belirgin bir renk */
+    padding-left: 15px;
+    color: #333;
+    font-style: italic;
+    margin: 10px 0;
+    background: #f4f4f4; /* Hafif bir gri arka plan */
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+/* 🔹 Blockquote İçindeki Listeler */
+.mdx-editor blockquote ul,
+.mdx-editor blockquote ol {
+    margin-left: 15px;
+    padding-left: 15px;
+}
+
+/* 🔹 Blockquote İçindeki Liste Öğeleri */
+.mdx-editor blockquote li {
+    margin-bottom: 5px;
+}
+
+/* 🔹 Kod Blokları */
+.mdx-editor pre {
+    background: #272822; /* Koyu tema */
+    color: #f8f8f2;
+    padding: 15px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 0.95em;
+}
+
+.mdx-editor code {
+    font-family: 'Fira Code', monospace;
+    font-size: 0.95em;
+    background: #f4f4f4;
+    padding: 2px 6px;
+    border-radius: 5px;
+    color: #c7254e;
+}
+
+/* 🔹 Markdown İçindeki Resimler */
+.mdx-editor img {
+    max-width: 80%; /* Çok büyük olan resimleri küçült */
+    height: auto;
+    display: block;
+    margin: 15px auto; /* Ortalanmış görünüm */
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* 🔹 Listeler */
+.mdx-editor ul,
+.mdx-editor ol {
+    padding-left: 20px;
+    margin: 10px 0;
+}
+
+.mdx-editor li {
+    margin-bottom: 5px;
+}
+
+/* 🔹 Yatay Çizgi */
+.mdx-editor hr {
+    border: none;
+    height: 2px;
+    background: #ccc;
+    margin: 20px 0;
+}
+
+/* 🔹 Duyarlı (Responsive) Tasarım */
+@media (max-width: 768px) {
+    .mdx-editor {
+        max-width: 95%;
+    }
+
+    .mdx-editor img {
+        max-width: 100%;
+    }
 }
