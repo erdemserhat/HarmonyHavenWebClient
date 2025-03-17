@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import './Navbar.css'
 import icoImage from '../../../assets/ico.png'
 
@@ -32,6 +32,9 @@ export function Navbar() {
                     <Link to="/articles" className="nav-link" onClick={() => setIsMenuOpen(false)}>
                         Makaleler
                     </Link>
+                    <NavLink to="/login" className="nav-link login-button" onClick={() => setIsMenuOpen(false)}>
+                        Giriş Yap
+                    </NavLink>
                 </div>
             </div>
         </nav>
