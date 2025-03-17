@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import './Home.css'
 import googlePlayIcon from '../../../assets/google-play.svg'
+import appleStoreIcon from '../../../assets/app-store.svg'
 
 export function Home() {
   return (
@@ -53,23 +54,34 @@ export function Home() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
             >
-              <Link to="/articles" className="cta-button">
-                Makaleleri Keşfet
-              </Link>
-              
-              <a 
-                href="https://play.google.com/store/apps/details?id=com.erdemserhat.harmonyhaven"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="store-button"
-              >
-                <img 
-                  src={googlePlayIcon} 
-                  alt="Google Play" 
-                  className="store-icon" 
-                />
-                <span>Google Play'de İndir</span>
-              </a>
+              <div className="store-buttons">
+                <a 
+                  href="https://play.google.com/store/apps/details?id=com.erdemserhat.harmonyhaven"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="store-button"
+                >
+                  <img 
+                    src={googlePlayIcon} 
+                    alt="Google Play" 
+                    className="store-icon" 
+                  />
+                  <span>Google Play'de İndir</span>
+                </a>
+                
+                <a 
+                  href="#" 
+                  className="store-button coming-soon"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  <img 
+                    src={appleStoreIcon} 
+                    alt="App Store" 
+                    className="store-icon" 
+                  />
+                  <span>Yakında</span>
+                </a>
+              </div>
             </motion.div>
           </div>
 
