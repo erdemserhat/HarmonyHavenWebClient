@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import './login-register-screen.css';
 import { FcGoogle } from 'react-icons/fc';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
+import {authService} from "@/services/api/auth.service.js";
 
 const promotionalImages = [
     'http://harmonyhaven.erdemserhat.com/sources/ps/1.jpg',
@@ -41,7 +42,7 @@ export function LoginRegisterScreen() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Login/Register logic will be implemented later
+
     };
 
     return (

@@ -3,11 +3,10 @@ import axios from './axios'
 export const authService = {
   login: async (credentials) => {
     try {
-      console.log("Gönderilen body:", credentials); // İstekten önce body'yi yazdır
-      const response = await axios.post('/api/v1/user/authenticate', credentials);
+      console.log("Gönderilen body:", credentials);
+      const response = await axios.post('/user/authenticate', credentials);
       console.log("Sunucudan gelen yanıt:", response);
 
-      // Check both validation results and authentication status
       if (response.status === 200) {
         console.log("Giriş başarılı.");
         return {
@@ -15,7 +14,6 @@ export const authService = {
           jwt: response.data.jwt,
         };
       } else {
-        // Handle validation errors
         const errorMessage =
             response.data.formValidationResult?.errorMessage ||
             response.data.credentialsValidationResult?.errorMessage ||
@@ -28,33 +26,22 @@ export const authService = {
     }
   },
 
-
   logout: () => {
-    // Set the JWT cookie with an expiration date in the past
     document.cookie = "auth_token=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 UTC; Secure; SameSite=Lax";
-    console.log("User logged out, JWT cookie cleared.");
+    console.log("User logged out, JWT cookie and localStorage cleared.");
   },
 
-
-  isAuthenticated:async () => {
-    // Verify authentication status by making a request
+  isAuthenticated: async () => {
     try {
-      const response = await axios.post('/api/v1/user/authenticate')
+      const response = await axios.get('check-auth-status');
+      console.log(response);
 
-      if (response.status === 200) {
-        // If the server responds with 200, the user is authenticated
-        return true;
-      } else {
-        // If the server responds with an error, the user is not authenticated
-        return false;
-      }
+      return response.status === 200;
     } catch (error) {
       console.error('Error while verifying authentication:', error);
-      return false; // Treat errors as unauthenticated
+      return false;
     }
   },
-
-
 
   register: async (userData) => {
     const response = await fetch('https://harmonyhavenappserver.erdemserhat.com/api/v1/user/register', {

@@ -78,6 +78,36 @@
   background: #1d4ed8;
 }
 
+.nav-link.profile-button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #f8fafc;
+  color: #1e293b;
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border: 1px solid #e2e8f0;
+}
+
+.nav-link.profile-button:hover {
+  background: #f1f5f9;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.nav-link.profile-button svg {
+  width: 20px;
+  height: 20px;
+  color: #64748b;
+}
+
+.nav-link.profile-button.active {
+  background: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
 .menu-button {
   display: none;
   background: none;
@@ -159,6 +189,13 @@
     margin: 0.5rem 0;
     text-align: center;
     width: 100%;
+  }
+
+  .nav-link.profile-button {
+    margin: 0.5rem 0;
+    text-align: center;
+    width: 100%;
+    justify-content: center;
   }
 
   .navbar-brand {
