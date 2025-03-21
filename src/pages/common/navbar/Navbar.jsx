@@ -5,25 +5,42 @@ import './Navbar.css'
 import icoImage from '../../../assets/ico.png'
 
 export function Navbar() {
-    const [isAuthenticated, setIsAuthenticated] = useState(false)
+    const [isAuthenticated, setIsAuthenticated] = useState(null)
     const [isMenuOpen, setIsMenuOpen] = useState(false)
+    const [unreadNotifications, setUnreadNotifications] = useState(0)
 
     useEffect(() => {
+        const checkAuthStatus = async () => {
+            try {
+                const status = await authService.isAuthenticated()
+                setIsAuthenticated(status)
+            } catch (error) {
+                console.error('Auth status check failed:', error)
+                setIsAuthenticated(false)
+            }
+        }
         checkAuthStatus()
     }, [])
 
-    const checkAuthStatus = async () => {
-        try {
-            const status = await authService.isAuthenticated()
-            setIsAuthenticated(status)
-        } catch (error) {
-            console.error('Auth status check failed:', error)
-            setIsAuthenticated(false)
-        }
-    }
-
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen)
+    }
+
+    // Sayfa yüklenirken loading durumu
+    if (isAuthenticated === null) {
+        return (
+            <nav className="navbar">
+                <div className="navbar-container">
+                    <Link to="/" className="navbar-brand">
+                        <img src={icoImage} alt="Harmony Haven Logo" />
+                        <span>Harmony Haven</span>
+                    </Link>
+                    <div className="navbar-links">
+                        <div className="nav-link loading-placeholder"></div>
+                    </div>
+                </div>
+            </nav>
+        )
     }
 
     return (
@@ -48,6 +65,16 @@ export function Navbar() {
                     <Link to="/articles" className="nav-link" onClick={() => setIsMenuOpen(false)}>
                         Makaleler
                     </Link>
+                    {isAuthenticated && (
+                        <NavLink to="/notifications" className="nav-link notification-button" onClick={() => setIsMenuOpen(false)}>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                            </svg>
+                            {unreadNotifications > 0 && (
+                                <span className="notification-badge">{unreadNotifications}</span>
+                            )}
+                        </NavLink>
+                    )}
                     {isAuthenticated ? (
                         <NavLink to="/profile" className="nav-link profile-button" onClick={() => setIsMenuOpen(false)}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">

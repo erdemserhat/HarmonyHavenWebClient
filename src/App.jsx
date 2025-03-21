@@ -14,6 +14,8 @@ import './App.css'
 import {ArticleWriting} from "@/pages/navbar_pages/article-writing/ArticleWriting.jsx";
 import {PresentationPage} from "@/pages/navbar_pages/presentation_page/PresentationPage.jsx";
 import {LoginRegisterScreen} from "@/pages/login-register/LoginRegisterScreen.jsx";
+import {Profile} from "@/pages/navbar_pages/profile/Profile.jsx";
+import {Notifications} from "@/pages/navbar_pages/notifications/Notifications.jsx";
 
 function App() {
   return (
@@ -31,8 +33,8 @@ function App() {
                   <Route path="/articles" element={<Articles />} />
                   <Route path="/articles/:id/:slug?" element={<ArticleDetail />} />
                   <Route path="/quotes" element={<NotFound />} />
-                  <Route path="/notifications" element={<NotFound />} />
-                  <Route path="/profile" element={<NotFound />} />
+                  <Route path="/notifications" element={<Notifications />} />
+                  <Route path="/profile" element={<Profile />} />
                   <Route path="/privacy-policy" element={<PrivacyPolicyHtml />} />
                   <Route path="/privacy-policy-html" element={<PrivacyPolicyHtml />} />
                   <Route path="/account-deletion" element={<AccountDeletion />} />

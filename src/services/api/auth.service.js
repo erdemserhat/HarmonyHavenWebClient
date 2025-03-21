@@ -8,21 +8,13 @@ export const authService = {
       console.log("Sunucudan gelen yanıt:", response);
 
       if (response.status === 200) {
-        console.log("Giriş başarılı.");
-        return {
-          isAuthenticated: true,
-          jwt: response.data.jwt,
-        };
+        return response.data;
       } else {
-        const errorMessage =
-            response.data.formValidationResult?.errorMessage ||
-            response.data.credentialsValidationResult?.errorMessage ||
-            "Authentication failed";
-        throw new Error(errorMessage);
+        throw new Error(response.data?.message || "Authentication failed");
       }
     } catch (error) {
       console.error("Giriş hatası:", error);
-      throw error.response?.data?.message || error.message || "Giriş başarısız oldu.";
+      throw error.response?.data || error.message || "Giriş başarısız oldu.";
     }
   },
 
@@ -44,26 +36,24 @@ export const authService = {
   },
 
   register: async (userData) => {
-    const response = await fetch('https://harmonyhavenappserver.erdemserhat.com/api/v1/user/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
+    try {
+      const response = await axios.post('/user/register', {
         name: userData.name,
         surname: "Default",
         email: userData.email,
         password: userData.password,
         gender: "",
         profilePhotoPath: "-"
-      })
-    })
+      });
 
-    if (!response.ok) {
-      const error = await response.json()
-      throw new Error(error.message || 'Kayıt işlemi başarısız')
+      if (response.status === 200) {
+        return response.data;
+      } else {
+        throw new Error(response.data?.message || 'Kayıt işlemi başarısız');
+      }
+    } catch (error) {
+      console.error("Kayıt hatası:", error);
+      throw error.response?.data || error.message || "Kayıt işlemi başarısız oldu.";
     }
-
-    return response.json()
   }
 }
