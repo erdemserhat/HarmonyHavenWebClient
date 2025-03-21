@@ -1,13 +1,17 @@
-import { useState, useEffect } from 'react'
-import { Link, NavLink } from 'react-router-dom'
+import React, { useState, useEffect, useRef } from 'react'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { authService } from '../../../services/api/auth.service'
 import './Navbar.css'
 import icoImage from '../../../assets/ico.png'
+import Cookies from 'js-cookie'
 
 export function Navbar() {
+    const navigate = useNavigate()
     const [isAuthenticated, setIsAuthenticated] = useState(null)
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [unreadNotifications, setUnreadNotifications] = useState(0)
+    const [profileDropdownOpen, setProfileDropdownOpen] = useState(false)
+    const dropdownRef = useRef(null)
 
     useEffect(() => {
         const checkAuthStatus = async () => {
@@ -20,7 +24,24 @@ export function Navbar() {
             }
         }
         checkAuthStatus()
+
+        // Click dışında dropdown'ı kapatmak için event listener
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setProfileDropdownOpen(false)
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
     }, [])
+
+    const handleLogout = () => {
+        // Sadece dropdown'ı kapatıyoruz, çıkış işlemini kullanıcı yapacak
+        setProfileDropdownOpen(false)
+    }
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen)
@@ -70,18 +91,32 @@ export function Navbar() {
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
                             </svg>
-                            {unreadNotifications > 0 && (
-                                <span className="notification-badge">{unreadNotifications}</span>
-                            )}
                         </NavLink>
                     )}
                     {isAuthenticated ? (
-                        <NavLink to="/profile" className="nav-link profile-button" onClick={() => setIsMenuOpen(false)}>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.964 0a9 9 0 10-11.964 0m11.964 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
-                            </svg>
-                            Profil
-                        </NavLink>
+                        <div className="profile-dropdown-container" ref={dropdownRef}>
+                            <div className="profile-button" onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                                </svg>
+                            </div>
+                            {profileDropdownOpen && (
+                                <div className="profile-dropdown">
+                                    <Link to="/profile" className="dropdown-item">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                                        </svg>
+                                        <span>Profil</span>
+                                    </Link>
+                                    <div className="dropdown-item" onClick={handleLogout}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
+                                        </svg>
+                                        <span>Çıkış Yap</span>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
                     ) : (
                         <NavLink to="/login" className="nav-link login-button" onClick={() => setIsMenuOpen(false)}>
                             Giriş Yap

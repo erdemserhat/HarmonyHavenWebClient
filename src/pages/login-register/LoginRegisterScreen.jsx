@@ -3,6 +3,7 @@ import './login-register-screen.css';
 import { FcGoogle } from 'react-icons/fc';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import {authService} from "@/services/api/auth.service.js";
+import { useNavigate } from 'react-router-dom';
 
 const promotionalImages = [
     'http://harmonyhaven.erdemserhat.com/sources/ps/1.jpg',
@@ -22,6 +23,7 @@ const ERROR_MESSAGES = {
 };
 
 export function LoginRegisterScreen() {
+    const navigate = useNavigate();
     const [isLoginMode, setIsLoginMode] = useState(true);
     const [showPasswords, setShowPasswords] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -130,7 +132,8 @@ export function LoginRegisterScreen() {
                 // Başarılı giriş
                 else if (response.isAuthenticated) {
                     console.log('Giriş başarılı!');
-                    // Başarılı giriş sonrası yönlendirme yapılabilir
+                    navigate('/articles');
+                    window.location.reload();
                 }
             } else {
                 const response = await authService.register({
