@@ -3,13 +3,12 @@ import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { authService } from '../../../services/api/auth.service'
 import './Navbar.css'
 import icoImage from '../../../assets/ico.png'
-import Cookies from 'js-cookie'
+import axios from "@/services/api/axios.js"
 
 export function Navbar() {
     const navigate = useNavigate()
     const [isAuthenticated, setIsAuthenticated] = useState(null)
     const [isMenuOpen, setIsMenuOpen] = useState(false)
-    const [unreadNotifications, setUnreadNotifications] = useState(0)
     const [profileDropdownOpen, setProfileDropdownOpen] = useState(false)
     const dropdownRef = useRef(null)
 
@@ -38,14 +37,27 @@ export function Navbar() {
         }
     }, [])
 
+
+    const logout = async () => {
+        try {
+            await axios.post('/user/logout', {}, { withCredentials: true });
+            window.location.reload()
+            window.location.href = '/login'; // Kullanıcıyı giriş sayfasına yönlendir
+        } catch (error) {
+            console.error('Logout failed:', error);
+        }
+    };
+
     const handleLogout = () => {
         // Sadece dropdown'ı kapatıyoruz, çıkış işlemini kullanıcı yapacak
+        logout()
         setProfileDropdownOpen(false)
     }
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen)
     }
+
 
     // Sayfa yüklenirken loading durumu
     if (isAuthenticated === null) {

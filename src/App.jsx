@@ -16,10 +16,13 @@ import {PresentationPage} from "@/pages/navbar_pages/presentation_page/Presentat
 import {LoginRegisterScreen} from "@/pages/login-register/LoginRegisterScreen.jsx";
 import {Profile} from "@/pages/navbar_pages/profile/Profile.jsx";
 import {Notifications} from "@/pages/navbar_pages/notifications/Notifications.jsx";
+import {GoogleOAuthProvider} from "@react-oauth/google";
+const clientId = '456625388455-4cd1ujegfqut63lktptd1dm9ulpvfa8l.apps.googleusercontent.com'; // Buraya kendi Client ID'ni yaz
 
 function App() {
   return (
-    <Router>
+      <GoogleOAuthProvider clientId={clientId}>
+      <Router>
       <LoadingProvider>
         <ArticlesProvider>
           <QuotesProvider>
@@ -49,6 +52,7 @@ function App() {
         </ArticlesProvider>
       </LoadingProvider>
     </Router>
+      </GoogleOAuthProvider>
   )
 }
 

@@ -46,7 +46,8 @@ export const authService = {
         profilePhotoPath: "-"
       });
 
-      if (response.status === 200) {
+      if (response.status === 201) {
+        console.log("created");
         return response.data;
       } else {
         throw new Error(response.data?.message || 'Kayıt işlemi başarısız');

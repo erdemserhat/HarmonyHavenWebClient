@@ -1,9 +1,13 @@
 import { useState, useEffect } from 'react';
 import './login-register-screen.css';
 import { FcGoogle } from 'react-icons/fc';
+import { GoogleLogin } from '@react-oauth/google';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import {authService} from "@/services/api/auth.service.js";
 import { useNavigate } from 'react-router-dom';
+import { jwtDecode } from "jwt-decode";
+import {googleService} from "@/services/api/google.service.js";
+
 
 const promotionalImages = [
     'http://harmonyhaven.erdemserhat.com/sources/ps/1.jpg',
@@ -132,7 +136,7 @@ export function LoginRegisterScreen() {
                 // Başarılı giriş
                 else if (response.isAuthenticated) {
                     console.log('Giriş başarılı!');
-                    navigate('/articles');
+                    navigate('/');
                     window.location.reload();
                 }
             } else {
@@ -149,7 +153,8 @@ export function LoginRegisterScreen() {
                     // Başarılı kayıt işlemleri
                     console.log('Kayıt başarılı!');
                     // Kayıt başarılı olduğunda giriş moduna geç
-                    setIsLoginMode(true);
+                    navigate('/');
+                    window.location.reload();
                     setFormData({
                         name: '',
                         email: '',
@@ -171,6 +176,30 @@ export function LoginRegisterScreen() {
             setIsLoading(false);
         }
     };
+
+    const handleSuccess = async (response) => {
+        try {
+            // Google tarafından dönen JWT token
+            const credential = response.credential;
+
+            console.log('Google User:', credential);
+
+            // Login işleminin bitmesini bekle
+            await googleService.login(credential);
+
+            // Login işlemi başarılı olduysa sayfayı yenile
+            navigate('/articles');
+            window.location.reload();
+        } catch (error) {
+            console.error("Login failed:", error);
+        }
+    };
+
+
+    const handleError = () => {
+        console.log('Google Login Failed');
+    };
+
 
     return (
         <div className="auth-container">
@@ -226,11 +255,10 @@ export function LoginRegisterScreen() {
 
                     <form onSubmit={handleSubmit} className="auth-form">
                         {error && <div className="error-message">{error}</div>}
-                        
-                        <button type="button" className="google-auth-button">
-                            <FcGoogle className="google-icon" />
-                            Google ile {isLoginMode ? 'Giriş Yap' : 'Kayıt Ol'}
-                        </button>
+
+                        <div style={{ justifyContent: 'center', justifyItems: 'center' }}>
+                            <GoogleLogin onSuccess={handleSuccess} onError={handleError} />
+                        </div>
 
                         <div className="divider">
                             <span>veya</span>
