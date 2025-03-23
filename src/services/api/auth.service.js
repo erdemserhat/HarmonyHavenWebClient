@@ -25,7 +25,7 @@ export const authService = {
 
   isAuthenticated: async () => {
     try {
-      const response = await axios.get('check-auth-status');
+      const response = await axios.get('/check-auth-status');
       console.log(response);
 
       return response.status === 200;

@@ -7,6 +7,7 @@ import {authService} from "@/services/api/auth.service.js";
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
 import {googleService} from "@/services/api/google.service.js";
+import {useAuthChecker} from "@/context/AuthContext.jsx";
 
 
 const promotionalImages = [
@@ -38,7 +39,9 @@ export function LoginRegisterScreen() {
         confirmPassword: ''
     });
     const [error, setError] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false)
+    const { isAuthenticated, setIsAuthenticated } = useAuthChecker();
+
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -136,8 +139,8 @@ export function LoginRegisterScreen() {
                 // Başarılı giriş
                 else if (response.isAuthenticated) {
                     console.log('Giriş başarılı!');
-                    navigate('/');
-                    window.location.reload();
+                    navigate('/articles');
+                    setIsAuthenticated(true);
                 }
             } else {
                 const response = await authService.register({
@@ -153,8 +156,8 @@ export function LoginRegisterScreen() {
                     // Başarılı kayıt işlemleri
                     console.log('Kayıt başarılı!');
                     // Kayıt başarılı olduğunda giriş moduna geç
-                    navigate('/');
-                    window.location.reload();
+                    navigate('/articles');
+                    setIsAuthenticated(true);
                     setFormData({
                         name: '',
                         email: '',
@@ -189,7 +192,7 @@ export function LoginRegisterScreen() {
 
             // Login işlemi başarılı olduysa sayfayı yenile
             navigate('/articles');
-            window.location.reload();
+            setIsAuthenticated(true);
         } catch (error) {
             console.error("Login failed:", error);
         }

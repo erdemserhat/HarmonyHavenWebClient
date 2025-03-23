@@ -4,26 +4,16 @@ import { authService } from '../../../services/api/auth.service'
 import './Navbar.css'
 import icoImage from '../../../assets/ico.png'
 import axios from "@/services/api/axios.js"
+import {useAuthChecker} from "@/context/AuthContext.jsx";
 
 export function Navbar() {
     const navigate = useNavigate()
-    const [isAuthenticated, setIsAuthenticated] = useState(null)
+    const { isAuthenticated, setIsAuthenticated } = useAuthChecker();
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [profileDropdownOpen, setProfileDropdownOpen] = useState(false)
     const dropdownRef = useRef(null)
 
     useEffect(() => {
-        const checkAuthStatus = async () => {
-            try {
-                const status = await authService.isAuthenticated()
-                setIsAuthenticated(status)
-            } catch (error) {
-                console.error('Auth status check failed:', error)
-                setIsAuthenticated(false)
-            }
-        }
-        checkAuthStatus()
-
         // Click dışında dropdown'ı kapatmak için event listener
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -41,7 +31,7 @@ export function Navbar() {
     const logout = async () => {
         try {
             await axios.post('/user/logout', {}, { withCredentials: true });
-            window.location.reload()
+            setIsAuthenticated(false); // Global state'i güncelle
             window.location.href = '/login'; // Kullanıcıyı giriş sayfasına yönlendir
         } catch (error) {
             console.error('Logout failed:', error);
