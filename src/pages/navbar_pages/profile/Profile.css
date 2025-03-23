@@ -1,5 +1,5 @@
 .profile-container {
-    max-width: 800px;
+    max-width: 900px;
     margin: 2rem auto;
     padding: 0 1rem;
 }
@@ -8,84 +8,139 @@
     display: flex;
     align-items: center;
     gap: 2rem;
-    margin-bottom: 2rem;
-    padding: 2rem;
-    background-color: white;
-    border-radius: 1rem;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2.5rem;
 }
 
 .profile-avatar {
     width: 120px;
     height: 120px;
-    background-color: #f3f4f6;
     border-radius: 50%;
+    background-color: #f0f4f8;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #6b7280;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: 3px solid #ffffff;
+    position: fixed;
+}
+
+.profile-avatar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 50%;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+    pointer-events: none;
 }
 
 .profile-avatar svg {
-    width: 60px;
-    height: 60px;
+    width: 70px;
+    height: 70px;
+    color: #64748b;
+}
+
+.profile-photo {
+    object-fit: cover;
+    z-index: 10;
+    background-color: #0068ca;
+    width: 100%;
+    height: 100%;
+    object-position: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.profile-initials {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-weight: 600;
+    color: #3b82f6;
+    background: linear-gradient(135deg, #e0f2fe, #dbeafe);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.profile-info {
+    flex: 1;
 }
 
 .profile-info h1 {
     font-size: 1.875rem;
     font-weight: 600;
-    color: #1f2937;
+    color: #1e293b;
     margin-bottom: 0.5rem;
 }
 
 .profile-email {
-    color: #6b7280;
-    font-size: 1rem;
+    color: #64748b;
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+}
+
+.profile-id {
+    color: #94a3b8;
+    font-size: 0.875rem;
 }
 
 .profile-content {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: 2rem;
 }
 
 .profile-section {
     background-color: white;
     border-radius: 1rem;
-    padding: 2rem;
+    padding: 1.5rem;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .profile-section h2 {
     font-size: 1.25rem;
     font-weight: 600;
-    color: #1f2937;
+    color: #1e293b;
     margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #f1f5f9;
 }
 
 .profile-details {
-    display: grid;
-    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
 }
 
 .detail-item {
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: 0.5rem;
 }
 
 .detail-item label {
     font-size: 0.875rem;
-    color: #6b7280;
+    font-weight: 500;
+    color: #64748b;
 }
 
 .detail-item span {
     font-size: 1rem;
-    color: #1f2937;
+    color: #1e293b;
 }
 
 .profile-stats {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 1.5rem;
 }
 
 .stat-item {
@@ -93,23 +148,21 @@
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-    padding: 1rem;
-    background-color: #f9fafb;
-    border-radius: 0.5rem;
 }
 
 .stat-value {
     font-size: 1.5rem;
     font-weight: 600;
-    color: #1f2937;
+    color: #0f172a;
 }
 
 .stat-label {
     font-size: 0.875rem;
-    color: #6b7280;
+    color: #64748b;
 }
 
-.profile-loading {
+.profile-loading,
+.profile-error {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -127,15 +180,6 @@
     animation: spin 1s linear infinite;
 }
 
-.profile-error {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 400px;
-    color: #ef4444;
-    font-size: 1.125rem;
-}
-
 @keyframes spin {
     to {
         transform: rotate(360deg);
@@ -146,24 +190,22 @@
     .profile-header {
         flex-direction: column;
         text-align: center;
-        padding: 1.5rem;
+        gap: 1.5rem;
     }
 
     .profile-avatar {
-        width: 100px;
-        height: 100px;
+        margin: 0 auto;
     }
 
-    .profile-avatar svg {
-        width: 50px;
-        height: 50px;
+    .profile-info h1 {
+        font-size: 1.5rem;
     }
 
-    .profile-section {
-        padding: 1.5rem;
+    .profile-email {
+        font-size: 1rem;
     }
 
     .profile-stats {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(3, 1fr);
     }
 } 

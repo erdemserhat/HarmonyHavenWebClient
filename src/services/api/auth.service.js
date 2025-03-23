@@ -35,6 +35,20 @@ export const authService = {
     }
   },
 
+  getUserInformation: async () => {
+    try {
+      const response = await axios.get('/user/get-information');
+      if (response.status === 200) {
+        return response.data;
+      } else {
+        throw new Error(response.data?.message || "Kullanıcı bilgileri alınamadı");
+      }
+    } catch (error) {
+      console.error("Kullanıcı bilgileri hatası:", error);
+      throw error.response?.data || error.message || "Kullanıcı bilgileri alınamadı";
+    }
+  },
+
   register: async (userData) => {
     try {
       const response = await axios.post('/user/register', {

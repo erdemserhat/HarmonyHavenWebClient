@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Notifications.css';
 import { notificationService } from "@/services/api/notification.service.js";
+import {LoadingSpinner} from "@/pages/common/loading_spinner/LoadingSpinner.jsx";
 
 export function Notifications() {
     const [notifications, setNotifications] = useState([]);
