@@ -31,8 +31,8 @@ export function Navbar() {
     const logout = async () => {
         try {
             await axios.post('/user/logout', {}, { withCredentials: true });
+            navigate('/')
             setIsAuthenticated(false); // Global state'i güncelle
-            window.location.href = '/login'; // Kullanıcıyı giriş sayfasına yönlendir
         } catch (error) {
             console.error('Logout failed:', error);
         }
