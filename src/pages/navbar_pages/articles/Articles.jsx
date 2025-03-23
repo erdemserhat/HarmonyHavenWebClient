@@ -31,24 +31,32 @@ export function Articles() {
   const scrollContainerRef = useRef(null)
 
   useEffect(() => {
-    setIsLoading(true)
-    fetchArticles().finally(() => {
+    // Sadece makaleler yüklenmemişse fetchArticles'ı çağır
+    if (!isLoaded) {
+      setIsLoading(true)
+      fetchArticles().finally(() => {
+        setIsLoading(false)
+      })
+    } else {
+      // Makaleler zaten yüklenmişse, sadece filtreleme işlemini yap
+      setFilteredArticles(articles)
       setIsLoading(false)
-    })
+    }
   }, [])
 
   useEffect(() => {
-    if (!isLoaded) {
-      fetchArticles()
-    } else {
-      setIsFiltering(true)
-      const timer = setTimeout(() => {
-        filterArticles()
-        setIsFiltering(false)
-      }, 300)
-      
-      return () => clearTimeout(timer)
-    }
+    // Eğer makaleler yüklenmemişse hiçbir şey yapma
+    if (!isLoaded) return
+
+    // Filtre değiştiğinde sadece filtreleme işlemi yap
+    setIsFiltering(true)
+    const timer = setTimeout(() => {
+      filterArticles()
+      setIsFiltering(false)
+    }, 300)
+    
+    return () => clearTimeout(timer)
+    
   }, [isLoaded, selectedCategory, searchTerm])
 
   const filterArticles = () => {
@@ -99,6 +107,7 @@ export function Articles() {
         slug: article.slug || 'no-slug' // Eğer slug yoksa fallback değer
       }))
       updateArticles(articlesWithSlugs)
+      setFilteredArticles(articlesWithSlugs) // Yüklenen makaleleri direkt olarak filtrelenmiş makalelere atıyoruz
     } catch (err) {
       setError('Makaleler yüklenirken bir hata oluştu')
       console.error('Error fetching articles:', err)
