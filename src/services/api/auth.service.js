@@ -57,7 +57,7 @@ export const authService = {
         email: userData.email,
         password: userData.password,
         gender: "",
-        profilePhotoPath: "-"
+        profilePhotoPath: ""
       });
 
       if (response.status === 201) {
