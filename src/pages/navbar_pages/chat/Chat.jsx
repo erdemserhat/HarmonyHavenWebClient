@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from '@/services/api/axios';
 import ReactMarkdown from 'react-markdown';
+import { IoPaperPlane } from 'react-icons/io5';
 import './Chat.css';
 
 export function Chat() {
@@ -8,6 +9,15 @@ export function Chat() {
     const [inputMessage, setInputMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const messagesEndRef = useRef(null);
+
+    useEffect(() => {
+        // İlk açılışta karşılama mesajı
+        const welcomeMessage = {
+            text: `Merhaba! Ben Harmony Haven AI. Size nasıl yardımcı olabilirim? Kişisel gelişiminiz ve ilhamınız için buradayım.`,
+            isUser: false
+        };
+        setMessages([welcomeMessage]);
+    }, []);
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -48,8 +58,8 @@ export function Chat() {
         <div className="chat-page">
             <div className="chat-container">
                 <div className="chat-header">
-                    <h1>AI Chat</h1>
-                    <p>Yapay zeka asistanı ile sohbet edin</p>
+                    <h1>Harmony Haven AI</h1>
+                    <p>Kişisel gelişim ve ilham asistanınız</p>
                 </div>
                 
                 <div className="chat-messages">
@@ -112,7 +122,7 @@ export function Chat() {
                         disabled={isLoading || !inputMessage.trim()}
                         className="send-button"
                     >
-                        Gönder
+                        <IoPaperPlane />
                     </button>
                 </form>
             </div>
