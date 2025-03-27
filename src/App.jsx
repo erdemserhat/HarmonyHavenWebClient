@@ -18,6 +18,7 @@ import {Profile} from "@/pages/navbar_pages/profile/Profile.jsx";
 import {Notifications} from "@/pages/navbar_pages/notifications/Notifications.jsx";
 import {GoogleOAuthProvider} from "@react-oauth/google";
 import {AuthProvider} from "@/context/AuthContext.jsx";
+import {Chat} from "@/pages/navbar_pages/chat/Chat.jsx";
 
 const clientId = '456625388455-4cd1ujegfqut63lktptd1dm9ulpvfa8l.apps.googleusercontent.com'; // Buraya kendi Client ID'ni yaz
 
@@ -41,6 +42,7 @@ function App() {
                                             <Route path="/quotes" element={<NotFound/>}/>
                                             <Route path="/notifications" element={<Notifications/>}/>
                                             <Route path="/profile" element={<Profile/>}/>
+                                            <Route path="/chat" element={<Chat/>}/>
                                             <Route path="/privacy-policy" element={<PrivacyPolicyHtml/>}/>
                                             <Route path="/privacy-policy-html" element={<PrivacyPolicyHtml/>}/>
                                             <Route path="/account-deletion" element={<AccountDeletion/>}/>
