@@ -40,9 +40,10 @@ export function Chat() {
 
         try {
             const response = await axios.post('/chat', { text: userMessage });
+            console.log(response);
             
             // AI yanıtını ekle
-            setMessages(prev => [...prev, { text: response.data, isUser: false }]);
+            setMessages(prev => [...prev, { text: response.data.text, isUser: false }]);
         } catch (error) {
             console.error('Chat error:', error);
             setMessages(prev => [...prev, { 
