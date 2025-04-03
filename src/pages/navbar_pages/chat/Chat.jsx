@@ -8,7 +8,9 @@ export function Chat() {
     const [messages, setMessages] = useState([]);
     const [inputMessage, setInputMessage] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [waitingResponse, setWaitingResponse] = useState(false);
     const messagesEndRef = useRef(null);
+    const eventSourceRef = useRef(null);
 
     useEffect(() => {
         // İlk açılışta karşılama mesajı
@@ -17,6 +19,13 @@ export function Chat() {
             isUser: false
         };
         setMessages([welcomeMessage]);
+        
+        // Component unmount olduğunda EventSource'u temizle
+        return () => {
+            if (eventSourceRef.current) {
+                eventSourceRef.current.close();
+            }
+        };
     }, []);
 
     const scrollToBottom = () => {
@@ -34,24 +43,80 @@ export function Chat() {
         const userMessage = inputMessage.trim();
         setInputMessage('');
         setIsLoading(true);
+        setWaitingResponse(true);
 
         // Kullanıcı mesajını ekle
         setMessages(prev => [...prev, { text: userMessage, isUser: true }]);
 
         try {
-            const response = await axios.post('/chat', { text: userMessage });
-            console.log(response);
+            // Önceki EventSource varsa kapat
+            if (eventSourceRef.current) {
+                eventSourceRef.current.close();
+            }
             
-            // AI yanıtını ekle
-            setMessages(prev => [...prev, { text: response.data.text, isUser: false }]);
+            // URL için kullanıcı mesajını encode et
+            const encodedPrompt = encodeURIComponent(userMessage);
+            
+            // AI için boş yanıt mesajı DAHA EKLEME
+            // SSE bağlantısı oluştur
+            const eventSource = new EventSource(`${axios.defaults.baseURL}/chat/${encodedPrompt}`, { 
+                withCredentials: true 
+            });
+            eventSourceRef.current = eventSource;
+            
+            let isFirstMessage = true;
+            
+            // SSE mesajlarını işle
+            eventSource.onmessage = (event) => {
+                const newText = event.data;
+                
+                if (isFirstMessage) {
+                    // İlk mesaj geldiğinde yükleme animasyonunu kaldır ve yeni AI mesajını ekle
+                    setWaitingResponse(false);
+                    setMessages(prev => [...prev, { text: newText, isUser: false }]);
+                    isFirstMessage = false;
+                } else {
+                    // Sonraki mesajlarda mevcut AI yanıtını güncelle
+                    setMessages(prev => {
+                        const newMessages = [...prev];
+                        const lastIndex = newMessages.length - 1;
+                        
+                        // Son mesajın metnine yeni gelen metni ekle
+                        newMessages[lastIndex] = {
+                            ...newMessages[lastIndex],
+                            text: newMessages[lastIndex].text + newText
+                        };
+                        
+                        return newMessages;
+                    });
+                }
+            };
+            
+            // SSE bağlantı hatası
+            eventSource.onerror = (error) => {
+                console.error('SSE bağlantı hatası:', error);
+                eventSource.close();
+                eventSourceRef.current = null;
+                setIsLoading(false);
+                setWaitingResponse(false);
+            };
+            
+            // SSE bağlantısı tamamlandığında
+            eventSource.addEventListener('complete', () => {
+                eventSource.close();
+                eventSourceRef.current = null;
+                setIsLoading(false);
+                setWaitingResponse(false);
+            });
+            
         } catch (error) {
             console.error('Chat error:', error);
             setMessages(prev => [...prev, { 
                 text: 'Üzgünüm, bir hata oluştu. Lütfen tekrar deneyin.', 
                 isUser: false 
             }]);
-        } finally {
             setIsLoading(false);
+            setWaitingResponse(false);
         }
     };
 
@@ -97,7 +162,7 @@ export function Chat() {
                             </div>
                         </div>
                     ))}
-                    {isLoading && (
+                    {waitingResponse && (
                         <div className="message ai-message">
                             <div className="message-content loading">
                                 <span className="dot"></span>
