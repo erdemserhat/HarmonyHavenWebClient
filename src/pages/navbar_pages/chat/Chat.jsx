@@ -141,7 +141,7 @@ export function Chat() {
                                         h1: ({node, ...props}) => <h1 className="markdown-h1" {...props} />,
                                         h2: ({node, ...props}) => <h2 className="markdown-h2" {...props} />,
                                         h3: ({node, ...props}) => <h3 className="markdown-h3" {...props} />,
-                                        ul: ({node, ...props}) => <ul className="markdown-ul" {...props} />,
+                                        ul: ({  node, ...props}) => <ul className="markdown-ul" {...props} />,
                                         ol: ({node, ...props}) => <ol className="markdown-ol" {...props} />,
                                         li: ({node, ...props}) => <li className="markdown-li" {...props} />,
                                         code: ({node, inline, ...props}) => 
