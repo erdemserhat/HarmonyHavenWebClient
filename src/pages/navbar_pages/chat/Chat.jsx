@@ -57,7 +57,6 @@ export function Chat() {
             // URL için kullanıcı mesajını encode et
             const encodedPrompt = encodeURIComponent(userMessage);
             
-            // AI için boş yanıt mesajı DAHA EKLEME
             // SSE bağlantısı oluştur
             const eventSource = new EventSource(`${axios.defaults.baseURL}/chat/${encodedPrompt}`, { 
                 withCredentials: true 
