@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { authService } from '../../../services/api/auth.service'
 import './Navbar.css'
 import icoImage from '../../../assets/ico.png'
@@ -9,10 +9,14 @@ import { FaComments, FaHome, FaSearch, FaNewspaper, FaBell, FaUser } from 'react
 
 export function Navbar() {
     const navigate = useNavigate()
+    const location = useLocation()
     const { isAuthenticated, setIsAuthenticated } = useAuthChecker();
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [profileDropdownOpen, setProfileDropdownOpen] = useState(false)
     const dropdownRef = useRef(null)
+    
+    // Chat sayfasında olup olmadığını kontrol et
+    const isChatPage = location.pathname === '/chat'
 
     useEffect(() => {
         // Click dışında dropdown'ı kapatmak için event listener
@@ -73,7 +77,7 @@ export function Navbar() {
                 <div className="navbar-container">
                     <Link to="/" className="navbar-brand">
                         <img src={icoImage} alt="Harmony Haven Logo" />
-                        <span>Harmony Haven</span>
+                        <span>{isChatPage ? "Harmonia AI" : "Harmony Haven"}</span>
                     </Link>
 
                     <button className="menu-button" onClick={toggleMenu}>

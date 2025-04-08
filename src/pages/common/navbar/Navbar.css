@@ -159,6 +159,19 @@
 }
 
 @media (max-width: 768px) {
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1001;
+  }
+  
+  body {
+    padding-top: 62px; /* Navbar'ın yüksekliği kadar padding ekleyin */
+  }
+
   .menu-button {
     display: block;
   }
