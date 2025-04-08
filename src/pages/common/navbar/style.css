@@ -1,0 +1,323 @@
+/* Temel navbar tasarımı */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    z-index: 1000;
+    height: 60px;
+    transition: width 0.3s ease;
+}
+
+/* Masaüstü (desktop) için navbar ayarları */
+@media (min-width: 769px) {
+    .navbar {
+        height: 100vh;
+        width: 250px;
+        border-right: 1px solid #dbdbdb;
+        box-shadow: none;
+        transition: width 0.3s ease;
+    }
+    
+    /* Collapsed navbar */
+    .navbar.collapsed {
+        width: 70px;
+    }
+    
+    .navbar-container {
+        height: 100%;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 30px 12px;
+    }
+    
+    .navbar-brand {
+        margin-bottom: 30px;
+        width: 100%;
+        justify-content: flex-start;
+        padding-left: 12px;
+    }
+    
+    .navbar-links {
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        width: 100%;
+        height: calc(100vh - 120px);
+        margin-top: 20px;
+        display: flex;
+    }
+    
+    .nav-link {
+        width: 100%;
+        justify-content: flex-start;
+        padding: 12px;
+        margin: 4px 0;
+        border-radius: 8px;
+    }
+    
+    .nav-link:hover {
+        background-color: #f1f1f1;
+    }
+    
+    .nav-icon {
+        margin-right: 16px;
+        font-size: 24px;
+    }
+    
+    /* Collapsed navbar icons */
+    .navbar.collapsed .nav-icon {
+        margin-right: 0;
+    }
+    
+    .nav-link.active {
+        font-weight: bold;
+        background-color: #f1f1f1;
+        color: #000;
+    }
+    
+    .logout-button {
+        margin-top: auto;
+        margin-bottom: 20px;
+    }
+    
+    /* Gizli metni gösteren class */
+    .hidden {
+        display: none;
+    }
+    
+    /* Dar navbar'da merkezi ikonlar */
+    .navbar.collapsed .nav-link {
+        justify-content: center;
+        padding: 12px 0;
+    }
+    
+    /* Toggle butonu */
+    .navbar-toggle-button {
+        position: fixed;
+        top: 125px;
+        left: 250px;
+        transform: translateX(-50%);
+        background-color: white;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid #dbdbdb;
+        cursor: pointer;
+        z-index: 1001;
+        border-radius: 50%;
+        transition: left 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        color: #555;
+        font-size: 12px;
+    }
+    
+    .navbar-toggle-button:hover {
+        color: #007bff;
+        background-color: #f8f9fa;
+        box-shadow: 0 0 8px rgba(0, 0, 0, 0.15);
+    }
+    
+    .navbar-toggle-button.collapsed {
+        left: 70px;
+    }
+    
+    /* Content için margin ayarı */
+    body:not(.navbar-collapsed) .content-container {
+        margin-left: 250px;
+        width: calc(100% - 250px);
+    }
+    
+    body.navbar-collapsed .content-container {
+        margin-left: 70px;
+        width: calc(100% - 70px);
+    }
+}
+
+/* Navbar container */
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    height: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Brand logo styling */
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    color: #333;
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.navbar-brand img {
+    width: 36px;
+    height: 36px;
+    margin-right: 10px;
+}
+
+/* Navbar links section */
+.navbar-links {
+    display: flex;
+    align-items: center;
+}
+
+/* Individual nav links */
+.nav-link {
+    display: flex;
+    align-items: center;
+    color: #333;
+    text-decoration: none;
+    margin-left: 20px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #007bff;
+}
+
+.nav-icon {
+    margin-right: 8px;
+    font-size: 18px;
+}
+
+.nav-link.active {
+    font-weight: bold;
+    color: #007bff;
+}
+
+.logout-button {
+    cursor: pointer;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0;
+    }
+    
+    .navbar-brand {
+        font-size: 18px;
+    }
+    
+    .navbar-brand img {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .navbar-links {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        flex-direction: column;
+        width: 100%;
+        height: 0;
+        background-color: white;
+        overflow: hidden;
+        transition: height 0.3s ease;
+        box-shadow: 0 5px 5px rgba(0, 0, 0, 0.1);
+        align-items: flex-start;
+        z-index: 999;
+    }
+    
+    .navbar-links.open {
+        height: calc(100vh - 60px);
+        padding: 20px 0;
+        overflow-y: auto;
+    }
+    
+    .nav-link {
+        margin: 8px 20px;
+        width: calc(100% - 40px);
+    }
+    
+    .menu-button {
+        display: block;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 10px;
+    }
+    
+    .hamburger {
+        display: block;
+        width: 24px;
+        height: 2px;
+        background-color: #333;
+        position: relative;
+        transition: all 0.3s ease;
+    }
+    
+    .hamburger::before,
+    .hamburger::after {
+        content: '';
+        position: absolute;
+        width: 24px;
+        height: 2px;
+        background-color: #333;
+        transition: all 0.3s ease;
+    }
+    
+    .hamburger::before {
+        transform: translateY(-8px);
+    }
+    
+    .hamburger::after {
+        transform: translateY(8px);
+    }
+    
+    .hamburger.open {
+        background-color: transparent;
+    }
+    
+    .hamburger.open::before {
+        transform: rotate(45deg);
+    }
+    
+    .hamburger.open::after {
+        transform: rotate(-45deg);
+    }
+}
+
+/* Mobile bottom navigation */
+.mobile-bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: white;
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+}
+
+.mobile-nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #333;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+.mobile-nav-icon {
+    font-size: 24px;
+    margin-bottom: 4px;
+}
+
+.mobile-nav-item.active {
+    color: #007bff;
+}

@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { authService } from '../../../services/api/auth.service'
-import './Navbar.css'
+import './style.css'
 import icoImage from '../../../assets/ico.png'
 import axios from "@/services/api/axios.js"
 import {useAuthChecker} from "@/context/AuthContext.jsx";
-import { FaComments, FaHome, FaSearch, FaNewspaper, FaBell, FaUser } from 'react-icons/fa';
+import { FaComments, FaHome, FaSearch, FaNewspaper, FaBell, FaUser, FaPlus, FaBookmark, FaChartBar, FaSignOutAlt, FaCog, FaBars, FaTimes, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 export function Navbar() {
     const navigate = useNavigate()
@@ -13,10 +13,40 @@ export function Navbar() {
     const { isAuthenticated, setIsAuthenticated } = useAuthChecker();
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [profileDropdownOpen, setProfileDropdownOpen] = useState(false)
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+    const [isNavbarCollapsed, setIsNavbarCollapsed] = useState(false);
     const dropdownRef = useRef(null)
     
-    // Chat sayfasında olup olmadığını kontrol et
-    const isChatPage = location.pathname === '/chat'
+    // Ekran boyutunu kontrol et
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMobile(window.innerWidth <= 768);
+            if (window.innerWidth > 768) {
+                setIsMenuOpen(false);
+            }
+        };
+        
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+    
+    // Mevcut sayfayı kontrol et
+    const getPageTitle = () => {
+        const path = location.pathname;
+        
+        if (path === '/chat') return "Harmonia AI";
+        if (path === '/profile') return "Profil";
+        if (path === '/articles') return "Makaleler";
+        if (path.startsWith('/articles/')) return "Makale Detayı";
+        if (path === '/notifications') return "Bildirimler";
+        if (path === '/presentation') return "Projeyi Keşfet";
+        if (path === '/login') return "Giriş Yap";
+        if (path === '/') return "Ana Sayfa";
+        
+        return "Harmony Haven";
+    };
 
     useEffect(() => {
         // Click dışında dropdown'ı kapatmak için event listener
@@ -32,6 +62,26 @@ export function Navbar() {
         }
     }, [])
 
+    // Navbar durumunu localStorage'a kaydet
+    useEffect(() => {
+        if (!isMobile) {
+            localStorage.setItem('navbarCollapsed', isNavbarCollapsed.toString());
+            // Navbar durumunu body class'ına ekle (CSS için)
+            document.body.classList.toggle('navbar-collapsed', isNavbarCollapsed);
+        }
+    }, [isNavbarCollapsed, isMobile]);
+
+    // Sayfa yüklendiğinde önceki durumu kontrol et
+    useEffect(() => {
+        const savedState = localStorage.getItem('navbarCollapsed');
+        if (savedState !== null && !isMobile) {
+            setIsNavbarCollapsed(savedState === 'true');
+        }
+    }, [isMobile]);
+
+    const toggleNavbar = () => {
+        setIsNavbarCollapsed(!isNavbarCollapsed);
+    };
 
     const logout = async () => {
         try {
@@ -44,7 +94,6 @@ export function Navbar() {
     };
 
     const handleLogout = () => {
-        // Sadece dropdown'ı kapatıyoruz, çıkış işlemini kullanıcı yapacak
         logout()
         setProfileDropdownOpen(false)
     }
@@ -53,6 +102,10 @@ export function Navbar() {
         setIsMenuOpen(!isMenuOpen)
     }
 
+    // Aktif menü item kontrolü
+    const isActive = (path) => {
+        return location.pathname === path;
+    };
 
     // Sayfa yüklenirken loading durumu
     if (isAuthenticated === null) {
@@ -73,104 +126,123 @@ export function Navbar() {
 
     return (
         <>
-            <nav className="navbar">
+            <nav className={`navbar ${isNavbarCollapsed ? 'collapsed' : ''}`}>
                 <div className="navbar-container">
+                    {/* Logo & Brand */}
                     <Link to="/" className="navbar-brand">
                         <img src={icoImage} alt="Harmony Haven Logo" />
-                        <span>{isChatPage ? "Harmonia AI" : "Harmony Haven"}</span>
+                        {isMobile ? (
+                            <span>{getPageTitle()}</span>
+                        ) : (
+                            <span className={isNavbarCollapsed ? 'hidden' : ''}>Harmony Haven</span>
+                        )}
                     </Link>
 
-                    <button className="menu-button" onClick={toggleMenu}>
-                        <span className={`hamburger ${isMenuOpen ? 'open' : ''}`}></span>
-                    </button>
+                    {isMobile && (
+                        <button className="menu-button" onClick={toggleMenu}>
+                            <span className={`hamburger ${isMenuOpen ? 'open' : ''}`}></span>
+                        </button>
+                    )}
 
                     <div className={`navbar-links ${isMenuOpen ? 'open' : ''}`}>
-                        <Link to="/presentation" className="nav-link" onClick={() => setIsMenuOpen(false)}>
-                            <FaSearch className="nav-icon" />
-                            Projeyi Keşfet
-                        </Link>
-                        <Link to="/" className="nav-link" onClick={() => setIsMenuOpen(false)}>
+                        {/* Ana Menü Linkleri */}
+                        <Link to="/" className={`nav-link ${isActive('/') ? 'active' : ''}`} onClick={() => setIsMenuOpen(false)}>
                             <FaHome className="nav-icon" />
-                            Ana Sayfa
+                            <span className={isNavbarCollapsed ? 'hidden' : ''}>Ana Sayfa</span>
                         </Link>
-                        <Link to="/articles" className="nav-link" onClick={() => setIsMenuOpen(false)}>
+                        
+                        <Link to="/presentation" className={`nav-link ${isActive('/presentation') ? 'active' : ''}`} onClick={() => setIsMenuOpen(false)}>
+                            <FaSearch className="nav-icon" />
+                            <span className={isNavbarCollapsed ? 'hidden' : ''}>Keşfet</span>
+                        </Link>
+                        
+                        <Link to="/articles" className={`nav-link ${isActive('/articles') ? 'active' : ''}`} onClick={() => setIsMenuOpen(false)}>
                             <FaNewspaper className="nav-icon" />
-                            Makaleler
+                            <span className={isNavbarCollapsed ? 'hidden' : ''}>Makaleler</span>
                         </Link>
+                        
                         {isAuthenticated && (
                             <>
-                                <Link to="/chat" className="nav-link" onClick={() => setIsMenuOpen(false)}>
+                                <Link to="/chat" className={`nav-link ${isActive('/chat') ? 'active' : ''}`} onClick={() => setIsMenuOpen(false)}>
                                     <FaComments className="nav-icon" />
-                                    Chat
+                                    <span className={isNavbarCollapsed ? 'hidden' : ''}>Chat</span>
                                 </Link>
-                                <NavLink to="/notifications" className="nav-link notification-button" onClick={() => setIsMenuOpen(false)}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-                                    </svg>
+                                
+                                <Link to="/write-article" className={`nav-link ${isActive('/write-article') ? 'active' : ''}`} onClick={() => setIsMenuOpen(false)}>
+                                    <FaPlus className="nav-icon" />
+                                    <span className={isNavbarCollapsed ? 'hidden' : ''}>Oluştur</span>
+                                </Link>
+                                
+                                <NavLink to="/notifications" className={`nav-link ${isActive('/notifications') ? 'active' : ''}`} onClick={() => setIsMenuOpen(false)}>
+                                    <FaBell className="nav-icon" />
+                                    <span className={isNavbarCollapsed ? 'hidden' : ''}>Bildirimler</span>
                                 </NavLink>
-                            </>
-                        )}
-                        {isAuthenticated ? (
-                            <div className="profile-dropdown-container" ref={dropdownRef}>
-                                <div className="profile-button" onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                                    </svg>
-                                </div>
-                                {profileDropdownOpen && (
-                                    <div className="profile-dropdown">
-                                        <Link to="/profile" className="dropdown-item">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-                                            </svg>
-                                            <span>Profil</span>
-                                        </Link>
-                                        <div className="dropdown-item" onClick={handleLogout}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15M12 9l-3 3m0 0l3 3m-3-3h12.75" />
-                                            </svg>
-                                            <span>Çıkış Yap</span>
-                                        </div>
+                                
+                                <Link to="/profile" className={`nav-link ${isActive('/profile') ? 'active' : ''}`} onClick={() => setIsMenuOpen(false)}>
+                                    <FaUser className="nav-icon" />
+                                    <span className={isNavbarCollapsed ? 'hidden' : ''}>Profil</span>
+                                </Link>
+                                
+                                {!isMobile && (
+                                    <div className="nav-link logout-button" onClick={handleLogout}>
+                                        <FaSignOutAlt className="nav-icon" />
+                                        <span className={isNavbarCollapsed ? 'hidden' : ''}>Çıkış</span>
                                     </div>
                                 )}
-                            </div>
-                        ) : (
+                            </>
+                        )}
+                        
+                        {!isAuthenticated && (
                             <NavLink to="/login" className="nav-link login-button" onClick={() => setIsMenuOpen(false)}>
-                                Giriş Yap
+                                <FaUser className="nav-icon" />
+                                <span className={isNavbarCollapsed ? 'hidden' : ''}>Giriş Yap</span>
                             </NavLink>
                         )}
                     </div>
                 </div>
             </nav>
 
+            {/* Navbar Kollapsa/Genişletme Butonu (sadece masaüstü) */}
+            {!isMobile && (
+                <button 
+                    className={`navbar-toggle-button ${isNavbarCollapsed ? 'collapsed' : ''}`} 
+                    onClick={toggleNavbar}
+                    aria-label="Toggle navigation"
+                >
+                    {isNavbarCollapsed ? <FaChevronRight /> : <FaChevronLeft />}
+                </button>
+            )}
+
             {/* Mobile Bottom Navigation */}
-            <div className="mobile-bottom-nav">
-                <NavLink to="/" className="mobile-nav-item" onClick={() => setIsMenuOpen(false)}>
-                    <FaHome className="mobile-nav-icon" />
-                    <span>Ana Sayfa</span>
-                </NavLink>
-                <NavLink to="/articles" className="mobile-nav-item" onClick={() => setIsMenuOpen(false)}>
-                    <FaNewspaper className="mobile-nav-icon" />
-                    <span>Makaleler</span>
-                </NavLink>
-                {isAuthenticated ? (
-                    <>
-                        <NavLink to="/chat" className="mobile-nav-item" onClick={() => setIsMenuOpen(false)}>
-                            <FaComments className="mobile-nav-icon" />
-                            <span>Chat</span>
-                        </NavLink>
-                        <NavLink to="/profile" className="mobile-nav-item" onClick={() => setIsMenuOpen(false)}>
-                            <FaUser className="mobile-nav-icon" />
-                            <span>Profil</span>
-                        </NavLink>
-                    </>
-                ) : (
-                    <NavLink to="/login" className="mobile-nav-item" onClick={() => setIsMenuOpen(false)}>
-                        <FaUser className="mobile-nav-icon" />
-                        <span>Giriş</span>
+            {isMobile && (
+                <div className="mobile-bottom-nav">
+                    <NavLink to="/" className="mobile-nav-item" onClick={() => setIsMenuOpen(false)}>
+                        <FaHome className="mobile-nav-icon" />
+                        <span>Ana Sayfa</span>
                     </NavLink>
-                )}
-            </div>
+                    <NavLink to="/articles" className="mobile-nav-item" onClick={() => setIsMenuOpen(false)}>
+                        <FaNewspaper className="mobile-nav-icon" />
+                        <span>Makaleler</span>
+                    </NavLink>
+                    {isAuthenticated ? (
+                        <>
+                            <NavLink to="/chat" className="mobile-nav-item" onClick={() => setIsMenuOpen(false)}>
+                                <FaComments className="mobile-nav-icon" />
+                                <span>Chat</span>
+                            </NavLink>
+                            <NavLink to="/profile" className="mobile-nav-item" onClick={() => setIsMenuOpen(false)}>
+                                <FaUser className="mobile-nav-icon" />
+                                <span>Profil</span>
+                            </NavLink>
+                        </>
+                    ) : (
+                        <NavLink to="/login" className="mobile-nav-item" onClick={() => setIsMenuOpen(false)}>
+                            <FaUser className="mobile-nav-icon" />
+                            <span>Giriş</span>
+                        </NavLink>
+                    )}
+                </div>
+            )}
         </>
     )
 } 
