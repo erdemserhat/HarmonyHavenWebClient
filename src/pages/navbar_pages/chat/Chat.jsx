@@ -11,6 +11,12 @@ export function Chat() {
     const [waitingResponse, setWaitingResponse] = useState(false);
     const messagesEndRef = useRef(null);
     const eventSourceRef = useRef(null);
+    const isInitialLoad = useRef(true);
+
+    // Reset scroll position when component mounts
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     useEffect(() => {
         // İlk açılışta karşılama mesajı

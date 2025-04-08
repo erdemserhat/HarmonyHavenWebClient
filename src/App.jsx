@@ -19,6 +19,7 @@ import {Notifications} from "@/pages/navbar_pages/notifications/Notifications.js
 import {GoogleOAuthProvider} from "@react-oauth/google";
 import {AuthProvider} from "@/context/AuthContext.jsx";
 import {Chat} from "@/pages/navbar_pages/chat/Chat.jsx";
+import {ScrollToTop} from "@/components/ScrollToTop.jsx";
 
 const clientId = '456625388455-4cd1ujegfqut63lktptd1dm9ulpvfa8l.apps.googleusercontent.com'; // Buraya kendi Client ID'ni yaz
 
@@ -27,6 +28,7 @@ function App() {
         <AuthProvider>
             <GoogleOAuthProvider clientId={clientId}>
                 <Router>
+                    <ScrollToTop />
                     <LoadingProvider>
                         <ArticlesProvider>
                             <QuotesProvider>
