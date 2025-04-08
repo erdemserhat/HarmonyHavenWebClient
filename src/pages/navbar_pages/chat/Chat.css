@@ -231,27 +231,36 @@
 }
 
 @media (max-width: 768px) {
+    .chat-page {
+        padding: 0;
+        margin: 0;
+        min-height: 100vh;
+        width: 100vw;
+    }
+    
     .chat-container {
         margin: 0;
         height: 100vh;
+        width: 100vw;
         border-radius: 0;
+        max-width: none;
     }
 
     .chat-header {
-        border-radius: 0;
-        padding: 1rem;
+        display: none;
     }
 
-    .chat-header h1 {
-        font-size: 1.5rem;
-    }
-
-    .message {
-        max-width: 90%;
+    .chat-messages {
+        flex: 1;
     }
 
     .chat-input-form {
         padding: 1rem;
+        margin-bottom: 60px; /* Bottom nav için boşluk */
+    }
+
+    .message {
+        max-width: 90%;
     }
 
     .send-button {

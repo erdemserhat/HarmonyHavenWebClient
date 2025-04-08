@@ -13,9 +13,20 @@ export function Chat() {
     const eventSourceRef = useRef(null);
     const isInitialLoad = useRef(true);
 
-    // Reset scroll position when component mounts
+    // Component mount ve unmount event'leri
     useEffect(() => {
+        // Sayfa yüklendiğinde scroll'u en üste al
         window.scrollTo(0, 0);
+        
+        // Mobil ekranda body scrolling'i engelle
+        if (window.innerWidth <= 768) {
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // Component kaldırıldığında body overflow'u eski haline getir
+        return () => {
+            document.body.style.overflow = '';
+        };
     }, []);
 
     useEffect(() => {
@@ -39,6 +50,13 @@ export function Chat() {
     };
 
     useEffect(() => {
+        // Skip scrolling on initial load
+        if (isInitialLoad.current) {
+            isInitialLoad.current = false;
+            return;
+        }
+        
+        // Only scroll when new messages are added
         scrollToBottom();
     }, [messages]);
 
