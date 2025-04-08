@@ -5,6 +5,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
 }
 
 .chat-container {
@@ -234,16 +235,23 @@
     .chat-page {
         padding: 0;
         margin: 0;
-        min-height: 100vh;
-        width: 100vw;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: #f8fafc;
+        z-index: 100;
     }
     
     .chat-container {
         margin: 0;
         height: 100vh;
-        width: 100vw;
+        width: 100%;
         border-radius: 0;
         max-width: none;
+        display: flex;
+        flex-direction: column;
     }
 
     .chat-header {
@@ -252,11 +260,18 @@
 
     .chat-messages {
         flex: 1;
+        padding-bottom: 130px; /* Give extra padding for fixed input */
     }
 
     .chat-input-form {
+        position: fixed;
+        bottom: 60px; /* Space for bottom navigation */
+        left: 0;
+        right: 0;
         padding: 1rem;
-        margin-bottom: 60px; /* Bottom nav için boşluk */
+        background: white;
+        box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+        z-index: 101;
     }
 
     .message {

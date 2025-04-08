@@ -13,19 +13,23 @@ export function Chat() {
     const eventSourceRef = useRef(null);
     const isInitialLoad = useRef(true);
 
-    // Component mount ve unmount event'leri
+    // Component mount olduğunda
     useEffect(() => {
         // Sayfa yüklendiğinde scroll'u en üste al
         window.scrollTo(0, 0);
         
-        // Mobil ekranda body scrolling'i engelle
-        if (window.innerWidth <= 768) {
-            document.body.style.overflow = 'hidden';
-        }
+        // Body scrolling'i engelle
+        document.body.style.overflow = 'hidden';
         
-        // Component kaldırıldığında body overflow'u eski haline getir
+        // Component unmount olduğunda
         return () => {
+            // Body overflow'u eski haline getir
             document.body.style.overflow = '';
+            
+            // EventSource'u kapat
+            if (eventSourceRef.current) {
+                eventSourceRef.current.close();
+            }
         };
     }, []);
 
@@ -36,13 +40,6 @@ export function Chat() {
             isUser: false
         };
         setMessages([welcomeMessage]);
-        
-        // Component unmount olduğunda EventSource'u temizle
-        return () => {
-            if (eventSourceRef.current) {
-                eventSourceRef.current.close();
-            }
-        };
     }, []);
 
     const scrollToBottom = () => {
@@ -50,13 +47,13 @@ export function Chat() {
     };
 
     useEffect(() => {
-        // Skip scrolling on initial load
+        // İlk yüklemede scroll yapma
         if (isInitialLoad.current) {
             isInitialLoad.current = false;
             return;
         }
         
-        // Only scroll when new messages are added
+        // Yeni mesajlar eklendiğinde en alta kaydır
         scrollToBottom();
     }, [messages]);
 
