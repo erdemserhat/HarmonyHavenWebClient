@@ -5,6 +5,7 @@
   color: #1a202c;
   position: relative;
   overflow: hidden;
+  margin-top: 20px;
 }
 
 /* Modern arka plan efekti */
@@ -28,6 +29,7 @@
   text-align: center;
   position: relative;
   z-index: 1;
+  padding-top: 20px;
 }
 
 .app-header {

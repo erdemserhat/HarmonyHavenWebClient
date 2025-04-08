@@ -35,7 +35,8 @@
     }
     
     .navbar-brand {
-        margin-bottom: 30px;
+        margin-top: 15px;
+        margin-bottom: 40px;
         width: 100%;
         justify-content: flex-start;
         padding-left: 12px;
@@ -154,16 +155,24 @@
 .navbar-brand {
     display: flex;
     align-items: center;
-    color: #333;
+    color: #1a1a1a;
     font-size: 20px;
-    font-weight: bold;
+    font-weight: 700;
     text-decoration: none;
+    letter-spacing: -0.5px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.navbar-brand span {
+    color: #1a1a1a;
 }
 
 .navbar-brand img {
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     margin-right: 10px;
+    object-fit: contain;
+    border-radius: 6px;
 }
 
 /* Navbar links section */
@@ -212,8 +221,8 @@
     }
     
     .navbar-brand img {
-        width: 32px;
-        height: 32px;
+        width: 28px;
+        height: 28px;
     }
     
     .navbar-links {

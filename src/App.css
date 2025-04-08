@@ -34,6 +34,11 @@
   transition: margin-left 0.3s ease, width 0.3s ease;
 }
 
+/* Sayfa içeriklerine genel margin */
+.content-container > * {
+  margin-top: 20px;
+}
+
 /* Masaüstü (desktop) için içerik ayarları */
 @media (min-width: 769px) {
   .app-container {
@@ -73,6 +78,7 @@
 @media (max-width: 768px) {
   .content-container > * {
     border-radius: 0;
+    margin-top: 10px; /* Mobilde daha az margin */
   }
 }
 
