@@ -72,13 +72,22 @@
   border-radius: 0;
   overflow: hidden;
   flex: 1;
+  margin-top: 20px;
 }
 
 /* Responsive tasarım için düzenlemeler */
 @media (max-width: 768px) {
   .content-container > * {
     border-radius: 0;
-    margin-top: 10px; /* Mobilde daha az margin */
+    margin-top: 60px; /* Üst navbar yüksekliği kadar */
+    margin-bottom: 60px; /* Bottom navbar için boşluk */
+    padding-bottom: 20px; /* İçeriğin en altına extra padding */
+  }
+  
+  /* İçerik konteyneri mobil için */
+  .content-container {
+    min-height: calc(100vh - 120px); /* Üst ve alt navbar için uyarlanmış yükseklik */
+    padding-bottom: 60px; /* Bottom navbar için extra alan */
   }
 }
 

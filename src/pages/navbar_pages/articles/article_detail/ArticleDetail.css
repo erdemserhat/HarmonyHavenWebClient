@@ -9,6 +9,35 @@
   margin: 0 auto;
 }
 
+@media (max-width: 768px) {
+  .article-detail-page {
+    padding: 1rem;
+    margin-top: 70px; /* Üst navbar için boşluk */
+    margin-bottom: 90px; /* Alt navbar için boşluk */
+  }
+  
+  .article-detail-container {
+    padding: 0 16px;
+  }
+  
+  .article-content {
+    padding: 0 4px;
+  }
+  
+  .markdown-content p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin-bottom: 1.25rem;
+  }
+  
+  .article-cover {
+    margin: 1.5rem 0;
+  }
+  
+  .back-button-container {
+    margin-bottom: 1.5rem;
+  }
+}
 
 .article-header {
   margin-bottom: 2rem;
@@ -16,7 +45,6 @@
 }
 
 .article-title {
-
   font-size: 2.5rem;
   color: #333;
   margin-bottom: 0.1rem;
@@ -288,10 +316,6 @@
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .article-detail-page {
-    padding: 1rem;
-  }
-
   .article-title {
     font-size: 2rem;
   }
@@ -349,9 +373,6 @@
     font-size: 1.15rem;
     line-height: 1.7;
   }
-
-
-
 }
 
 /* Çok küçük ekranlar için ek düzenlemeler */

@@ -116,9 +116,6 @@ export function Navbar() {
                         <img src={icoImage} alt="Harmony Haven Logo" />
                         <span>Harmony Haven</span>
                     </Link>
-                    <div className="navbar-links">
-                        <div className="nav-link loading-placeholder"></div>
-                    </div>
                 </div>
             </nav>
         )
@@ -138,67 +135,62 @@ export function Navbar() {
                         )}
                     </Link>
 
-                    {isMobile && (
-                        <button className="menu-button" onClick={toggleMenu}>
-                            <span className={`hamburger ${isMenuOpen ? 'open' : ''}`}></span>
-                        </button>
-                    )}
-
-                    <div className={`navbar-links ${isMenuOpen ? 'open' : ''}`}>
-                        {/* Ana Menü Linkleri */}
-                        <Link to="/" className={`nav-link ${isActive('/') ? 'active' : ''}`} onClick={() => setIsMenuOpen(false)}>
-                            <FaHome className="nav-icon" />
-                            <span className={isNavbarCollapsed ? 'hidden' : ''}>Ana Sayfa</span>
-                        </Link>
-                        
-                        <Link to="/presentation" className={`nav-link ${isActive('/presentation') ? 'active' : ''}`} onClick={() => setIsMenuOpen(false)}>
-                            <FaSearch className="nav-icon" />
-                            <span className={isNavbarCollapsed ? 'hidden' : ''}>Keşfet</span>
-                        </Link>
-                        
-                        <Link to="/articles" className={`nav-link ${isActive('/articles') ? 'active' : ''}`} onClick={() => setIsMenuOpen(false)}>
-                            <FaNewspaper className="nav-icon" />
-                            <span className={isNavbarCollapsed ? 'hidden' : ''}>Makaleler</span>
-                        </Link>
-                        
-                        {isAuthenticated && (
-                            <>
-                                <Link to="/chat" className={`nav-link ${isActive('/chat') ? 'active' : ''}`} onClick={() => setIsMenuOpen(false)}>
-                                    <FaComments className="nav-icon" />
-                                    <span className={isNavbarCollapsed ? 'hidden' : ''}>Chat</span>
-                                </Link>
-                                
-                                <Link to="/write-article" className={`nav-link ${isActive('/write-article') ? 'active' : ''}`} onClick={() => setIsMenuOpen(false)}>
-                                    <FaPlus className="nav-icon" />
-                                    <span className={isNavbarCollapsed ? 'hidden' : ''}>Oluştur</span>
-                                </Link>
-                                
-                                <NavLink to="/notifications" className={`nav-link ${isActive('/notifications') ? 'active' : ''}`} onClick={() => setIsMenuOpen(false)}>
-                                    <FaBell className="nav-icon" />
-                                    <span className={isNavbarCollapsed ? 'hidden' : ''}>Bildirimler</span>
-                                </NavLink>
-                                
-                                <Link to="/profile" className={`nav-link ${isActive('/profile') ? 'active' : ''}`} onClick={() => setIsMenuOpen(false)}>
-                                    <FaUser className="nav-icon" />
-                                    <span className={isNavbarCollapsed ? 'hidden' : ''}>Profil</span>
-                                </Link>
-                                
-                                {!isMobile && (
+                    {/* Masaüstü menü linkleri - mobilde gizli */}
+                    {!isMobile && (
+                        <div className="navbar-links">
+                            {/* Ana Menü Linkleri */}
+                            <Link to="/" className={`nav-link ${isActive('/') ? 'active' : ''}`} onClick={() => setIsMenuOpen(false)}>
+                                <FaHome className="nav-icon" />
+                                <span className={isNavbarCollapsed ? 'hidden' : ''}>Ana Sayfa</span>
+                            </Link>
+                            
+                            <Link to="/presentation" className={`nav-link ${isActive('/presentation') ? 'active' : ''}`} onClick={() => setIsMenuOpen(false)}>
+                                <FaSearch className="nav-icon" />
+                                <span className={isNavbarCollapsed ? 'hidden' : ''}>Keşfet</span>
+                            </Link>
+                            
+                            <Link to="/articles" className={`nav-link ${isActive('/articles') ? 'active' : ''}`} onClick={() => setIsMenuOpen(false)}>
+                                <FaNewspaper className="nav-icon" />
+                                <span className={isNavbarCollapsed ? 'hidden' : ''}>Makaleler</span>
+                            </Link>
+                            
+                            {isAuthenticated && (
+                                <>
+                                    <Link to="/chat" className={`nav-link ${isActive('/chat') ? 'active' : ''}`} onClick={() => setIsMenuOpen(false)}>
+                                        <FaComments className="nav-icon" />
+                                        <span className={isNavbarCollapsed ? 'hidden' : ''}>Chat</span>
+                                    </Link>
+                                    
+                                    <Link to="/write-article" className={`nav-link ${isActive('/write-article') ? 'active' : ''}`} onClick={() => setIsMenuOpen(false)}>
+                                        <FaPlus className="nav-icon" />
+                                        <span className={isNavbarCollapsed ? 'hidden' : ''}>Oluştur</span>
+                                    </Link>
+                                    
+                                    <NavLink to="/notifications" className={`nav-link ${isActive('/notifications') ? 'active' : ''}`} onClick={() => setIsMenuOpen(false)}>
+                                        <FaBell className="nav-icon" />
+                                        <span className={isNavbarCollapsed ? 'hidden' : ''}>Bildirimler</span>
+                                    </NavLink>
+                                    
+                                    <Link to="/profile" className={`nav-link ${isActive('/profile') ? 'active' : ''}`} onClick={() => setIsMenuOpen(false)}>
+                                        <FaUser className="nav-icon" />
+                                        <span className={isNavbarCollapsed ? 'hidden' : ''}>Profil</span>
+                                    </Link>
+                                    
                                     <div className="nav-link logout-button" onClick={handleLogout}>
                                         <FaSignOutAlt className="nav-icon" />
                                         <span className={isNavbarCollapsed ? 'hidden' : ''}>Çıkış</span>
                                     </div>
-                                )}
-                            </>
-                        )}
-                        
-                        {!isAuthenticated && (
-                            <NavLink to="/login" className="nav-link login-button" onClick={() => setIsMenuOpen(false)}>
-                                <FaUser className="nav-icon" />
-                                <span className={isNavbarCollapsed ? 'hidden' : ''}>Giriş Yap</span>
-                            </NavLink>
-                        )}
-                    </div>
+                                </>
+                            )}
+                            
+                            {!isAuthenticated && (
+                                <NavLink to="/login" className="nav-link login-button" onClick={() => setIsMenuOpen(false)}>
+                                    <FaUser className="nav-icon" />
+                                    <span className={isNavbarCollapsed ? 'hidden' : ''}>Giriş Yap</span>
+                                </NavLink>
+                            )}
+                        </div>
+                    )}
                 </div>
             </nav>
 
