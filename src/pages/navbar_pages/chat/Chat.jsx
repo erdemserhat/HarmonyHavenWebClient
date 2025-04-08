@@ -12,9 +12,21 @@ export function Chat() {
     const messagesEndRef = useRef(null);
     const eventSourceRef = useRef(null);
     const isInitialLoad = useRef(true);
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
     // Component mount olduğunda
     useEffect(() => {
+        // Mobil mi kontrol et
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth <= 768);
+        };
+        
+        // İlk kontrol
+        checkMobile();
+        
+        // Resize event listener
+        window.addEventListener('resize', checkMobile);
+        
         // Sayfa yüklendiğinde scroll'u en üste al
         window.scrollTo(0, 0);
         
@@ -30,6 +42,9 @@ export function Chat() {
             if (eventSourceRef.current) {
                 eventSourceRef.current.close();
             }
+            
+            // Resize listener'ı kaldır
+            window.removeEventListener('resize', checkMobile);
         };
     }, []);
 
@@ -141,13 +156,29 @@ export function Chat() {
         }
     };
 
+    // Mobile input form style
+    const mobileInputFormStyle = {
+        position: 'fixed',
+        bottom: '60px', // Bottom navbar'ın yüksekliği kadar
+        left: 0,
+        right: 0,
+        padding: '1rem',
+        background: 'white',
+        boxShadow: '0 -4px 10px rgba(0, 0, 0, 0.1)',
+        zIndex: 101,
+        borderBottom: 'none', // Alt kenarda border olmasın
+        marginBottom: 0
+    };
+
     return (
         <div className="chat-page">
             <div className="chat-container">
-                <div className="chat-header">
-                    <h1>Harmony Haven AI</h1>
-                    <p>Kişisel gelişim ve ilham asistanınız</p>
-                </div>
+                {!isMobile && (
+                    <div className="chat-header">
+                        <h1>Harmony Haven AI</h1>
+                        <p>Kişisel gelişim ve ilham asistanınız</p>
+                    </div>
+                )}
                 
                 <div className="chat-messages">
                     {messages.map((message, index) => (
@@ -195,7 +226,11 @@ export function Chat() {
                     <div ref={messagesEndRef} />
                 </div>
 
-                <form onSubmit={handleSubmit} className="chat-input-form">
+                <form 
+                    onSubmit={handleSubmit} 
+                    className="chat-input-form"
+                    style={isMobile ? mobileInputFormStyle : {}}
+                >
                     <input
                         type="text"
                         value={inputMessage}

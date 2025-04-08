@@ -246,7 +246,9 @@
     
     .chat-container {
         margin: 0;
-        height: 100vh;
+        height: calc(100vh - 120px);
+        margin-top: 60px; /* Space for top navbar */
+        margin-bottom: 60px; /* Space for bottom navbar */
         width: 100%;
         border-radius: 0;
         max-width: none;
@@ -265,10 +267,11 @@
 
     .chat-input-form {
         position: fixed;
-        bottom: 60px; /* Space for bottom navigation */
+        bottom: 60px; /* Exactly above the bottom navbar */
         left: 0;
         right: 0;
         padding: 1rem;
+        margin-bottom: 0; /* Remove any margin */
         background: white;
         box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
         z-index: 101;
