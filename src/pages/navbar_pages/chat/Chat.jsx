@@ -263,6 +263,10 @@ export function Chat() {
                         <IoPaperPlane />
                     </button>
                 </form>
+
+            <div className="ok">
+
+            </div>
             </div>
         </div>
     );

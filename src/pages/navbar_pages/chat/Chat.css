@@ -151,6 +151,7 @@
 
 /* Input Form */
 .chat-input-form {
+    z-index: 100;
     position: fixed;
     bottom: 1rem;
     left: 50%;
@@ -166,6 +167,7 @@
 }
 
 .chat-input {
+    z-index: 100;
     flex: 1;
     min-height: 48px;
     max-height: 120px;
@@ -177,6 +179,21 @@
     resize: none;
     background: white;
     color: black;
+}
+
+.ok {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    background: linear-gradient(135deg, #f6f9fc 0%, #eef2f7 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+    z-index: 1;
 }
 
 .chat-input:disabled {
