@@ -91,6 +91,11 @@ export function Chat() {
         setIsLoading(true);
         setWaitingResponse(true);
 
+        // Reset textarea height
+        if (inputRef.current) {
+            inputRef.current.style.height = '48px';
+        }
+
         // Add user message
         setMessages(prev => [...prev, { text: userMessage, isUser: true }]);
 
@@ -173,6 +178,14 @@ export function Chat() {
         }, 300); // Small delay to let the keyboard open
     };
 
+    const handleInputChange = (e) => {
+        setInputMessage(e.target.value);
+        // Auto-resize textarea
+        const textarea = e.target;
+        textarea.style.height = 'auto';
+        textarea.style.height = `${Math.min(textarea.scrollHeight, 120)}px`;
+    };
+
     return (
         <div className="chat-page">
             <div className="chat-container">
@@ -224,16 +237,22 @@ export function Chat() {
                 </div>
 
                 <form onSubmit={handleSubmit} className="chat-input-form">
-                    <input
+                    <textarea
                         ref={inputRef}
-                        type="text"
                         value={inputMessage}
-                        onChange={(e) => setInputMessage(e.target.value)}
+                        onChange={handleInputChange}
+                        onKeyDown={(e) => {
+                            if (e.key === 'Enter' && !e.shiftKey) {
+                                e.preventDefault();
+                                handleSubmit(e);
+                            }
+                        }}
                         onFocus={handleInputFocus}
                         placeholder="Mesajınızı yazın..."
                         disabled={isLoading}
                         className="chat-input"
                         autoComplete="off"
+                        rows={1}
                     />
                     <button
                         type="submit"
