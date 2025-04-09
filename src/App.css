@@ -1,3 +1,17 @@
+/* Ensure the body always starts at the top when changing routes */
+html, body {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  height: 100%;
+}
+
+/* When a new page loads, start at the top */
+body {
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+}
+
 #root {
   width: 100vw;
   min-height: 100vh;
@@ -19,7 +33,7 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding-top: 0; /* Padding'i kaldırdık */
+  padding-top: 0; /* No padding here since body has it */
 }
 
 .content-container {
@@ -29,7 +43,8 @@
   background: white;
   min-height: calc(100vh - 64px);
   position: relative;
-  margin-top: 0; /* Margin'i kaldırdık */
+  margin-top: 0;
+  padding-top: 0; /* Reset padding since body already has it */
 }
 
 /* Sadece içerik alanında gradyan arka plan olsun */
@@ -52,8 +67,37 @@
   flex: 1;
 }
 
+/* Specific adjustment for chat page to prevent double-padding and allow fixed layout */
+.content-container .chat-page {
+  margin-top: 0;
+  padding-top: 0;
+  position: fixed;
+  top: 60px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+}
+
+/* Make content container adapt when chat page is active */
+.content-container:has(.chat-page) {
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
 /* Responsive tasarım için */
 @media (max-width: 768px) {
+  .content-container {
+    padding-top: 0; /* No additional padding here since we've added it to body */
+  }
+  
+  /* Chat page specific styles to ensure it works with fixed navbar */
+  .content-container .chat-page {
+    margin-top: 0;
+    height: calc(100vh - 60px);
+  }
+  
   .content-container > * {
     border-radius: 12px 12px 0 0;
   }

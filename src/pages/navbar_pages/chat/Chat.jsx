@@ -10,21 +10,67 @@ export function Chat() {
     const [isLoading, setIsLoading] = useState(false);
     const [waitingResponse, setWaitingResponse] = useState(false);
     const messagesEndRef = useRef(null);
+    const chatMessagesRef = useRef(null);
     const eventSourceRef = useRef(null);
+    const inputRef = useRef(null);
+
+    // Reset scroll position when component mounts
+    useEffect(() => {
+        // Only reset the chat messages scrolling, not the main window
+        if (chatMessagesRef.current) {
+            chatMessagesRef.current.scrollTop = 0;
+        }
+    }, []);
+
+    // Set viewport meta on component mount and cleanup on unmount
+    useEffect(() => {
+        // Fix for mobile browsers to prevent resizing when keyboard opens
+        const viewportMeta = document.querySelector('meta[name="viewport"]');
+        const originalContent = viewportMeta?.getAttribute('content');
+        
+        // Update viewport to prevent automatic zooming
+        viewportMeta?.setAttribute('content', 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no');
+        
+        return () => {
+            // Restore original viewport
+            if (originalContent) {
+                viewportMeta?.setAttribute('content', originalContent);
+            }
+        };
+    }, []);
 
     useEffect(() => {
-        // İlk açılışta karşılama mesajı
+        // Welcome message on first load
         const welcomeMessage = {
             text: `Merhaba! Ben Harmony Haven AI. Size nasıl yardımcı olabilirim? Kişisel gelişiminiz ve ilhamınız için buradayım.`,
             isUser: false
         };
         setMessages([welcomeMessage]);
         
-        // Component unmount olduğunda EventSource'u temizle
+        // Clean up EventSource when component unmounts
         return () => {
             if (eventSourceRef.current) {
                 eventSourceRef.current.close();
             }
+        };
+    }, []);
+
+    // Handle keyboard appearance on mobile
+    useEffect(() => {
+        const handleResize = () => {
+            // Force layout recalculation when keyboard appears/disappears
+            document.documentElement.style.height = `${window.innerHeight}px`;
+            if (chatMessagesRef.current) {
+                chatMessagesRef.current.scrollTop = chatMessagesRef.current.scrollHeight;
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+        // Set initial height
+        handleResize();
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
         };
     }, []);
 
@@ -45,20 +91,19 @@ export function Chat() {
         setIsLoading(true);
         setWaitingResponse(true);
 
-        // Kullanıcı mesajını ekle
+        // Add user message
         setMessages(prev => [...prev, { text: userMessage, isUser: true }]);
 
         try {
-            // Önceki EventSource varsa kapat
+            // Close previous EventSource if exists
             if (eventSourceRef.current) {
                 eventSourceRef.current.close();
             }
             
-            // URL için kullanıcı mesajını encode et
+            // Encode user message for URL
             const encodedPrompt = encodeURIComponent(userMessage);
             
-            // AI için boş yanıt mesajı DAHA EKLEME
-            // SSE bağlantısı oluştur
+            // Create SSE connection
             const eventSource = new EventSource(`${axios.defaults.baseURL}/chat/${encodedPrompt}`, { 
                 withCredentials: true 
             });
@@ -66,22 +111,21 @@ export function Chat() {
             
             let isFirstMessage = true;
             
-            // SSE mesajlarını işle
+            // Handle SSE messages
             eventSource.onmessage = (event) => {
                 const newText = event.data;
                 
                 if (isFirstMessage) {
-                    // İlk mesaj geldiğinde yükleme animasyonunu kaldır ve yeni AI mesajını ekle
+                    // Remove loading animation and add new AI message on first message
                     setWaitingResponse(false);
                     setMessages(prev => [...prev, { text: newText, isUser: false }]);
                     isFirstMessage = false;
                 } else {
-                    // Sonraki mesajlarda mevcut AI yanıtını güncelle
+                    // Update existing AI response with new text for subsequent messages
                     setMessages(prev => {
                         const newMessages = [...prev];
                         const lastIndex = newMessages.length - 1;
                         
-                        // Son mesajın metnine yeni gelen metni ekle
                         newMessages[lastIndex] = {
                             ...newMessages[lastIndex],
                             text: newMessages[lastIndex].text + newText
@@ -92,16 +136,16 @@ export function Chat() {
                 }
             };
             
-            // SSE bağlantı hatası
+            // Handle SSE connection error
             eventSource.onerror = (error) => {
-                console.error('SSE bağlantı hatası:', error);
+                console.error('SSE connection error:', error);
                 eventSource.close();
                 eventSourceRef.current = null;
                 setIsLoading(false);
                 setWaitingResponse(false);
             };
             
-            // SSE bağlantısı tamamlandığında
+            // Handle SSE completion
             eventSource.addEventListener('complete', () => {
                 eventSource.close();
                 eventSourceRef.current = null;
@@ -120,15 +164,19 @@ export function Chat() {
         }
     };
 
+    // Handle input focus to adjust view on mobile
+    const handleInputFocus = () => {
+        setTimeout(() => {
+            scrollToBottom();
+            // On iOS, we need to scroll the window as well
+            window.scrollTo(0, 0);
+        }, 300); // Small delay to let the keyboard open
+    };
+
     return (
         <div className="chat-page">
             <div className="chat-container">
-                <div className="chat-header">
-                    <h1>Harmony Haven AI</h1>
-                    <p>Kişisel gelişim ve ilham asistanınız</p>
-                </div>
-                
-                <div className="chat-messages">
+                <div className="chat-messages" ref={chatMessagesRef}>
                     {messages.map((message, index) => (
                         <div 
                             key={index} 
@@ -141,7 +189,7 @@ export function Chat() {
                                         h1: ({node, ...props}) => <h1 className="markdown-h1" {...props} />,
                                         h2: ({node, ...props}) => <h2 className="markdown-h2" {...props} />,
                                         h3: ({node, ...props}) => <h3 className="markdown-h3" {...props} />,
-                                        ul: ({  node, ...props}) => <ul className="markdown-ul" {...props} />,
+                                        ul: ({node, ...props}) => <ul className="markdown-ul" {...props} />,
                                         ol: ({node, ...props}) => <ol className="markdown-ol" {...props} />,
                                         li: ({node, ...props}) => <li className="markdown-li" {...props} />,
                                         code: ({node, inline, ...props}) => 
@@ -176,17 +224,21 @@ export function Chat() {
 
                 <form onSubmit={handleSubmit} className="chat-input-form">
                     <input
+                        ref={inputRef}
                         type="text"
                         value={inputMessage}
                         onChange={(e) => setInputMessage(e.target.value)}
+                        onFocus={handleInputFocus}
                         placeholder="Mesajınızı yazın..."
                         disabled={isLoading}
                         className="chat-input"
+                        autoComplete="off"
                     />
                     <button 
                         type="submit" 
                         disabled={isLoading || !inputMessage.trim()}
                         className="send-button"
+                        aria-label="Mesajı gönder"
                     >
                         <IoPaperPlane />
                     </button>
