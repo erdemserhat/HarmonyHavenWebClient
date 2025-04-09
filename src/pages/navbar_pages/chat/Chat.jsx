@@ -220,32 +220,30 @@ export function Chat() {
                         </div>
                     )}
 
-                    <form onSubmit={handleSubmit} className="chat-input-form">
-                        <input
-                            ref={inputRef}
-                            type="text"
-                            value={inputMessage}
-                            onChange={(e) => setInputMessage(e.target.value)}
-                            onFocus={handleInputFocus}
-                            placeholder="Mesajınızı yazın..."
-                            disabled={isLoading}
-                            className="chat-input"
-                            autoComplete="off"
-                        />
-                        <button
-                            type="submit"
-                            disabled={isLoading || !inputMessage.trim()}
-                            className="send-button"
-                            aria-label="Mesajı gönder"
-                        >
-                            <IoPaperPlane />
-                        </button>
-                    </form>
-
                     <div ref={messagesEndRef} />
                 </div>
 
-
+                <form onSubmit={handleSubmit} className="chat-input-form">
+                    <input
+                        ref={inputRef}
+                        type="text"
+                        value={inputMessage}
+                        onChange={(e) => setInputMessage(e.target.value)}
+                        onFocus={handleInputFocus}
+                        placeholder="Mesajınızı yazın..."
+                        disabled={isLoading}
+                        className="chat-input"
+                        autoComplete="off"
+                    />
+                    <button
+                        type="submit"
+                        disabled={isLoading || !inputMessage.trim()}
+                        className="send-button"
+                        aria-label="Mesajı gönder"
+                    >
+                        <IoPaperPlane />
+                    </button>
+                </form>
             </div>
         </div>
     );
