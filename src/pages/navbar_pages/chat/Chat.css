@@ -149,6 +149,11 @@
     width: 100%;
     max-width: 100%;
     align-items: flex-end;
+    transition: background-color 0.2s ease;
+}
+
+.chat-input-form:has(.chat-input:disabled) {
+    background: #f8fafc;
 }
 
 .chat-input {
@@ -198,9 +203,8 @@
 }
 
 .chat-input:disabled {
-    background: #f1f5f9;
+    background: #f8fafc;
     cursor: not-allowed;
-    border-color: #cbd5e1;
 }
 
 .send-button {
