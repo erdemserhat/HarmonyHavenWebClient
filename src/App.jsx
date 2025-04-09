@@ -1,4 +1,4 @@
-import {BrowserRouter as Router, Routes, Route, Navigate, useLocation} from 'react-router-dom'
+import {BrowserRouter as Router, Routes, Route, Navigate, useLocation, useNavigate} from 'react-router-dom'
 import {Navbar} from '@/pages/common/navbar/Navbar.jsx'
 import {Home} from '@/pages/navbar_pages/home/Home.jsx'
 import {Articles} from '@/pages/navbar_pages/articles/Articles.jsx'
@@ -24,23 +24,46 @@ import { useEffect } from 'react';
 // Scroll to top component
 function ScrollToTop() {
     const { pathname } = useLocation();
+    const navigate = useNavigate();
   
     useEffect(() => {
-        // Reset main window scroll
-        window.scrollTo(0, 0);
-        
-        // Reset all scrollable containers
-        const scrollableElements = document.querySelectorAll('.chat-messages, .article-content, [data-scrollable]');
-        scrollableElements.forEach(element => {
-            if (element) {
-                element.scrollTop = 0;
+        // Force scroll reset for all possible scrollable elements
+        const resetScroll = () => {
+            // Reset main window scroll
+            window.scrollTo(0, 0);
+            document.documentElement.scrollTop = 0;
+            document.body.scrollTop = 0;
+            
+            // Reset all possible scrollable containers
+            const scrollableElements = document.querySelectorAll(
+                '.chat-messages, .article-content, [data-scrollable], [class*="scroll"], [class*="Scroll"], .scrollable, .scroll-container, .content-container'
+            );
+            
+            scrollableElements.forEach(element => {
+                if (element) {
+                    element.scrollTop = 0;
+                    element.scrollLeft = 0;
+                }
+            });
+            
+            // Force reset for iOS devices
+            if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
+                document.body.style.overflow = 'hidden';
+                setTimeout(() => {
+                    document.body.style.overflow = '';
+                }, 0);
             }
-        });
+        };
+
+        // Reset scroll immediately
+        resetScroll();
         
-        // For mobile: ensure body scroll is reset
-        document.body.style.overflow = '';
-        document.documentElement.scrollTop = 0;
-    }, [pathname]);
+        // Reset scroll after a small delay to ensure DOM is ready
+        const timer = setTimeout(resetScroll, 100);
+        
+        // Cleanup
+        return () => clearTimeout(timer);
+    }, [pathname, navigate]);
   
     return null;
 }
