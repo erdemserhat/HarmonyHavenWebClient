@@ -1,4 +1,4 @@
-import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom'
+import {BrowserRouter as Router, Routes, Route, Navigate, useLocation} from 'react-router-dom'
 import {Navbar} from '@/pages/common/navbar/Navbar.jsx'
 import {Home} from '@/pages/navbar_pages/home/Home.jsx'
 import {Articles} from '@/pages/navbar_pages/articles/Articles.jsx'
@@ -19,6 +19,31 @@ import {Notifications} from "@/pages/navbar_pages/notifications/Notifications.js
 import {GoogleOAuthProvider} from "@react-oauth/google";
 import {AuthProvider} from "@/context/AuthContext.jsx";
 import {Chat} from "@/pages/navbar_pages/chat/Chat.jsx";
+import { useEffect } from 'react';
+
+// Scroll to top component
+function ScrollToTop() {
+    const { pathname } = useLocation();
+  
+    useEffect(() => {
+        // Reset main window scroll
+        window.scrollTo(0, 0);
+        
+        // Reset all scrollable containers
+        const scrollableElements = document.querySelectorAll('.chat-messages, .article-content, [data-scrollable]');
+        scrollableElements.forEach(element => {
+            if (element) {
+                element.scrollTop = 0;
+            }
+        });
+        
+        // For mobile: ensure body scroll is reset
+        document.body.style.overflow = '';
+        document.documentElement.scrollTop = 0;
+    }, [pathname]);
+  
+    return null;
+}
 
 const clientId = '456625388455-4cd1ujegfqut63lktptd1dm9ulpvfa8l.apps.googleusercontent.com'; // Buraya kendi Client ID'ni yaz
 
@@ -27,6 +52,7 @@ function App() {
         <AuthProvider>
             <GoogleOAuthProvider clientId={clientId}>
                 <Router>
+                    <ScrollToTop />
                     <LoadingProvider>
                         <ArticlesProvider>
                             <QuotesProvider>

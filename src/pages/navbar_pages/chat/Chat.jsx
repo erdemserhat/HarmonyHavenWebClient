@@ -14,6 +14,14 @@ export function Chat() {
     const eventSourceRef = useRef(null);
     const inputRef = useRef(null);
 
+    // Reset scroll position when component mounts
+    useEffect(() => {
+        // Only reset the chat messages scrolling, not the main window
+        if (chatMessagesRef.current) {
+            chatMessagesRef.current.scrollTop = 0;
+        }
+    }, []);
+
     // Set viewport meta on component mount and cleanup on unmount
     useEffect(() => {
         // Fix for mobile browsers to prevent resizing when keyboard opens

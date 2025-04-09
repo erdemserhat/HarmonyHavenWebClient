@@ -1,20 +1,24 @@
 .chat-page {
     min-height: 100vh;
-    height: 100%;
+    height: 100vh; /* Set to viewport height */
     background: #f8fafc;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    position: relative;
+    position: fixed; /* Fix the entire chat page */
+    top: 60px; /* Account for navbar */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden; /* Prevent outer scrolling */
     padding: 0;
 }
 
 .chat-container {
     width: 100%;
     max-width: 100%;
-    height: 100vh;
-    height: -webkit-fill-available; /* For iOS Safari */
+    height: 100%; /* Take full height of parent */
     display: flex;
     flex-direction: column;
     background: white;
@@ -28,16 +32,16 @@
 
 .chat-messages {
     flex: 1;
-    overflow-y: auto;
+    overflow-y: auto; /* Only this area should scroll */
     padding: 1.5rem;
-    padding-top: 2.5rem;
+    padding-top: 3rem;
+    padding-bottom: calc(280px + env(safe-area-inset-bottom, 0px));
     display: flex;
     flex-direction: column;
     gap: 1rem;
     background: #f8fafc;
-    padding-bottom: calc(120px + env(safe-area-inset-bottom, 0px));
-    margin-bottom: 15px;
-    margin-top: 15px;
+    margin-bottom: 60px;
+    margin-top: 20px;
 }
 
 .chat-messages::-webkit-scrollbar {
@@ -223,17 +227,17 @@
 }
 
 @media (min-width: 768px) {
-    .chat-container {
-        max-width: 1000px;
-        height: calc(100vh - 2rem);
-        margin: 1rem;
-        border-radius: 16px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    .chat-page {
+        padding: 1rem;
+        top: 60px; /* Account for fixed navbar */
     }
     
-    .chat-header {
-        padding: 1.25rem;
-        border-radius: 16px 16px 0 0;
+    .chat-container {
+        max-width: 1000px;
+        height: 100%;
+        margin: 0 auto;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     }
     
     .chat-input-form {
@@ -244,6 +248,7 @@
         transform: translateX(-50%);
         border-radius: 0 0 16px 16px;
         padding: 1.25rem;
+        bottom: 1rem;
     }
 }
 
@@ -274,10 +279,10 @@
     
     /* Ensure content doesn't overlap with fixed elements */
     .chat-messages {
-        padding-top: 1.5rem; /* Reduced top padding since we have navbar padding */
-        margin-top: 5px;
-        padding-bottom: calc(120px + env(safe-area-inset-bottom, 0px)); 
-        margin-bottom: 15px;
+        padding-top: 2.5rem;
+        padding-bottom: calc(180px + env(safe-area-inset-bottom, 0px)); 
+        margin-top: 15px;
+        margin-bottom: 30px;
     }
     
     .message {
@@ -286,7 +291,7 @@
     }
     
     .message:last-child {
-        margin-bottom: 30px; /* Even more space after the last message */
+        margin-bottom: 90px; /* Further reduced space after the last message on mobile */
     }
     
     .send-button {
@@ -437,4 +442,8 @@
 .user-message .markdown-td {
     border-color: rgba(255, 255, 255, 0.2);
     color: #fff;
+}
+
+.message:last-child {
+    margin-bottom: 150px; /* Extremely generous space after the last message */
 } 
