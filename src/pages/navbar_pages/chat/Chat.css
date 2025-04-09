@@ -104,7 +104,9 @@
 .message-content {
     font-size: 1rem;
     line-height: 1.5;
-    white-space: pre-wrap;
+    white-space: pre-wrap !important;
+    word-wrap: break-word !important;
+    word-break: break-word !important;
 }
 
 /* Loading Indicator */
@@ -166,15 +168,24 @@
     font-size: 1rem;
     outline: none;
     transition: all 0.2s;
-    background: white;
+    background: #3D3D3D;
+    color: white;
     max-width: calc(100% - 70px);
     resize: none;
     overflow-y: auto;
     line-height: 1.5;
+    white-space: pre-wrap !important;
+    word-wrap: break-word !important;
+    word-break: break-word !important;
     scrollbar-width: thin;
+    scrollbar-color: #4D4D4D #3D3D3D;
+}
+
+/* Switch input to light theme when chat has messages */
+.chat-page:has(.chat-messages:not(:empty)) .chat-input {
+    background: white;
+    color: black;
     scrollbar-color: #cbd5e1 #f1f5f9;
-    white-space: pre-wrap;
-    word-wrap: break-word;
 }
 
 .chat-input::-webkit-scrollbar {
@@ -255,7 +266,6 @@
     .chat-container {
         width: 100%;
         background: transparent;
-        border-radius: 16px;
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     }
 
@@ -459,4 +469,25 @@
 .user-message .markdown-th,
 .user-message .markdown-td {
     border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Message input container styles */
+.message-input-container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+}
+
+/* Ensure text wrapping in messages */
+.user-message .message-content {
+    white-space: pre-wrap !important;
+    word-wrap: break-word !important;
+    word-break: break-word !important;
+}
+
+.ai-message .message-content {
+    white-space: pre-wrap !important;
+    word-wrap: break-word !important;
+    word-break: break-word !important;
 }
