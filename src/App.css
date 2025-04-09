@@ -54,6 +54,16 @@
 
 /* Responsive tasarım için */
 @media (max-width: 768px) {
+  .content-container {
+    padding-top: 0; /* No additional padding here since we've added it to body */
+  }
+  
+  /* Chat page specific styles to ensure it works with fixed navbar */
+  .content-container .chat-page {
+    margin-top: -60px; /* Compensate for the body padding */
+    height: calc(100vh - 60px);
+  }
+  
   .content-container > * {
     border-radius: 12px 12px 0 0;
   }
