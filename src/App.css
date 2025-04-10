@@ -1,24 +1,23 @@
 /* Ensure the body always starts at the top when changing routes */
 html, body {
   scroll-behavior: smooth;
-  overflow-x: hidden;
+  overflow: hidden;
   height: 100%;
 }
 
 /* When a new page loads, start at the top */
 body {
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden;
   position: relative;
 }
 
 #root {
   width: 100vw;
-  min-height: 100vh;
+  height: 100vh;
   margin: 0;
   padding: 0;
   text-align: center;
-  overflow-x: hidden;
+  overflow: hidden;
   background: white; /* Arka plan beyaz olsun */
 }
 

@@ -220,18 +220,6 @@ export function LoginRegisterScreen() {
                             />
                         ))}
                     </div>
-                    <div className="slider-dots">
-                        {promotionalImages.map((_, index) => (
-                            <button
-                                key={index}
-                                className={`dot ${index === currentImageIndex ? 'active' : ''}`}
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    setCurrentImageIndex(index);
-                                }}
-                            />
-                        ))}
-                    </div>
                 </div>
 
                 <div className="auth-box">

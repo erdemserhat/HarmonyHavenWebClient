@@ -1,10 +1,33 @@
 .auth-container {
-    min-height: 100vh;
+    height: calc(100vh - 60px);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2rem;
+    padding: 0;
     background: #ffffff;
+    overflow: hidden;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    min-height: 800px;
+}
+
+@media (min-width: 1280px) and (max-height: 800px) {
+    .auth-container {
+        top: 30px;
+        height: calc(100vh - 30px);
+    }
+}
+
+@media (max-width: 768px) {
+    .auth-container {
+        height: calc(100vh - 60px);
+        top: 60px;
+        min-height: auto;
+    }
 }
 
 .auth-content {
@@ -69,31 +92,6 @@
     100% {
         transform: translateX(-300%);
     }
-}
-
-.slider-dots {
-    position: absolute;
-    bottom: 1.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 0.5rem;
-    z-index: 2;
-}
-
-.dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.2);
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.dot.active {
-    background: #2563eb;
-    transform: scale(1.2);
 }
 
 .auth-box {
