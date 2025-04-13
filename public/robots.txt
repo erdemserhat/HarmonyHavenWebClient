@@ -23,7 +23,7 @@ Allow: /assets/
 Allow: /sources/
 
 # Site Haritası
-Sitemap: https://harmonyhaven.erdemserhat.com/sitemap.xml
+Sitemap: https://www.harmonyhavenapp.com/sitemap.xml
 
 # Crawl-delay
 Crawl-delay: 5 

@@ -12,8 +12,8 @@ export function Home() {
         title="Harmony Haven - Kişisel Gelişim ve Motivasyon Uygulaması"
         description="Harmony Haven ile kişisel gelişiminizi destekleyin. Yapay zeka destekli motivasyon asistanı, ilham verici makaleler ve günlük bildirimlerle hayatınıza pozitif değer katın. Ücretsiz indirin, hemen başlayın!"
         keywords="kişisel gelişim uygulaması, motivasyon uygulaması, yapay zeka asistanı, kişisel gelişim, motivasyon, ilham verici alıntılar, kişisel gelişim makaleleri, ücretsiz motivasyon uygulaması"
-        ogImage="https://harmonyhaven.erdemserhat.com/favicon/web-app-manifest-512x512.png"
-        canonicalUrl="https://harmonyhaven.erdemserhat.com"
+        ogImage="https://www.harmonyhavenapp.com/favicon/web-app-manifest-512x512.png"
+        canonicalUrl="https://www.harmonyhavenapp.com"
       />
       <motion.div 
         className="home-content"
@@ -29,7 +29,7 @@ export function Home() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
               >
-                Harmony Haven: İlham & Gelişim
+                Harmony Haven: Kişisel Gelişim ve Motivasyon Uygulamanız
               </motion.h1>
               <motion.p 
                 className="subtitle"

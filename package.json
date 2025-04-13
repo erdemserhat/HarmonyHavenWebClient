@@ -20,7 +20,7 @@
 
     "serve": "serve -s dist",
 
-    "start": "start https://harmonyhaventest.erdemserhat.com/ && react-scripts start",
+    "start": "start https://www.harmonyhavenapp.com/ && react-scripts start",
 
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0"
 

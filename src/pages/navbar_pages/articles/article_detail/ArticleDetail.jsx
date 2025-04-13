@@ -66,8 +66,8 @@ export function ArticleDetail() {
     if (!article) return null;
 
     const description = article.contentPreview || article.content.substring(0, 160) + '...';
-    const imageUrl = article.imagePath || 'https://harmonyhaven.erdemserhat.com/ico.png';
-    const canonicalUrl = `https://harmonyhaven.erdemserhat.com/articles/${id}/${article.slug}`;
+    const imageUrl = article.imagePath || 'https://www.harmonyhavenapp.com/ico.png';
+    const canonicalUrl = `https://www.harmonyhavenapp.com/articles/${id}/${article.slug}`;
     const keywords = `${article.title}, ${article.category || ''}, harmony haven, blog, kişisel gelişim, motivasyon`;
 
     return (
