@@ -108,7 +108,7 @@ export function Home() {
                   className="phone-video"
                 >
                   <source
-                    src="https://harmonyhaven.erdemserhat.com/sources/sample.mp4"
+                    src="https://www.harmonyhavenapp.com/sources/sample.mp4"
                     type="video/mp4"
                   />
                   Tarayıcınız video oynatmayı desteklemiyor.
@@ -124,7 +124,7 @@ export function Home() {
                   className="phone-video"
                 >
                   <source
-                    src="https://harmonyhaven.erdemserhat.com/sources/sample2.mp4"
+                    src="https://www.harmonyhavenapp.com/sources/sample2.mp4"
                     type="video/mp4"
                   />
                   Tarayıcınız video oynatmayı desteklemiyor.
