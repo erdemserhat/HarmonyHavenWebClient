@@ -1,0 +1,54 @@
+# Cache control for images
+/*.jpg
+  Cache-Control: public, max-age=31536000
+  Content-Type: image/jpeg
+
+/*.jpeg
+  Cache-Control: public, max-age=31536000
+  Content-Type: image/jpeg
+
+/*.png
+  Cache-Control: public, max-age=31536000
+  Content-Type: image/png
+
+/*.gif
+  Cache-Control: public, max-age=31536000
+  Content-Type: image/gif
+
+/*.svg
+  Cache-Control: public, max-age=31536000
+  Content-Type: image/svg+xml
+
+/*.webp
+  Cache-Control: public, max-age=31536000
+  Content-Type: image/webp
+
+/*.ico
+  Cache-Control: public, max-age=31536000
+  Content-Type: image/x-icon
+
+# Cache control for fonts
+/*.woff
+  Cache-Control: public, max-age=31536000
+  Content-Type: font/woff
+
+/*.woff2
+  Cache-Control: public, max-age=31536000
+  Content-Type: font/woff2
+
+# Cache control for static assets
+/assets/*
+  Cache-Control: public, max-age=31536000
+
+/favicon/*
+  Cache-Control: public, max-age=31536000
+
+/sources/*
+  Cache-Control: public, max-age=31536000
+
+# Security headers
+/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=() 

@@ -1,0 +1,29 @@
+# https://www.robotstxt.org/robotstxt.html
+User-agent: *
+Allow: /
+
+# Ana Sayfalar - Tam Erişim
+Allow: /articles
+Allow: /chat
+Allow: /presentation
+
+# Özel Sayfalar - Sınırlı Erişim
+Disallow: /write-article
+Disallow: /login
+Disallow: /profile
+Disallow: /notifications
+
+# Politika Sayfaları
+Allow: /privacy-policy
+Allow: /account-deletion
+
+# Statik Dosyalar
+Allow: /favicon/
+Allow: /assets/
+Allow: /sources/
+
+# Site Haritası
+Sitemap: https://harmonyhaven.erdemserhat.com/sitemap.xml
+
+# Crawl-delay
+Crawl-delay: 5 

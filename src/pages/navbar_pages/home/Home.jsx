@@ -9,9 +9,11 @@ export function Home() {
   return (
     <div className="home-page">
       <SEO 
-        title="Motivasyon ve İlham Kaynağınız"
-        description="Harmony Haven, kullanıcılarına ilham verici içerikler sunan ve motivasyon sağlayan bir mobil uygulamadır. Kişiselleştirilmiş bildirimler, makaleler ve ilham verici alıntılarla hayatınıza pozitif katkı sağlar."
-        keywords="motivasyon, kişisel gelişim, ilham verici alıntılar, yapay zeka destekli bildirimler, mobil uygulama"
+        title="Harmony Haven - Kişisel Gelişim ve Motivasyon Uygulaması"
+        description="Harmony Haven ile kişisel gelişiminizi destekleyin. Yapay zeka destekli motivasyon asistanı, ilham verici makaleler ve günlük bildirimlerle hayatınıza pozitif değer katın. Ücretsiz indirin, hemen başlayın!"
+        keywords="kişisel gelişim uygulaması, motivasyon uygulaması, yapay zeka asistanı, kişisel gelişim, motivasyon, ilham verici alıntılar, kişisel gelişim makaleleri, ücretsiz motivasyon uygulaması"
+        ogImage="https://harmonyhaven.erdemserhat.com/favicon/web-app-manifest-512x512.png"
+        canonicalUrl="https://harmonyhaven.erdemserhat.com"
       />
       <motion.div 
         className="home-content"
