@@ -12,8 +12,8 @@ export default defineConfig({
       configureServer() {
         // Open the external URL after a brief delay to allow the server to start
         setTimeout(() => {
-          open('https://harmonyhaventest.erdemserhat.com/');  // Change this to your desired URL
-        }, 1000); // You can adjust the timeout duration if necessary
+          open('https://harmonyhavenappserver.erdemserhat.com/');
+        }, 1000);
       },
     },
   ],
@@ -24,7 +24,7 @@ export default defineConfig({
   },
   base: '',
   server: {
-    allowedHosts: ['harmonyhaventest.erdemserhat.com'],
+    allowedHosts: ['harmonyhavenappserver.erdemserhat.com'],
     port: 3000,
   },
   preview: {
