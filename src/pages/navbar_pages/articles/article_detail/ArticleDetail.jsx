@@ -1,6 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import ReactMarkdown from 'react-markdown';
-import { Helmet } from 'react-helmet';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import './ArticleDetail.css';
@@ -9,6 +8,7 @@ import axios from '../../../../services/api/axios.js';
 import {LoadingSpinner} from "@/pages/common/loading_spinner/LoadingSpinner.jsx";
 import { CodeBlock } from '../../../../components/CodeBlock';
 import remarkGfm from 'remark-gfm';
+import { SEO } from '../../../../components/SEO';
 
 export function ArticleDetail() {
     const { id, slug } = useParams();
@@ -56,7 +56,7 @@ export function ArticleDetail() {
     if (loading) return <LoadingSpinner/>;
     if (error) {
         return (
-            <div className="error-container">
+            <div className="error-container" role="alert">
                 <h2>Hata</h2>
                 <p>{error}</p>
                 <button onClick={() => navigate('/articles')}>Makalelere Dön</button>
@@ -68,58 +68,39 @@ export function ArticleDetail() {
     const description = article.contentPreview || article.content.substring(0, 160) + '...';
     const imageUrl = article.imagePath || 'https://harmonyhaven.erdemserhat.com/ico.png';
     const canonicalUrl = `https://harmonyhaven.erdemserhat.com/articles/${id}/${article.slug}`;
+    const keywords = `${article.title}, ${article.category || ''}, harmony haven, blog, kişisel gelişim, motivasyon`;
 
     return (
-        <div className="article-detail-page">
-            <Helmet>
-                {/* Temel meta etiketleri */}
-                <title>{`${article.title} - Harmony Haven`}</title>
-                <meta name="description" content={description} />
-                <link rel="canonical" href={canonicalUrl} />
-
-                {/* OpenGraph meta etiketleri */}
-                <meta property="og:title" content={article.title} />
-                <meta property="og:description" content={description} />
-                <meta property="og:image" content={imageUrl} />
-                <meta property="og:url" content={canonicalUrl} />
-                <meta property="og:type" content="article" />
-                <meta property="og:site_name" content="Harmony Haven" />
-                <meta property="article:published_time" content={article.publishDate} />
-                <meta property="article:author" content="Harmony Haven" />
-
-                {/* Twitter Card meta etiketleri */}
-                <meta name="twitter:card" content="summary_large_image" />
-                <meta name="twitter:title" content={article.title} />
-                <meta name="twitter:description" content={description} />
-                <meta name="twitter:image" content={imageUrl} />
-                <meta name="twitter:site" content="@harmonyhaven" />
-
-                {/* Ek meta etiketleri */}
-                <meta name="author" content="Harmony Haven" />
-                <meta name="robots" content="index, follow" />
-                <meta name="keywords" content={`${article.title}, harmony haven, blog, teknoloji`} />
-            </Helmet>
+        <article className="article-detail-page">
+            <SEO 
+                title={article.title}
+                description={description}
+                keywords={keywords}
+                canonicalUrl={canonicalUrl}
+                ogImage={imageUrl}
+                ogType="article"
+            />
 
             <div className="article-detail-container">
-                <div className="back-button-container">
+                <nav className="back-button-container" aria-label="Gezinme">
                     <button className="back-button" onClick={() => navigate(-1)}>
-                        <span className="back-arrow">←</span> Geri
+                        <span className="back-arrow" aria-hidden="true">←</span> Geri
                     </button>
-                </div>
+                </nav>
 
                 {article && (
                     <>
-                        <div className="article-header">
+                        <header className="article-header">
                             <h1 className="article-title">{article.title}</h1>
                             <div className="article-meta">
-                                <span className="article-date">
+                                <time className="article-date" dateTime={article.publishDate}>
                                     {article.publishDate}
-                                </span>
+                                </time>
                             </div>
-                        </div>
+                        </header>
 
                         {article.imagePath && (
-                            <div className="article-cover">
+                            <figure className="article-cover">
                                 <img 
                                     src={article.imagePath} 
                                     alt={article.title}
@@ -127,7 +108,7 @@ export function ArticleDetail() {
                                         e.target.src = 'https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&q=80'
                                     }}
                                 />
-                            </div>
+                            </figure>
                         )}
 
                         <div className="article-content">
@@ -156,12 +137,12 @@ export function ArticleDetail() {
                                     },
                                     table({node, ...props}) {
                                         return (
-                                            <table className="markdown-table" {...props} />
+                                            <table className="markdown-table" role="grid" {...props} />
                                         )
                                     },
                                     th({node, ...props}) {
                                         return (
-                                            <th className="markdown-th" {...props} />
+                                            <th className="markdown-th" scope="col" {...props} />
                                         )
                                     },
                                     td({node, ...props}) {
@@ -177,6 +158,6 @@ export function ArticleDetail() {
                     </>
                 )}
             </div>
-        </div>
+        </article>
     );
 }

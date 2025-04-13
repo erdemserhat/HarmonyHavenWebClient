@@ -7,7 +7,7 @@ import { useLoading } from '../../../context/LoadingContext.jsx'
 import { motion } from 'framer-motion'
 import axios from '../../../services/api/axios.js'
 import { ArticleList } from './article_list/ArticleList.jsx'
-import { Helmet } from 'react-helmet'
+import { SEO } from '../../../components/SEO'
 
 // Sabit kategoriler
 const CATEGORIES = [
@@ -149,37 +149,41 @@ export function Articles() {
 
   return (
     <div className="articles-page">
-      <Helmet>
-        <title>Makaleler - Harmony Haven</title>
-        <meta name="description" content="Teknoloji, programlama ve daha fazlası hakkında makaleler." />
-      </Helmet>
-      <motion.div 
+      <SEO 
+        title="Makaleler"
+        description="Motivasyon, kişisel gelişim, yaşam, sağlık, bilim, teknoloji ve yazılım konularında ilham verici ve bilgilendirici makaleler."
+        keywords="makaleler, motivasyon, kişisel gelişim, yaşam, sağlık, bilim, teknoloji, yazılım, programlama"
+      />
+      <motion.main 
         className="articles-content"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h1>Makaleler</h1>
-        
-        <div className="search-bar">
-          <input
-            type="text"
-            placeholder="Makalelerde ara..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="search-input"
-          />
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="search-icon">
-            <circle cx="11" cy="11" r="8"></circle>
-            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-          </svg>
-        </div>
+        <header>
+          <h1>Makaleler</h1>
+          
+          <div className="search-bar" role="search">
+            <input
+              type="text"
+              placeholder="Makalelerde ara..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="search-input"
+              aria-label="Makalelerde ara"
+            />
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="search-icon" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </div>
+        </header>
 
-        <div className="categories-container">
+        <nav className="categories-container" aria-label="Makale kategorileri">
           <button 
             className="scroll-button left" 
             onClick={() => scroll('left')}
-            aria-label="Sola kaydır"
+            aria-label="Kategorileri sola kaydır"
           >
             ←
           </button>
@@ -190,6 +194,7 @@ export function Articles() {
                 key={category.id}
                 className={`category-button ${selectedCategory === category.id ? 'active' : ''}`}
                 onClick={() => handleCategoryChange(category.id)}
+                aria-pressed={selectedCategory === category.id}
               >
                 {category.name}
               </button>
@@ -199,22 +204,22 @@ export function Articles() {
           <button 
             className="scroll-button right" 
             onClick={() => scroll('right')}
-            aria-label="Sağa kaydır"
+            aria-label="Kategorileri sağa kaydır"
           >
             →
           </button>
-        </div>
+        </nav>
 
-        <div className="articles-grid">
+        <section className="articles-grid" aria-label="Makale listesi">
           <ArticleList articles={filteredArticles} />
           
           {!isFiltering && filteredArticles.length === 0 && (
-            <div className="no-articles">
+            <p className="no-articles" role="status">
               Bu kriterlere uygun makale bulunamadı.
-            </div>
+            </p>
           )}
-        </div>
-      </motion.div>
+        </section>
+      </motion.main>
     </div>
   )
 } 
