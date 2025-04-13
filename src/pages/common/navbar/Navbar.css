@@ -247,19 +247,6 @@
   height: 16px;
 }
 
-/* Notification indicator on profile button */
-.notification-indicator {
-  position: absolute;
-  top: -2px;
-  right: -2px;
-  width: 6px;
-  height: 6px;
-  background-color: #111827;
-  border-radius: 50%;
-  border: 1px solid white;
-  animation: pulse 2s infinite;
-}
-
 .profile-dropdown {
   position: absolute;
   top: calc(100% + 8px);

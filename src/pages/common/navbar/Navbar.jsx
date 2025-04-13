@@ -117,7 +117,6 @@ export function Navbar() {
                                 aria-label="User profile"
                             >
                                 <FaUserAlt />
-                                <span className="notification-indicator"></span>
                             </button>
                             
                             {profileDropdownOpen && (

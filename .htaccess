@@ -1,12 +1,21 @@
-# Enable Rewrite Engine
+# Enable the rewrite engine
 RewriteEngine On
 
-# Bot ve preview istekleri için yönlendirme
+# Redirect bot and social media preview requests to the preview API
+# This applies to URLs like /articles/some-article-title
 RewriteCond %{HTTP_USER_AGENT} (bot|whatsapp|telegram|facebook|twitter|linkedin|discord|slack|viber|facebookexternalhit|twitterbot|linkedinbot|telegrambot|discordbot|whatsapp|preview) [NC]
 RewriteCond %{REQUEST_URI} ^/articles/([^/]+)(/[^/]+)?$ [NC]
 RewriteRule ^articles/([^/]+)(/[^/]+)?$ https://harmonyhavenappserver.erdemserhat.com/api/v1/articles/$1/preview [R=301,L]
 
-# Normal istekler için React uygulamasına yönlendirme
+# Redirect all traffic from harmonyhaven.erdemserhat.com (with or without www) to www.harmonyhavenapp.com
+RewriteCond %{HTTP_HOST} ^(www\.)?harmonyhaven\.erdemserhat\.com$ [NC]
+RewriteRule ^(.*)$ https://www.harmonyhavenapp.com/$1 [R=301,L]
+
+# Fallback to React's index.html for routes that don't match real files or folders
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^ index.html [QSA,L] 
+RewriteRule ^ index.html [QSA,L]
+
+# Optional: Redirect non-www to www on harmonyhavenapp.com for consistency and SEO
+RewriteCond %{HTTP_HOST} ^harmonyhavenapp\.com$ [NC]
+RewriteRule ^(.*)$ https://www.harmonyhavenapp.com/$1 [R=301,L]

@@ -3,12 +3,11 @@ import './login-register-screen.css';
 import { FcGoogle } from 'react-icons/fc';
 import { GoogleLogin } from '@react-oauth/google';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
-import {authService} from "@/services/api/auth.service.js";
+import { authService } from "@/services/api/auth.service.js";
 import { useNavigate } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
-import {googleService} from "@/services/api/google.service.js";
-import {useAuthChecker} from "@/context/AuthContext.jsx";
-
+import { googleService } from "@/services/api/google.service.js";
+import { useAuthChecker } from "@/context/AuthContext.jsx";
 
 const promotionalImages = [
     'http://harmonyhaven.erdemserhat.com/sources/ps/1.jpg',
@@ -39,13 +38,12 @@ export function LoginRegisterScreen() {
         confirmPassword: ''
     });
     const [error, setError] = useState('');
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false);
     const { isAuthenticated, setIsAuthenticated } = useAuthChecker();
-
 
     useEffect(() => {
         const timer = setInterval(() => {
-            setCurrentImageIndex((prevIndex) => 
+            setCurrentImageIndex((prevIndex) =>
                 prevIndex === promotionalImages.length - 1 ? 0 : prevIndex + 1
             );
         }, 5000);
@@ -55,11 +53,11 @@ export function LoginRegisterScreen() {
 
     const handleImageClick = (direction) => {
         if (direction === 'next') {
-            setCurrentImageIndex((prevIndex) => 
+            setCurrentImageIndex((prevIndex) =>
                 prevIndex === promotionalImages.length - 1 ? 0 : prevIndex + 1
             );
         } else {
-            setCurrentImageIndex((prevIndex) => 
+            setCurrentImageIndex((prevIndex) =>
                 prevIndex === 0 ? promotionalImages.length - 1 : prevIndex - 1
             );
         }
@@ -71,32 +69,27 @@ export function LoginRegisterScreen() {
             ...prev,
             [name]: value
         }));
-        // Input değiştiğinde hata mesajını temizle
         setError('');
     };
 
     const validateForm = () => {
-        // E-posta formatı kontrolü
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(formData.email)) {
             setError(ERROR_MESSAGES[101]);
             return false;
         }
 
-        // Şifre uzunluğu kontrolü
         if (formData.password.length < 8) {
             setError(ERROR_MESSAGES[102]);
             return false;
         }
 
-        // Şifre gücü kontrolü
         const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).+$/;
         if (!passwordRegex.test(formData.password)) {
             setError(ERROR_MESSAGES[103]);
             return false;
         }
 
-        // Kayıt olma durumunda şifre tekrar kontrolü
         if (!isLoginMode && formData.password !== formData.confirmPassword) {
             setError("Şifreler eşleşmiyor!");
             return false;
@@ -116,17 +109,15 @@ export function LoginRegisterScreen() {
                 return;
             }
 
-            if(isLoginMode) {
+            if (isLoginMode) {
                 const response = await authService.login({
                     email: formData.email,
                     password: formData.password,
                 });
 
-                // Form validasyon hatası varsa
                 if (!response.formValidationResult.isValid) {
                     setError(response.formValidationResult.errorMessage || ERROR_MESSAGES[response.formValidationResult.errorCode]);
                 }
-                // Kimlik bilgileri hatası varsa
                 else if (!response.credentialsValidationResult.isValid) {
                     if (response.credentialsValidationResult.errorCode === 105) {
                         setError("Şifre yanlış");
@@ -136,7 +127,6 @@ export function LoginRegisterScreen() {
                         setError(response.credentialsValidationResult.errorMessage || ERROR_MESSAGES[401]);
                     }
                 }
-                // Başarılı giriş
                 else if (response.isAuthenticated) {
                     console.log('Giriş başarılı!');
                     navigate('/articles');
@@ -149,13 +139,10 @@ export function LoginRegisterScreen() {
                     password: formData.password,
                 });
 
-                // Form validasyon hatası varsa
                 if (!response.formValidationResult.isValid) {
                     setError(response.formValidationResult.errorMessage || ERROR_MESSAGES[response.formValidationResult.errorCode]);
                 } else {
-                    // Başarılı kayıt işlemleri
                     console.log('Kayıt başarılı!');
-                    // Kayıt başarılı olduğunda giriş moduna geç
                     navigate('/articles');
                     setIsAuthenticated(true);
                     setFormData({
@@ -182,15 +169,9 @@ export function LoginRegisterScreen() {
 
     const handleSuccess = async (response) => {
         try {
-            // Google tarafından dönen JWT token
             const credential = response.credential;
-
             console.log('Google User:', credential);
-
-            // Login işleminin bitmesini bekle
             await googleService.login(credential);
-
-            // Login işlemi başarılı olduysa sayfayı yenile
             navigate('/articles');
             setIsAuthenticated(true);
         } catch (error) {
@@ -198,17 +179,15 @@ export function LoginRegisterScreen() {
         }
     };
 
-
     const handleError = () => {
         console.log('Google Login Failed');
     };
-
 
     return (
         <div className="auth-container">
             <div className="auth-content">
                 <div className="promotional-section">
-                    <div className="image-slider" 
+                    <div className="image-slider"
                          onClick={() => handleImageClick('next')}
                          style={{ cursor: 'pointer' }}>
                         {promotionalImages.map((img, index) => (
@@ -236,7 +215,7 @@ export function LoginRegisterScreen() {
 
                 <div className="auth-box">
                     <div className={`auth-tabs ${!isLoginMode ? 'register' : ''}`}>
-                        <button 
+                        <button
                             className={`tab-button ${isLoginMode ? 'active' : ''}`}
                             onClick={() => {
                                 setIsLoginMode(true);
@@ -245,7 +224,7 @@ export function LoginRegisterScreen() {
                         >
                             Giriş Yap
                         </button>
-                        <button 
+                        <button
                             className={`tab-button ${!isLoginMode ? 'active' : ''}`}
                             onClick={() => {
                                 setIsLoginMode(false);
@@ -260,7 +239,15 @@ export function LoginRegisterScreen() {
                         {error && <div className="error-message">{error}</div>}
 
                         <div style={{ justifyContent: 'center', justifyItems: 'center' }}>
-                            <GoogleLogin onSuccess={handleSuccess} onError={handleError} />
+                            <GoogleLogin
+                                onSuccess={handleSuccess}
+                                onError={handleError}
+                                useOneTap
+                                auto_select
+                                text="continue_with"
+                                shape="rectangular"
+                                size="large"
+                            />
                         </div>
 
                         <div className="divider">
@@ -315,8 +302,8 @@ export function LoginRegisterScreen() {
                                     />
                                 </div>
                             )}
-                            
-                            <button 
+
+                            <button
                                 type="button"
                                 className="password-toggle"
                                 onClick={() => setShowPasswords(!showPasswords)}
@@ -325,8 +312,8 @@ export function LoginRegisterScreen() {
                             </button>
                         </div>
 
-                        <button 
-                            type="submit" 
+                        <button
+                            type="submit"
                             className={`submit-button ${isLoading ? 'loading' : ''}`}
                             disabled={isLoading}
                         >
