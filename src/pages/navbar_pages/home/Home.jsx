@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
+import { SEO } from '../../../components/SEO'
 import './Home.css'
 import googlePlayIcon from '../../../assets/google-play.svg'
 import appleStoreIcon from '../../../assets/app-store.svg'
@@ -7,6 +8,11 @@ import appleStoreIcon from '../../../assets/app-store.svg'
 export function Home() {
   return (
     <div className="home-page">
+      <SEO 
+        title="Motivasyon ve İlham Kaynağınız"
+        description="Harmony Haven, kullanıcılarına ilham verici içerikler sunan ve motivasyon sağlayan bir mobil uygulamadır. Kişiselleştirilmiş bildirimler, makaleler ve ilham verici alıntılarla hayatınıza pozitif katkı sağlar."
+        keywords="motivasyon, kişisel gelişim, ilham verici alıntılar, yapay zeka destekli bildirimler, mobil uygulama"
+      />
       <motion.div 
         className="home-content"
         initial={{ opacity: 0, y: 20 }}
@@ -15,7 +21,7 @@ export function Home() {
       >
         <div className="content-grid">
           <div className="left-content">
-            <div className="app-header">
+            <header className="app-header">
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -23,18 +29,17 @@ export function Home() {
               >
                 Harmony Haven: İlham & Gelişim
               </motion.h1>
-            </div>
-            
-            <motion.p 
-              className="subtitle"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-            >
-              Motivasyon ve İlham Kaynağınız
-            </motion.p>
+              <motion.p 
+                className="subtitle"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+              >
+                Motivasyon ve İlham Kaynağınız
+              </motion.p>
+            </header>
 
-            <motion.div 
+            <motion.section 
               className="app-description"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -46,7 +51,7 @@ export function Home() {
                 makaleler, yapay zeka destekli kişiselleştirilmiş bildirimler ve ilham verici 
                 alıntılar sunar.
               </p>
-            </motion.div>
+            </motion.section>
 
             <motion.div 
               className="cta-section"
@@ -127,7 +132,7 @@ export function Home() {
           </motion.div>
         </div>
 
-        <motion.div 
+        <motion.section 
           className="features"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -135,27 +140,27 @@ export function Home() {
         >
           <h2>Öne Çıkan Özellikler</h2>
           <div className="features-grid">
-            <div className="feature-card">
-              <span className="feature-icon">📚</span>
+            <article className="feature-card">
+              <span className="feature-icon" aria-hidden="true">📚</span>
               <h3>Kategorilere Göre Makaleler</h3>
               <p>Çeşitli konularda ilham verici ve bilgilendirici makaleler.</p>
-            </div>
+            </article>
 
-            <div className="feature-card">
-              <span className="feature-icon">🎯</span>
+            <article className="feature-card">
+              <span className="feature-icon" aria-hidden="true">🎯</span>
               <h3>Kişiselleştirilmiş Bildirimler</h3>
               <p>Yapay zeka tarafından kullanıcıya özel motivasyon mesajları.</p>
-            </div>
+            </article>
 
-            <div className="feature-card">
-              <span className="feature-icon">💫</span>
+            <article className="feature-card">
+              <span className="feature-icon" aria-hidden="true">💫</span>
               <h3>İlham Verici Alıntılar</h3>
               <p>Günlük ilham ve motivasyon için ilham verici alıntılar.</p>
-            </div>
+            </article>
           </div>
-        </motion.div>
+        </motion.section>
 
-        <motion.div 
+        <motion.section 
           className="testimonials"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -268,7 +273,7 @@ export function Home() {
               </div>
             </div>
           </div>
-        </motion.div>
+        </motion.section>
 
         <motion.div 
           className="instagram-section"

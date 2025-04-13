@@ -20,6 +20,7 @@ import {GoogleOAuthProvider} from "@react-oauth/google";
 import {AuthProvider} from "@/context/AuthContext.jsx";
 import {Chat} from "@/pages/navbar_pages/chat/Chat.jsx";
 import { useEffect } from 'react';
+import { HelmetProvider } from 'react-helmet-async';
 
 // Scroll to top component
 function ScrollToTop() {
@@ -72,43 +73,45 @@ const clientId = '456625388455-4cd1ujegfqut63lktptd1dm9ulpvfa8l.apps.googleuserc
 
 function App() {
     return (
-        <AuthProvider>
-            <GoogleOAuthProvider clientId={clientId}>
-                <Router>
-                    <ScrollToTop />
-                    <LoadingProvider>
-                        <ArticlesProvider>
-                            <QuotesProvider>
-                                <div className="app-container">
-                                    <Navbar/>
-                                    <div className="content-container">
-                                        <Routes>
-                                            <Route path="/" element={<Home/>}/>
-                                            <Route path="/write-article" element={<ArticleWriting/>}/>
-                                            <Route path="/login" element={<LoginRegisterScreen/>}/>
-                                            <Route path="/articles" element={<Articles/>}/>
-                                            <Route path="/articles/:id/:slug?" element={<ArticleDetail/>}/>
-                                            <Route path="/quotes" element={<NotFound/>}/>
-                                            <Route path="/notifications" element={<Notifications/>}/>
-                                            <Route path="/profile" element={<Profile/>}/>
-                                            <Route path="/chat" element={<Chat/>}/>
-                                            <Route path="/privacy-policy" element={<PrivacyPolicyHtml/>}/>
-                                            <Route path="/privacy-policy-html" element={<PrivacyPolicyHtml/>}/>
-                                            <Route path="/account-deletion" element={<AccountDeletion/>}/>
-                                            <Route path="/presentation" element={<PresentationPage/>}/>
-                                            <Route path="/privacy-policy-encryptext"
-                                                   element={<PrivacyPolicyEncrypted/>}/>
-                                            <Route path="/404" element={<NotFound/>}/>
-                                            <Route path="*" element={<Navigate to="/404" replace/>}/>
-                                        </Routes>
+        <HelmetProvider>
+            <AuthProvider>
+                <GoogleOAuthProvider clientId={clientId}>
+                    <Router>
+                        <ScrollToTop />
+                        <LoadingProvider>
+                            <ArticlesProvider>
+                                <QuotesProvider>
+                                    <div className="app-container">
+                                        <Navbar/>
+                                        <div className="content-container">
+                                            <Routes>
+                                                <Route path="/" element={<Home/>}/>
+                                                <Route path="/write-article" element={<ArticleWriting/>}/>
+                                                <Route path="/login" element={<LoginRegisterScreen/>}/>
+                                                <Route path="/articles" element={<Articles/>}/>
+                                                <Route path="/articles/:id/:slug?" element={<ArticleDetail/>}/>
+                                                <Route path="/quotes" element={<NotFound/>}/>
+                                                <Route path="/notifications" element={<Notifications/>}/>
+                                                <Route path="/profile" element={<Profile/>}/>
+                                                <Route path="/chat" element={<Chat/>}/>
+                                                <Route path="/privacy-policy" element={<PrivacyPolicyHtml/>}/>
+                                                <Route path="/privacy-policy-html" element={<PrivacyPolicyHtml/>}/>
+                                                <Route path="/account-deletion" element={<AccountDeletion/>}/>
+                                                <Route path="/presentation" element={<PresentationPage/>}/>
+                                                <Route path="/privacy-policy-encryptext"
+                                                       element={<PrivacyPolicyEncrypted/>}/>
+                                                <Route path="/404" element={<NotFound/>}/>
+                                                <Route path="*" element={<Navigate to="/404" replace/>}/>
+                                            </Routes>
+                                        </div>
                                     </div>
-                                </div>
-                            </QuotesProvider>
-                        </ArticlesProvider>
-                    </LoadingProvider>
-                </Router>
-            </GoogleOAuthProvider>
-        </AuthProvider>
+                                </QuotesProvider>
+                            </ArticlesProvider>
+                        </LoadingProvider>
+                    </Router>
+                </GoogleOAuthProvider>
+            </AuthProvider>
+        </HelmetProvider>
     )
 }
 

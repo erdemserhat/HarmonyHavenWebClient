@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import axios from '@/services/api/axios';
 import ReactMarkdown from 'react-markdown';
 import { IoPaperPlane } from 'react-icons/io5';
+import { SEO } from '../../../components/SEO';
 import './Chat.css';
 
 export function Chat() {
@@ -42,7 +43,7 @@ export function Chat() {
     useEffect(() => {
         // Welcome message on first load
         const welcomeMessage = {
-            text: `Merhaba! Ben Harmony Haven AI. Size nasıl yardımcı olabilirim? Kişisel gelişiminiz ve ilhamınız için buradayım.`,
+            text: `Merhaba! Ben Harmonia AI. Size nasıl yardımcı olabilirim? Kişisel gelişiminiz ve ilhamınız için buradayım.`,
             isUser: false
         };
         setMessages([welcomeMessage]);
@@ -188,6 +189,11 @@ export function Chat() {
 
     return (
         <div className="chat-page">
+            <SEO 
+                title="Harmonia AI ile Sohbet"
+                description="Harmonia AI ile kişisel gelişim ve motivasyon üzerine sohbet edin. Yapay zeka destekli asistanımız size yardımcı olmak için hazır."
+                keywords="Harmonia AI, yapay zeka sohbet, kişisel gelişim asistanı, motivasyon chatbot, AI sohbet"
+            />
             <div className="chat-container">
                 <div className="chat-messages" ref={chatMessagesRef}>
                     {messages.map((message, index) => (
