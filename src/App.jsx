@@ -21,6 +21,7 @@ import {AuthProvider} from "@/context/AuthContext.jsx";
 import {Chat} from "@/pages/navbar_pages/chat/Chat.jsx";
 import { useEffect } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
+import {Enneagram} from "@/pages/navbar_pages/enneagram/Enneagram.jsx";
 
 // Scroll to top component
 function ScrollToTop() {
@@ -86,6 +87,7 @@ function App() {
                                         <div className="content-container">
                                             <Routes>
                                                 <Route path="/" element={<Home/>}/>
+                                                <Route path="/enneagram" element={<Enneagram />}/>
                                                 <Route path="/write-article" element={<ArticleWriting/>}/>
                                                 <Route path="/login" element={<LoginRegisterScreen/>}/>
                                                 <Route path="/articles" element={<Articles/>}/>
