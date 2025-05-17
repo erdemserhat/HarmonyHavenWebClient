@@ -5,7 +5,8 @@ import './Navbar.css'
 import icoImage from '../../../assets/ico.png'
 import axios from "@/services/api/axios.js"
 import {useAuthChecker} from "@/context/AuthContext.jsx"
-import { FaComments, FaHome, FaNewspaper, FaBell, FaInfoCircle, FaUserAlt, FaSignOutAlt } from 'react-icons/fa'
+import {FaComments, FaHome, FaNewspaper, FaBell, FaInfoCircle, FaUserAlt, FaSignOutAlt, FaBrain} from 'react-icons/fa'
+import {FaBrave} from "react-icons/fa6";
 
 export function Navbar() {
     const navigate = useNavigate()
@@ -105,6 +106,14 @@ export function Navbar() {
                         <NavLink to="/chat" className="nav-link">
                             <FaComments />
                             Chat
+                        </NavLink>
+                    )}
+
+
+                    {isAuthenticated && (
+                        <NavLink to="/enneagram" className="nav-link">
+                            <FaBrain />
+                            Enneagram
                         </NavLink>
                     )}
                     
