@@ -53,10 +53,9 @@ export type CheckingTestResultDto = {
 };
 
 export const enneagramService = {
-    getQuestions: async () => {
-        const response = await axios.get('/enneagram/questions')
-        return response.data as EnneagramQuestionDto[];
-
+    getQuestions: async (): Promise<EnneagramQuestionDto[]> => {
+        const response = await axios.get('/enneagram/questions');
+        return response.data;
     },
 
     sendQuestion: async (answers: EnneagramAnswerDto[]): Promise<EnneagramTestResultDetailedDto> => {
