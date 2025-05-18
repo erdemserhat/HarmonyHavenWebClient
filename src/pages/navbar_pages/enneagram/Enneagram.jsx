@@ -8,6 +8,7 @@ import {CodeBlock} from "@/components/CodeBlock.jsx";
 import {Prism as SyntaxHighlighter} from "react-syntax-highlighter";
 import {vscDarkPlus} from "react-syntax-highlighter/dist/cjs/styles/prism/index.js";
 import remarkBreaks from 'remark-breaks';
+import { SEO } from "@/components/SEO.jsx";
 
 export function Enneagram() {
     const [loading, setLoading] = useState(true);
@@ -110,23 +111,33 @@ export function Enneagram() {
     }
     
     return (
-        <div className="enneagram-container">
-            {testResult ? (
-                <TestResultDisplay result={testResult} retakeTest={retakeTest} />
-            ) : showIntro ? (
-                <IntroScreen questions={questions} startTest={startTest} />
-            ) : (
-                <TestTakingSection 
-                    questions={questions}
-                    currentQuestionIndex={currentQuestionIndex}
-                    handleAnswer={handleAnswer}
-                    goToPreviousQuestion={goToPreviousQuestion}
-                    answers={answers}
-                    setCurrentQuestionIndex={setCurrentQuestionIndex}
-                    submitAnswers={submitAnswers}
-                />
-            )}
-        </div>
+        <>
+            <SEO 
+                title="Enneagram Testi"
+                description="Harmony Haven Enneagram testi ile kişilik tipinizi keşfedin. Kendinizi daha iyi tanıyın ve kişisel gelişiminize katkıda bulunacak içgörüler edinin."
+                keywords="enneagram testi, kişilik testi, kişisel gelişim, harmony haven, enneagram tipleri, kişilik analizi"
+                ogType="website"
+                ogImage="https://www.harmonyhavenapp.com/favicon/web-app-manifest-512x512.png"
+            />
+            
+            <div className="enneagram-container">
+                {testResult ? (
+                    <TestResultDisplay result={testResult} retakeTest={retakeTest} />
+                ) : showIntro ? (
+                    <IntroScreen questions={questions} startTest={startTest} />
+                ) : (
+                    <TestTakingSection 
+                        questions={questions}
+                        currentQuestionIndex={currentQuestionIndex}
+                        handleAnswer={handleAnswer}
+                        goToPreviousQuestion={goToPreviousQuestion}
+                        answers={answers}
+                        setCurrentQuestionIndex={setCurrentQuestionIndex}
+                        submitAnswers={submitAnswers}
+                    />
+                )}
+            </div>
+        </>
     );
 }
 
