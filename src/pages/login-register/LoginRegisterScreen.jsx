@@ -129,8 +129,12 @@ export function LoginRegisterScreen() {
                     email: formData.email,
                     password: formData.password,
                 });
+                if (response.isAuthenticated) {
+                    navigate(from);
+                    setIsAuthenticated(true);}
 
-                if (!response.formValidationResult.isValid) {
+
+                else if (!response.formValidationResult.isValid) {
                     setError(response.formValidationResult.errorMessage || ERROR_MESSAGES[response.formValidationResult.errorCode]);
                 }
                 else if (!response.credentialsValidationResult.isValid) {
@@ -142,11 +146,7 @@ export function LoginRegisterScreen() {
                         setError(response.credentialsValidationResult.errorMessage || ERROR_MESSAGES[401]);
                     }
                 }
-                else if (response.isAuthenticated) {
-                    console.log('Giriş başarılı!');
-                    navigate(from);
-                    setIsAuthenticated(true);
-                }
+
             } else {
                 const response = await authService.register({
                     name: formData.name,
