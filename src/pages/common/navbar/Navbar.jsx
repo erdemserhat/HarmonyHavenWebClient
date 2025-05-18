@@ -57,6 +57,14 @@ export function Navbar() {
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen)
     }
+    
+    // Handle clicks on protected routes when not authenticated
+    const handleProtectedLinkClick = (e, path) => {
+        if (!isAuthenticated) {
+            e.preventDefault()
+            navigate('/login', { state: { from: path } })
+        }
+    }
 
     // Loading state when checking authentication
     if (isAuthenticated === null) {
@@ -103,18 +111,42 @@ export function Navbar() {
                         Makaleler
                     </NavLink>
                     
-                    {isAuthenticated && (
+                    {isAuthenticated ? (
                         <NavLink to="/chat" className="nav-link">
+                            <FaComments />
+                            Chat
+                        </NavLink>
+                    ) : (
+                        <NavLink 
+                            to="/login" 
+                            className="nav-link"
+                            onClick={(e) => handleProtectedLinkClick(e, '/chat')}
+                        >
                             <FaComments />
                             Chat
                         </NavLink>
                     )}
 
-
-                    {isAuthenticated && (
+                    {isAuthenticated ? (
                         <NavLink to="/enneagram" className="nav-link">
-                            <img src={enneagramIcon} alt="Enneagram" className="nav-icon" />
+                            <img src={enneagramIcon} alt="Enneagram" className="nav-icon enneagram-icon" />
                             Enneagram
+                        </NavLink>
+                    ) : (
+                        <NavLink 
+                            to="/login" 
+                            className="nav-link"
+                            onClick={(e) => handleProtectedLinkClick(e, '/enneagram')}
+                        >
+                            <img src={enneagramIcon} alt="Enneagram" className="nav-icon enneagram-icon" />
+                            Enneagram
+                        </NavLink>
+                    )}
+                    
+                    {isAuthenticated && (
+                        <NavLink to="/notifications" className="nav-link">
+                            <FaBell />
+                            Bildirimler
                         </NavLink>
                     )}
                     
