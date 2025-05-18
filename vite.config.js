@@ -12,7 +12,6 @@ export default defineConfig({
       configureServer() {
         // Open the external URL after a brief delay to allow the server to start
         setTimeout(() => {
-          open('https://harmonyhavenappserver.erdemserhat.com/');
         }, 1000);
       },
     },

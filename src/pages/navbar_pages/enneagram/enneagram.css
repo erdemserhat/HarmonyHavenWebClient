@@ -1,16 +1,17 @@
 :root {
-    --primary-color: #4f4f4f;
-    --primary-dark: #3d3d3d;
-    --primary-light: #777777;
+    --primary-color: #333333;
+    --primary-dark: #222222;
+    --primary-light: #555555;
     --primary-very-light: #f8f8f8;
-    --accent-color: #4f4f4f;
-    --text-color: #333333;
+    --accent-color: #505050;
+    --accent-hover: #333333;
+    --text-color: #222222;
     --text-light: #666666;
     --bg-color: #ffffff;
     --card-bg: #ffffff;
-    --card-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
-    --border-radius: 12px;
-    --transition: none;
+    --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+    --border-radius: 16px;
+    --transition: all 0.3s ease;
 }
 
 .enneagram-container {
@@ -120,23 +121,20 @@
 }
 
 .test-start-button {
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    background-color: var(--accent-color);
     color: white;
     border: none;
-    border-radius: 30px;
+    border-radius: 8px;
     padding: 14px 32px;
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    transition: var(--transition);
+    transition: background-color 0.3s;
     width: 100%;
-    max-width: 300px;
-    box-shadow: 0 4px 10px rgba(74, 124, 89, 0.3);
-    margin: 0 auto;
 }
 
 .test-start-button:hover {
-    background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+    background-color: var(--accent-hover);
 }
 
 /* Question Styles */
@@ -174,8 +172,8 @@
 .progress-indicator {
     height: 100%;
     background: linear-gradient(90deg, var(--primary-color), var(--primary-light));
-    transition: width 0.4s ease;
-    border-radius: 20px;
+    border-radius: 12px;
+    transition: width 0.6s cubic-bezier(0.65, 0, 0.35, 1);
 }
 
 .progress-text {
@@ -189,6 +187,7 @@
 .question-content {
     margin-bottom: 30px;
     padding: 0 10px;
+    text-align: left;
 }
 
 .question-content p {
@@ -196,6 +195,7 @@
     line-height: 1.6;
     margin-bottom: 16px;
     color: var(--text-color);
+    text-align: left;
 }
 
 .question-subtext {
@@ -203,6 +203,7 @@
     color: var(--text-light);
     font-style: italic;
     margin-bottom: 24px !important;
+    text-align: left;
 }
 
 .answer-options {
@@ -333,14 +334,22 @@
     text-align: center;
 }
 
-.result-card {
+.result-card, 
+.all-type-scores, 
+.famous-people {
     background-color: var(--card-bg);
     border-radius: var(--border-radius);
     box-shadow: var(--card-shadow);
     overflow: hidden;
     margin-bottom: 32px;
-    border: 1px solid #edf2f7;
+    border: none;
     transition: var(--transition);
+}
+
+.result-card:hover, 
+.all-type-scores:hover, 
+.famous-people:hover {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
 }
 
 .result-header {
@@ -390,71 +399,69 @@
 }
 
 .result-description {
-    padding: 28px;
+    padding: 32px;
 }
 
 .result-description h3 {
-    margin-bottom: 24px;
-    color: var(--text-color);
-    text-align: center;
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 700;
+    margin-bottom: 24px;
+    text-align: left;
+    color: var(--accent-color);
 }
 
 .description-item {
     margin-bottom: 16px;
     display: flex;
     align-items: flex-start;
-    padding: 12px 16px;
-    border-radius: 8px;
+    padding: 16px;
+    border-radius: 12px;
     background-color: var(--primary-very-light);
-    border-left: 3px solid var(--primary-color);
     transition: var(--transition);
+    border-left: 3px solid var(--primary-color);
 }
 
 .description-item:hover {
-    box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+    background-color: #f2f2f2;
 }
 
 .description-item span {
     font-weight: 600;
-    margin-right: 8px;
-    color: var(--primary-color);
+    color: var(--accent-color);
     flex-shrink: 0;
-}
-
-.description-item p {
-    margin: 0;
-    line-height: 1.6;
+    margin-right: 12px;
 }
 
 .all-type-scores {
     background-color: var(--card-bg);
     border-radius: var(--border-radius);
     box-shadow: var(--card-shadow);
-    padding: 28px;
+    overflow: hidden;
     margin-bottom: 32px;
-    border: 1px solid #edf2f7;
+    border: none;
+    transition: var(--transition);
+    padding: 28px;
 }
 
 .all-type-scores h3 {
-    margin-bottom: 24px;
-    color: var(--primary-color);
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 700;
-    text-align: center;
+    margin-bottom: 24px;
+    color: var(--accent-color);
+    text-align: left;
 }
 
 .score-list {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: 16px;
+    padding: 4px;
 }
 
 .score-item {
     display: flex;
     align-items: center;
-    padding: 8px 6px;
+    padding: 10px 12px;
     border-radius: 8px;
     transition: var(--transition);
 }
@@ -464,7 +471,7 @@
 }
 
 .score-label {
-    width: 60px;
+    min-width: 60px;
     font-weight: 600;
     flex-shrink: 0;
     color: var(--text-color);
@@ -476,7 +483,9 @@
     background-color: #e2e8f0;
     border-radius: 12px;
     overflow: hidden;
-    margin: 0 12px;
+    margin: 0 16px;
+    position: relative;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
 }
 
 .score-indicator {
@@ -488,9 +497,10 @@
 
 .score-value {
     font-weight: 700;
-    width: 30px;
+    min-width: 30px;
     text-align: right;
     color: var(--primary-color);
+    flex-shrink: 0;
 }
 
 .famous-people {
@@ -499,15 +509,20 @@
     box-shadow: var(--card-shadow);
     padding: 32px;
     margin-bottom: 32px;
-    border: 1px solid #edf2f7;
+    border: none;
+    transition: var(--transition);
+}
+
+.famous-people:hover {
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
 }
 
 .famous-people h3 {
-    margin-bottom: 28px;
-    color: var(--primary-color);
     font-size: 22px;
     font-weight: 700;
-    text-align: center;
+    margin-bottom: 24px;
+    color: var(--accent-color);
+    text-align: left;
 }
 
 .famous-list {
@@ -567,24 +582,29 @@
 }
 
 .retake-test-button {
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--accent-color);
     color: white;
     border: none;
-    border-radius: 30px;
-    padding: 14px 32px;
+    border-radius: 12px;
+    padding: 14px 24px;
+    margin-top: 24px;
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    transition: var(--transition);
+    transition: all 0.3s ease;
     width: 100%;
+    gap: 12px;
     max-width: 300px;
-    display: block;
     margin: 0 auto;
-    box-shadow: 0 4px 10px rgba(74, 124, 89, 0.3);
 }
 
 .retake-test-button:hover {
-    background: linear-gradient(135deg, var(--primary-dark), var(--primary-color));
+    background-color: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
 /* Responsive adjustments */
@@ -599,7 +619,8 @@
     
     .question-content p {
         font-size: 16px;
-        line-height: 1.4;
+        line-height: 1.5;
+        text-align: left;
     }
     
     .answer-option {
@@ -682,6 +703,29 @@
     .famous-details {
         text-align: left;
     }
+
+    .detailed-description-button {
+        padding: 12px 20px;
+        font-size: 15px;
+    }
+    
+    .result-description, .all-type-scores, .famous-people {
+        padding: 24px;
+        text-align: left;
+    }
+    
+    .description-item {
+        padding: 12px;
+        text-align: left;
+    }
+    
+    .description-item p {
+        text-align: left;
+    }
+    
+    .result-description h3 {
+        text-align: left;
+    }
 }
 
 .answer-warning {
@@ -711,7 +755,7 @@
 .enneagram-intro-icon {
     width: 64px;
     height: 64px;
-    background-color: var(--primary-color);
+    background-color: var(--accent-color);
     border-radius: 50%;
     display: flex;
     justify-content: center;
@@ -735,7 +779,7 @@
 }
 
 .test-start-button {
-    background-color: var(--primary-color);
+    background-color: var(--accent-color);
     color: white;
     border: none;
     border-radius: 8px;
@@ -748,7 +792,7 @@
 }
 
 .test-start-button:hover {
-    background-color: var(--primary-dark);
+    background-color: var(--accent-hover);
 }
 
 @media (max-width: 600px) {
@@ -806,7 +850,7 @@
     margin: 0;
 }
 
-/* Mobil için düzenleme */
+/* Mobil için düzenlemeler */
 @media (max-width: 600px) {
     .result-type-display {
         flex-direction: column;
@@ -824,4 +868,60 @@
     .result-type-info h1 {
         font-size: 28px;
     }
+    
+    .detailed-description-button {
+        padding: 12px 20px;
+        font-size: 15px;
+    }
+    
+    .result-description, .all-type-scores, .famous-people {
+        padding: 24px;
+        text-align: left;
+    }
+    
+    .description-item {
+        padding: 12px;
+        text-align: left;
+    }
+    
+    .description-item p {
+        text-align: left;
+    }
+    
+    .result-description h3 {
+        text-align: left;
+    }
+}
+
+/* Tip detay açıklama butonu */
+.detailed-description-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    padding: 14px 24px;
+    margin-top: 24px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    gap: 12px;
+}
+
+.detailed-description-button:hover {
+    background-color: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+}
+
+.detailed-description-button svg {
+    transition: transform 0.3s ease;
+}
+
+.detailed-description-button:hover svg {
+    transform: translateX(4px);
 }

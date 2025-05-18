@@ -3,6 +3,7 @@ import { Link, NavLink, useNavigate, useLocation } from 'react-router-dom'
 import { authService } from '../../../services/api/auth.service'
 import './Navbar.css'
 import icoImage from '../../../assets/ico.png'
+import enneagramIcon from '../../../assets/enneagram.png'
 import axios from "@/services/api/axios.js"
 import {useAuthChecker} from "@/context/AuthContext.jsx"
 import {FaComments, FaHome, FaNewspaper, FaBell, FaInfoCircle, FaUserAlt, FaSignOutAlt, FaBrain} from 'react-icons/fa'
@@ -112,7 +113,7 @@ export function Navbar() {
 
                     {isAuthenticated && (
                         <NavLink to="/enneagram" className="nav-link">
-                            <FaBrain />
+                            <img src={enneagramIcon} alt="Enneagram" className="nav-icon" />
                             Enneagram
                         </NavLink>
                     )}
