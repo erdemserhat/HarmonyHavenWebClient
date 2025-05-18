@@ -1,6 +1,7 @@
 import './enneagram.css';
 import { useState, useEffect } from 'react';
 import { enneagramService } from '../../../services/api/enneagramService';
+import { useNavigate } from 'react-router-dom';
 
 export function Enneagram() {
     const [loading, setLoading] = useState(true);
@@ -14,6 +15,8 @@ export function Enneagram() {
     useEffect(() => {
         checkTestStatus();
     }, []);
+
+  
     
     const checkTestStatus = async () => {
         try {
@@ -330,10 +333,11 @@ function TestTakingSection({
 
 function TestResultDisplay({ result, retakeTest }) {
     const { dominantType, typeScores, wingType } = result.result;
-    const { description, famousPeople } = result;
+    const { description, famousPeople, fullDescriptionCode } = result;
     
     // Mobil cihaz kontrolü
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 600);
+    const navigate = useNavigate();
     
     useEffect(() => {
         const handleResize = () => {
@@ -343,6 +347,10 @@ function TestResultDisplay({ result, retakeTest }) {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
+    
+    const goToDetailedDescription = () => {
+        navigate(`/articles/${fullDescriptionCode}`);
+    };
     
     return (
         <div className="enneagram-result-container">
@@ -380,6 +388,16 @@ function TestResultDisplay({ result, retakeTest }) {
                         <span>▶ Stres Yönü (Tip 9):</span> 
                         <p>Depresif atalet ve hedef kaybı.</p>
                     </div>
+                    
+                    <button 
+                        className="detailed-description-button"
+                        onClick={goToDetailedDescription}
+                    >
+                        <span>Detaylı Açıklamaya Git</span>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14 5L21 12M21 12L14 19M21 12H3" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                    </button>
                 </div>
             </div>
             
@@ -393,7 +411,7 @@ function TestResultDisplay({ result, retakeTest }) {
                                 <div 
                                     className="score-indicator" 
                                     style={{ 
-                                        width: `${(score.score / 10) * 100}%`,
+                                        width: `${(score.score / 12) * 100}%`,
                                         backgroundColor: score.type === dominantType.type ? '#4f4f4f' : '#777777'
                                     }}
                                 ></div>
@@ -424,7 +442,10 @@ function TestResultDisplay({ result, retakeTest }) {
             )}
             
             <button className="retake-test-button" onClick={retakeTest}>
-                Testi Tekrar Al
+                <span>Testi Tekrar Al</span>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M17 2L21 6M21 6L17 10M21 6H8C5.79086 6 4 7.79086 4 10V11M7 22L3 18M3 18L7 14M3 18H16C18.2091 18 20 16.2091 20 14V13" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
             </button>
         </div>
     );

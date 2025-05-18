@@ -320,6 +320,8 @@ button.dropdown-item:hover svg {
 /* Nav icon styling */
 .nav-icon {
   margin-right: 5px;
+  width: 20px;
+  height: 20px;
 }
 
 @keyframes fadeIn {
