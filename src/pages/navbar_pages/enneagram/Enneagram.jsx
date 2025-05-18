@@ -2,6 +2,12 @@ import './enneagram.css';
 import { useState, useEffect } from 'react';
 import { enneagramService } from '../../../services/api/enneagramService';
 import { useNavigate } from 'react-router-dom';
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import {CodeBlock} from "@/components/CodeBlock.jsx";
+import {Prism as SyntaxHighlighter} from "react-syntax-highlighter";
+import {vscDarkPlus} from "react-syntax-highlighter/dist/cjs/styles/prism/index.js";
+import remarkBreaks from 'remark-breaks';
 
 export function Enneagram() {
     const [loading, setLoading] = useState(true);
@@ -360,7 +366,7 @@ function TestResultDisplay({ result, retakeTest }) {
                 <div className="result-type-display">
                     <div className="result-avatar-large">
                         <img 
-                            src={result.chartUrl?.personalityImageUrl || "/assets/enneagram/default-avatar.png"} 
+                            src={result.chartUrl?.personalityImageUrl || "/assets/enneagram/default-avatar.png"}
                             alt={`Tip ${dominantType.type} Avatar`} 
                         />
                     </div>
@@ -371,24 +377,12 @@ function TestResultDisplay({ result, retakeTest }) {
                 </div>
                 
                 <div className="result-description">
-                    <h3>Bireyselci Yıldız (Özgün Profesyonel)</h3>
-                    <div className="description-item">
-                        <span>▶ Temel Motivasyon:</span> 
-                        <p>Hem başarılı hem de benzersiz görünme arzusu.</p>
-                    </div>
-                    <div className="description-item">
-                        <span>▶ Güçlü Yönler:</span> 
-                        <p>Yaratıcılık, özgünlük, kendini ifade etme becerisi.</p>
-                    </div>
-                    <div className="description-item">
-                        <span>▶ Zorluklar:</span> 
-                        <p>Kıskançlık, kendini diğerlerinden üstün/özel görme eğilimi.</p>
-                    </div>
-                    <div className="description-item">
-                        <span>▶ Stres Yönü (Tip 9):</span> 
-                        <p>Depresif atalet ve hedef kaybı.</p>
-                    </div>
-                    
+
+
+                    <ReactMarkdown className="md-content" remarkPlugins={[remarkBreaks]}>
+                        {description}
+                    </ReactMarkdown>
+
                     <button 
                         className="detailed-description-button"
                         onClick={goToDetailedDescription}

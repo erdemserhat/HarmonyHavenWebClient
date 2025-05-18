@@ -925,3 +925,9 @@
 .detailed-description-button:hover svg {
     transform: translateX(4px);
 }
+
+.md-content{
+    line-height: 2.125rem;
+    text-align: left;
+    font-size: 1.200rem; /* yaklaşık olarak Tailwind'deki text-lg */
+}
