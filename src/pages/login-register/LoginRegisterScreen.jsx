@@ -4,7 +4,7 @@ import { FcGoogle } from 'react-icons/fc';
 import { GoogleLogin } from '@react-oauth/google';
 import { FiEye, FiEyeOff } from 'react-icons/fi';
 import { authService } from "@/services/api/auth.service.js";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { jwtDecode } from "jwt-decode";
 import { googleService } from "@/services/api/google.service.js";
 import { useAuthChecker } from "@/context/AuthContext.jsx";
@@ -28,6 +28,7 @@ const ERROR_MESSAGES = {
 
 export function LoginRegisterScreen() {
     const navigate = useNavigate();
+    const location = useLocation();
     const [isLoginMode, setIsLoginMode] = useState(true);
     const [showPasswords, setShowPasswords] = useState(false);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -40,6 +41,21 @@ export function LoginRegisterScreen() {
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const { isAuthenticated, setIsAuthenticated } = useAuthChecker();
+    
+    // Check if we have a redirect path from a protected route
+    const from = location.state?.from || '/articles';
+    const [redirectMessage, setRedirectMessage] = useState('');
+    
+    useEffect(() => {
+        // If we were redirected from a protected route, show a message
+        if (location.state?.from === '/enneagram') {
+            setRedirectMessage('Enneagram testine erişmek için lütfen giriş yapın.');
+        } else if (location.state?.from === '/chat') {
+            setRedirectMessage('Sohbet özelliğini kullanmak için lütfen giriş yapın.');
+        } else if (location.state?.from) {
+            setRedirectMessage('Bu sayfaya erişmek için lütfen giriş yapın.');
+        }
+    }, [location.state]);
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -100,7 +116,6 @@ export function LoginRegisterScreen() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError('');
         setIsLoading(true);
 
         try {
@@ -129,7 +144,7 @@ export function LoginRegisterScreen() {
                 }
                 else if (response.isAuthenticated) {
                     console.log('Giriş başarılı!');
-                    navigate('/articles');
+                    navigate(from);
                     setIsAuthenticated(true);
                 }
             } else {
@@ -143,7 +158,7 @@ export function LoginRegisterScreen() {
                     setError(response.formValidationResult.errorMessage || ERROR_MESSAGES[response.formValidationResult.errorCode]);
                 } else {
                     console.log('Kayıt başarılı!');
-                    navigate('/articles');
+                    navigate(from);
                     setIsAuthenticated(true);
                     setFormData({
                         name: '',
@@ -172,7 +187,7 @@ export function LoginRegisterScreen() {
             const credential = response.credential;
             console.log('Google User:', credential);
             await googleService.login(credential);
-            navigate('/articles');
+            navigate(from);
             setIsAuthenticated(true);
         } catch (error) {
             console.error("Login failed:", error);

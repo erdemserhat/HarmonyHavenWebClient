@@ -22,6 +22,7 @@ import {Chat} from "@/pages/navbar_pages/chat/Chat.jsx";
 import { useEffect } from 'react';
 import { HelmetProvider } from 'react-helmet-async';
 import {Enneagram} from "@/pages/navbar_pages/enneagram/Enneagram.jsx";
+import {ProtectedRoute} from "@/components/ProtectedRoute.jsx";
 
 // Scroll to top component
 function ScrollToTop() {
@@ -87,7 +88,11 @@ function App() {
                                         <div className="content-container">
                                             <Routes>
                                                 <Route path="/" element={<Home/>}/>
-                                                <Route path="/enneagram" element={<Enneagram />}/>
+                                                <Route path="/enneagram" element={
+                                                  <ProtectedRoute>
+                                                    <Enneagram />
+                                                  </ProtectedRoute>
+                                                }/>
                                                 <Route path="/write-article" element={<ArticleWriting/>}/>
                                                 <Route path="/login" element={<LoginRegisterScreen/>}/>
                                                 <Route path="/articles" element={<Articles/>}/>
@@ -95,7 +100,11 @@ function App() {
                                                 <Route path="/quotes" element={<NotFound/>}/>
                                                 <Route path="/notifications" element={<Notifications/>}/>
                                                 <Route path="/profile" element={<Profile/>}/>
-                                                <Route path="/chat" element={<Chat/>}/>
+                                                <Route path="/chat" element={
+                                                  <ProtectedRoute>
+                                                    <Chat/>
+                                                  </ProtectedRoute>
+                                                }/>
                                                 <Route path="/privacy-policy" element={<PrivacyPolicyHtml/>}/>
                                                 <Route path="/privacy-policy-html" element={<PrivacyPolicyHtml/>}/>
                                                 <Route path="/account-deletion" element={<AccountDeletion/>}/>
