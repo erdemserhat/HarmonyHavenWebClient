@@ -2,7 +2,7 @@ import axios from 'axios'
 //
 const instance = axios.create({
     withCredentials: true,
-    baseURL: 'https://harmonyhavenappserver.erdemserhat.com/api/v1',
+    baseURL: 'https://api.harmonyhavenappserverapp.com/api/v1',
     timeout: 20000,
     headers: {
         'Content-Type': 'application/json',
