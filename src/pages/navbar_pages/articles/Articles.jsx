@@ -12,10 +12,9 @@ import { SEO } from '../../../components/SEO'
 // Sabit kategoriler
 const CATEGORIES = [
   { id: 1, name: "Tümü" },
-  { id: 3, name: "Motivasyon & Kişisel Gelişim" },
-  { id: 5, name: "Yaşam & Sağlık" },
-  { id: 6, name: "Bilim & Teknoloji" },
-  { id: 12, name: "Yazılım & Programlama" }
+  { id: 2, name: "Enneagram" },
+  { id: 3, name: "Motivasyon" },
+  { id: 5, name: "Hayat" },
 ]
 
 export function Articles() {
