@@ -154,7 +154,12 @@ export function LoginRegisterScreen() {
                     password: formData.password,
                 });
 
-                if (!response.formValidationResult.isValid) {
+                if (response.isRegistered) {
+                    navigate(from);
+                    setIsAuthenticated(true);
+
+                }
+                else if (!response.formValidationResult.isValid) {
                     setError(response.formValidationResult.errorMessage || ERROR_MESSAGES[response.formValidationResult.errorCode]);
                 } else {
                     console.log('Kayıt başarılı!');
