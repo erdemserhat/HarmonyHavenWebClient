@@ -371,8 +371,6 @@ function TestResultDisplay({ result, retakeTest }) {
     
     return (
         <div className="enneagram-result-container">
-            <h2>Merhaba, Serhat</h2>
-            
             <div className="result-card">
                 <div className="result-type-display">
                     <div className="result-avatar-large">
